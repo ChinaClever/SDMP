@@ -1,5 +1,4 @@
 from pony import orm
-from datetime import datetime
 
 db_setting = {
     "provider": "mysql",    # 声明数据库种类

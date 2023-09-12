@@ -1,13 +1,15 @@
-from dbs.cfg.dbcfg import *
-from index import PduIndex
+from datetime import datetime
+from dbs.cfg.dbcfg import db
+from sql import PduSqlObj
+from pony import orm
 
 
-class PduDev(db.Entity):
+class PduDevDb(db.Entity):
     """PDU配置表"""
     _table_ = "pdu_dev"
-    pdu = orm.Required(PduIndex, column="pdu_id",reverse="dev") # 一对一
+    pdu_id = orm.Required("PduIndexDb", column="pdu_id", reverse="dev") # 一对一
     run_status = orm.Optional(int, size=8, default=5)  # 运行状态 选项：0=正常 1=预警 2=告警 3= 升级 4=故障 5=离线
-    dev_type = orm.Required(str, max_len=24, nullable=False) # 设备型号
+    dev_type = orm.Optional(str, max_len=24, nullable=False) # 设备型号
     dev_spec = orm.Optional(int, size=8, default=0) # 设备规格 1=A系列，2=B系列，3=C系列，4=D系列，
     dev_mode = orm.Optional(int, size=8, default=0) # 设备模式 0：标准 1：级联 2：机架
     line_num = orm.Optional(int, size=8, default=1) # 相数量 1=单相，3=三相
@@ -22,5 +24,9 @@ class PduDev(db.Entity):
 
 
 
+class PduDevSql(PduSqlObj):
+    """PDU配置表操作类"""
 
+    def __init__(self):
+        self.mObj = PduDevDb
 
