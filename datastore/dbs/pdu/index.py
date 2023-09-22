@@ -1,9 +1,9 @@
+from dbs.pdu.dbcfg import pdu_db
 from datetime import datetime
-from dbs.cfg.dbcfg import db
 from pony import orm
 import uuid as Uuid
 
-class PduIndexDb(db.Entity):
+class PduIndexDb(pdu_db.Entity):
     """PDU索引表"""
     _table_ = "pdu_index"
     uuid = orm.Required(Uuid.UUID, unique=True, nullable=False)  # 设备唯一识别码 唯一且不能为空

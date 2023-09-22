@@ -1,12 +1,12 @@
-from uut import PduUutDb, PduUutSql
-from dev import PduDevDb, PduDevSql
-from hda import PduHdaDb, PduHdaSql
-from data import PduDataDb, PduDataSql
-from index import PduIndexDb, PduIndexSql
-from alarm import PduAlarmDb, PduAlarmSql
-from event import PduEventDb, PduEventSql
-from threshold import PduThresholdDb, PduThresholdSql
-
+from uut import PduUutSql
+from dev import PduDevSql
+from hda import PduHdaSql
+from data import PduDataSql
+from index import PduIndexSql
+from alarm import PduAlarmSql
+from event import PduEventSql
+from threshold import PduThresholdSql
+from enums import DType, DTopic, DSub
 
 class PduDb:
     # 使用字典存储数据库名称和对应的类
@@ -46,13 +46,13 @@ class PduDb:
         PduDb.build("event").insert(self.uid, type, msg)
 
     def hda_insert(self, type, topic, indexes, value):
-        PduDb.build("hda").insert(self.uid, type, topic, indexes, value)
+        PduDb.build("hda").insert(self.uid, type.value, topic.value, indexes, value)
 
     def data_set(self, type, topic, indexes, value):
-        PduDb.build("data").setValue(self.uid, type, topic, indexes, value)
+        PduDb.build("data").setValue(self.uid, type.value, topic.value, indexes, value)
 
     def threshold_set(self, type, topic, sub, indexes, value):
-        PduDb.build("threshold").setValue(self.uid, type, topic, sub, indexes, value)
+        PduDb.build("threshold").setValue(self.uid, type.value, topic.value, sub.value, indexes, value)
 
 
 
@@ -61,7 +61,7 @@ class PduDb:
 
 from pony import orm
 import uuid as Uuid
-from dbs.cfg.dbcfg import db
+from dbs.pdu.dbcfg import pdu_db
 
 @orm.db_session
 def _test_fun():
@@ -72,14 +72,14 @@ def _test_fun():
     pdudb.dev_set("dev_type", "Pro")
     pdudb.alarm_insert("alarm", "luozhiyong")
     pdudb.event_insert("type", "luozhiyong")
-    pdudb.hda_insert(1, 1,1,1)
-    pdudb.data_set(2, 2, 2, 2)
-    pdudb.threshold_set(3, 3, 3, 3,3)
+    pdudb.hda_insert(DType.Line, DTopic.Vol,1,1)
+    pdudb.data_set(DType.Line, DTopic.Vol, 2, 2)
+    pdudb.threshold_set(DType.Line, DTopic.Vol, DSub.Value, 3,3)
 
 
 
 if __name__ == "__main__":
     # db.drop_table(table_name="pdu_index", if_exists=True, with_all_data=True)
     # db.drop_table(table_name="pdu_uut", if_exists=True, with_all_data=True)  # 删除表，演示实体声明时用于快速清除旧表
-    db.generate_mapping(create_tables=True)  # 生成实体，表和映射关系
+    pdu_db.generate_mapping(create_tables=True)  # 生成实体，表和映射关系
     _test_fun()

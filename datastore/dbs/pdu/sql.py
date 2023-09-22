@@ -1,5 +1,4 @@
 from datetime import datetime
-from pony.orm import exists
 
 
 class PduSqlObj:

@@ -1,11 +1,11 @@
+from dbs.pdu.dbcfg import pdu_db
 from datetime import datetime
-from dbs.cfg.dbcfg import db
 from decimal import Decimal
 from sql import PduSqlObj
 from pony import orm
 
 
-class PduDataDb(db.Entity):
+class PduDataDb(pdu_db.Entity):
     """PDU实时数据表"""
     _table_ = "pdu_data"
     pdu_id = orm.Required("PduIndexDb", reverse="data") # 多对一

@@ -1,9 +1,9 @@
+from dbs.pdu.dbcfg import pdu_db
 from datetime import datetime
-from dbs.cfg.dbcfg import db
 from sql import PduSqlObj
 from pony import orm
 
-class PduAlarmDb(db.Entity):
+class PduAlarmDb(pdu_db.Entity):
     """PDU报警记录表"""
     _table_ = "pdu_alarm"
     pdu_id = orm.Required("PduIndexDb", column="pdu_id", reverse="alarm")  # 多对一

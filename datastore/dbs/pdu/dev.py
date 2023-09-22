@@ -1,10 +1,10 @@
+from dbs.pdu.dbcfg import pdu_db
 from datetime import datetime
-from dbs.cfg.dbcfg import db
 from sql import PduSqlObj
 from pony import orm
 
 
-class PduDevDb(db.Entity):
+class PduDevDb(pdu_db.Entity):
     """PDU配置表"""
     _table_ = "pdu_dev"
     pdu_id = orm.Required("PduIndexDb", column="pdu_id", reverse="dev") # 一对一

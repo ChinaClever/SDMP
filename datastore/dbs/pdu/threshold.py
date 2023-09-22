@@ -1,11 +1,11 @@
+from dbs.pdu.dbcfg import pdu_db
 from datetime import datetime
-from dbs.cfg.dbcfg import db
 from decimal import Decimal
 from sql import PduSqlObj
 from pony import orm
 
 
-class PduThresholdDb(db.Entity):
+class PduThresholdDb(pdu_db.Entity):
     """PDU阈值数据表"""
     _table_ = "pdu_threshold"
     pdu_id = orm.Required("PduIndexDb", reverse="threshold") # 多对一
