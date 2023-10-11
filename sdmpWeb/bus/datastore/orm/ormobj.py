@@ -1,10 +1,9 @@
-
 from pymongo import MongoClient
 import datetime
 
-
 class SqlDatabase:
     def __init__(self, model_class, using='default'):
+        # 初始化 SqlDatabase 类
         self.model_class = model_class
         self.using = using
 
@@ -16,47 +15,42 @@ class SqlDatabase:
         # 插入数据
         return self._get_queryset().create(**kwargs)
 
-    def sql_find(self, **kwargs):
+    def sql_find(self, query):
         # 查询数据
-        return self._get_queryset().filter(**kwargs)
+        return self._get_queryset().filter(**query)
 
     def get_uid(self, uid):
         # 获取指定 uid 的数据，如果不存在则创建
         return self._get_queryset().get_or_create(uid=uid)[0]
 
-    def sql_add(self, pdu_id):
-        # 向数据库中添加数据
-        kwargs = {'pdu_id': pdu_id}
-        return self._get_queryset().get_or_create(**kwargs)[0]
-
-    def sql_get(self, pdu_id):
-        # 获取指定 pdu_id 的数据，如果不存在则创建
-        kwargs = {'pdu_id': pdu_id}
-        obj, _ = self._get_queryset().get_or_create(**kwargs)
+    def sql_get(self, query):
+        # 获取指定查询条件的数据，如果不存在则创建
+        obj, _ = self._get_queryset().get_or_create(**query)
         return obj
 
     def _save_object(self, obj):
         # 保存对象
         obj.save(using=self.using)
 
-    def sql_set(self, pdu_id, key, value):
-        # 设置指定 pdu_id 的属性值
-        db = self.sql_get(pdu_id)
-        setattr(db, key, value)
+    def sql_set(self, query, **kwargs):
+        # 设置指定查询条件的属性值
+        db = self.sql_get(query)
+        for field, value in kwargs.items():
+            setattr(db, field, value)
         self._save_object(db)
 
-    def sql_update(self, pdu_id, **kwargs):
-        # 更新指定 pdu_id 的数据
-        self.sql_update_one({'pdu_id': pdu_id}, **kwargs)
+    def sql_update(self, query, **kwargs):
+        # 更新指定查询条件的数据
+        self.sql_update_one(query, **kwargs)
 
     def sql_update_one(self, query, **kwargs):
-        # 更新符合条件的数据
-        obj, _ = self._get_queryset().update_or_create(**query, defaults=kwargs)
+        # 更新符合查询条件的数据
+        obj, _ = self._get_queryset().update_or_create(defaults=kwargs, **query)
 
 
 class MongoDatabase:
     def __init__(self, clt=''):
-        # 连接到 MongoDB
+        # 初始化 MongoDatabase 类，连接到 MongoDB
         self.client = MongoClient('localhost', 27017, connect=False, maxPoolSize=10)
         self.db = self.client['sdmp_data']
         # 如果集合不存在，则创建集合
@@ -121,12 +115,8 @@ class MongoDatabase:
         return False
 
 
-
 class OrmObj(SqlDatabase, MongoDatabase):
     def __init__(self, model_class, using='default'):
+        # 初始化 OrmObj 类
         super().__init__(model_class, using)
         MongoDatabase.__init__(self, model_class._meta.db_table)
-
-
-
-

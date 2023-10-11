@@ -12,9 +12,9 @@ class PduConfig(AppConfig):
         if not self.is_task_executed():
             # 启动后台任务的逻辑
 
-            from pdu.datastore.orm import manager
-            manager.my_test_fun()
-            print("aaaaaaaaaaaaaa")
+            # from pdu.datastore.orm import manager
+            # manager.my_test_fun()
+            # print("aaaaaaaaaaaaaa")
             # from your_app_name.tasks import background_task
             # background_task.delay(arg1, arg2)
             # 将已执行标志保存到数据库或缓存中

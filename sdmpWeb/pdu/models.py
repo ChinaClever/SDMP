@@ -70,7 +70,6 @@ class Threshold(models.Model):
 
 class Hda(models.Model):
     """PDU事件记录表"""
-    class Meta: db_table = 'pdu_hda'
     pdu = models.ForeignKey(to=Index, on_delete=models.CASCADE)  # 一对多
 
     # 1=相数据 2=回路数据 3=输出位数据 4=分组数据 5=机架数据 6=环境（温湿度）
@@ -84,7 +83,11 @@ class Hda(models.Model):
     value = models.FloatField(default=0)
     createtime = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
-
+    class Meta:
+        db_table = 'pdu_hda'
+        # managed = False
+        # 指定表的引擎类型为MyISAM
+        # options = {'db_table_type': 'MyISAM'}
 
 
 class Alarm(models.Model): # PDU报警记录表

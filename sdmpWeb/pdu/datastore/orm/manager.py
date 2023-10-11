@@ -1,7 +1,6 @@
 from .ormobj import OrmObj
 from pdu.models import *
 
-
 class Manager:
     _dev_obj = OrmObj(Dev)
     _uut_obj = OrmObj(Uut)
@@ -12,8 +11,8 @@ class Manager:
     _alarm_obj = OrmObj(Alarm)
     _threshold_obj = OrmObj(Threshold)
     _index_mUuidKeyDict = {}
-    _uid_str = ''
     _index_id = 0
+    _uid_str = ''
 
     @classmethod
     def index_get(cls, uid):
@@ -21,7 +20,7 @@ class Manager:
         if pdu_index is None:
             pdu_index = cls._index_obj.get_uid(uid)
             cls._index_mUuidKeyDict[uid] = pdu_index
-            cls._index_obj.update_document({'id': pdu_index.id}, {'uid': uid})
+            cls._index_obj.mongo_update({'id': pdu_index.id}, {'uid': uid})
         return pdu_index
 
     @classmethod
@@ -34,33 +33,87 @@ class Manager:
     @classmethod
     def index_set(cls, key, value):
         pdu_index = cls.index_get(cls._uid_str)
-        setattr(pdu_index, key, value) # pdu_index.dev_key = key
-        pdu_index.save(using=cls._index_obj.using)
-        cls._index_obj.update_document({'id': pdu_index.id}, {key: value})
+        document = cls._index_obj.mongo_find_one({'id': pdu_index.id, key: value})
+        if document is None:
+            setattr(pdu_index, key, value)
+            pdu_index.save(using=cls._index_obj.using)
+            cls._index_obj.mongo_update({'id': pdu_index.id}, {key: value})
+
+    @classmethod
+    def calculate_change_ratio(cls, value1, value2):
+        if value1 == 0 and value2 == 0:
+            return 0.0
+        elif value1 == 0 or value2 == 0:
+            return 100
+        else:
+            return abs(value2 - value1) / abs(value1)
+
+    @classmethod
+    def _pdu_ratio(cls, type, topic, sub, value):
+        res = 0
+        if sub is not None and sub != DSub.Value:
+            return res
+        if type == DType.Sensor:
+            res = 0
+        elif topic == DTopic.Ele:
+            if type == DType.Line:
+                res = 11
+            elif type == DType.Loop:
+                res = 6
+            else:
+                res = 1
+        elif topic == DTopic.Tem:
+            res = 5
+        elif topic == DTopic.Hum:
+            res = 10
+        elif topic == DTopic.Vol:
+            res = 10
+        else:
+            res = value * 0.1
+        return res
 
     @classmethod
     def _update_orm(cls, obj, type, topic, indexes, value, sub=None, db=None):
-        query = {'pdu_id': cls._index_id, 'type': type.value, 'topic': topic.value, 'indexes': indexes}
+        query = {
+            'pdu_id': cls._index_id,
+            'type': type.value,
+            'topic': topic.value,
+            'indexes': indexes
+        }
         if sub is not None:
             query['subtopic'] = sub.value
-        if db is not None:
-            obj.update_one(query=query, value=value)
-        obj.update_document(query, {'value': value})
+        res = obj.mongo_is_exit(query, value, 0)
+        if db is not None or not res:
+            obj.sql_update_one(query=query, value=value)
 
+        ratio = cls._pdu_ratio(type, topic, sub, value)
+        res = obj.mongo_is_exit(query, value, ratio)
+        obj.mongo_update(query, {'value': value})
+        # if db is not None or not res:
+        #     obj.update_one(query=query, value=value)
+        return res
 
     @classmethod
     def _append_orm(cls, obj, type, topic, indexes, value, sub=None, db=None):
-        map = {'pdu_id': cls._index_id, 'type': type.value, 'topic': topic.value, 'indexes': indexes, 'value':value}
+        document_map = {
+            'pdu_id': cls._index_id,
+            'type': type.value,
+            'topic': topic.value,
+            'indexes': indexes,
+            'value': value
+        }
         if sub is not None:
-            map['subtopic'] = sub.value
+            document_map['subtopic'] = sub.value
+        obj.sql_insert(**document_map)
         if db is not None:
-            obj.insert_document(map)
-        obj.insert(**map)
+            obj.mongo_insert(document_map)
 
     @classmethod
     def data_set(cls, type, topic, indexes, value):
-        cls._update_orm(obj=cls._data_obj, type=type, topic=topic, indexes=indexes,
-                        value=value, sub=None, db=None)
+        res = cls._update_orm(obj=cls._data_obj, type=type, topic=topic, indexes=indexes,
+                              value=value, sub=None, db=None)
+        if not res:
+            cls.hda_append(type, topic, indexes, value)
 
     @classmethod
     def hda_append(cls, type, topic, indexes, value):
@@ -69,32 +122,41 @@ class Manager:
 
     @classmethod
     def threshold_set(cls, type, topic, sub, indexes, value):
-        cls._update_orm(obj=cls._threshold_obj, type=type, topic=topic, indexes=indexes,
-                        value=value, sub=sub, db=None)
+        res = cls._update_orm(obj=cls._threshold_obj, type=type, topic=topic, indexes=indexes,
+                              value=value, sub=sub, db=None)
 
     @classmethod
     def dev_set(cls, db=None, **kwargs):
-        if db is not None: cls._dev_obj.update(cls._index_id, **kwargs)
-        cls._dev_obj.update_document({'pdu_id': cls._index_id}, {**kwargs})
+        document = cls._dev_obj.mongo_find_one({'pdu_id': cls._index_id, **kwargs})
+        if document is None or db is not None:
+            cls._dev_obj.sql_update(cls._index_id, **kwargs)
+            cls._dev_obj.mongo_update({'pdu_id': cls._index_id}, {**kwargs})
 
     @classmethod
     def uut_set(cls, db=None, **kwargs):
-        if db is not None: cls._uut_obj.update(cls._index_id, **kwargs)
-        cls._uut_obj.update_document({'pdu_id': cls._index_id}, {**kwargs})
+        document = cls._uut_obj.mongo_find_one({'pdu_id': cls._index_id, **kwargs})
+        if document is None or db is not None:
+            cls._uut_obj.sql_update(cls._index_id, **kwargs)
+            cls._uut_obj.mongo_update({'pdu_id': cls._index_id}, {**kwargs})
+
 
     @classmethod
     def alarm_append(cls, uid, alarm, msg, db=None):
         pdu_id = cls.index_get(uid).id
-        cls._alarm_obj.insert(pdu_id=pdu_id, alarm_status=alarm, alarm_content=msg)
+        cls._alarm_obj.sql_insert(pdu_id=pdu_id, alarm_status=alarm, alarm_content=msg)
         if db is not None:
-            cls._event_obj.insert_document({'pdu_id': pdu_id, 'alarm_status':alarm, 'alarm_content':msg})
+            cls._event_obj.mongo_insert({'pdu_id': pdu_id, 'alarm_status': alarm, 'alarm_content': msg})
 
     @classmethod
     def event_append(cls, uid, type, msg, db=None):
         pdu_id = cls.index_get(uid).id
-        cls._event_obj.insert(pdu_id=pdu_id, event_type=type, event_content=msg)
+        cls._event_obj.sql_insert(pdu_id=pdu_id, event_type=type, event_content=msg)
         if db is not None:
-            cls._event_obj.insert_document({'pdu_id': pdu_id, 'event_type':type, 'event_content':msg})
+            cls._event_obj.mongo_insert({'pdu_id': pdu_id, 'event_type': type, 'event_content': msg})
+
+
+
+
 
 
 from .enums import *
@@ -102,7 +164,7 @@ from .enums import *
 def my_test_fun():
     uuid_str = "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     pdu_id = Manager.index_id(uuid_str)
-    Manager.threshold_set(DType.Line, DTopic.Vol, DSub.Value,4,5)
+    Manager.threshold_set(DType.Line, DTopic.Vol, DSub.Value,4,6)
 
     Manager.dev_set(ip_v4="luo", ip_v6="45jjtruui46")
 
