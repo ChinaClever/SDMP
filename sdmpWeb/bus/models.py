@@ -14,7 +14,7 @@ class BarIndex(models.Model):
 
 class BoxIndex(models.Model):
     class Meta: db_table = 'bus_box_index'
-    bar = models.ForeignKey(to=BarIndex, on_delete=models.CASCADE)
+    bar = models.ForeignKey(to=BarIndex, on_delete=models.CASCADE, null=True) # blank=True
     uid = models.CharField(max_length=128, unique=True, db_index=True)
     run_status = models.PositiveSmallIntegerField(default=0, verbose_name='运行状态') # 运行状态 选项：0=正常 1=预警 2=告警 3= 升级 4=故障 5=离线
     current_alarm = models.CharField(max_length=256, null=True, verbose_name='当前报警')

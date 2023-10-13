@@ -145,7 +145,7 @@ class Manager:
         pdu_id = cls.index_get(uid).id
         cls._alarm_obj.sql_insert(pdu_id=pdu_id, alarm_status=alarm, alarm_content=msg)
         if db is not None:
-            cls._event_obj.mongo_insert({'pdu_id': pdu_id, 'alarm_status': alarm, 'alarm_content': msg})
+            cls._alarm_obj.mongo_insert({'pdu_id': pdu_id, 'alarm_status': alarm, 'alarm_content': msg})
 
     @classmethod
     def event_append(cls, uid, type, msg, db=None):
