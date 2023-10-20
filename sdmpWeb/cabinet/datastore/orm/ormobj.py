@@ -2,6 +2,9 @@ from pymongo import MongoClient
 import datetime
 
 
+from cabinet.models import *
+
+
 class SqlDatabase:
     def __init__(self, model_class, using='default'):
         self.model_class = model_class
@@ -11,46 +14,40 @@ class SqlDatabase:
         # 获取查询集
         return self.model_class.objects.using(self.using)
 
+    def values_list(self, fields):
+        queryset = self._get_queryset()
+        return list(queryset.values_list(fields, flat=True))
+
+    def _filter_records(self, cabinet_id, field_name, **kwargs):
+        queryset = self._get_queryset()
+        if cabinet_id is not None:
+            queryset = queryset.filter(cabinet=cabinet_id)
+        return list(queryset.filter(**kwargs).values_list(field_name, flat=True))
+
+    def sql_pdu_ids(self, cabinet_id):
+        return self._filter_records(cabinet_id, 'pdu_id', pdu_id__gt=0)
+
+    def sql_box_ids(self, cabinet_id):
+        return self._filter_records(cabinet_id, 'box_id', box_id__gt=0)
+
     def sql_insert(self, **kwargs):
         # 插入数据
         return self._get_queryset().create(**kwargs)
 
     def sql_find(self, **kwargs):
         # 查询数据
-        return self._get_queryset().filter(**kwargs)
+        return self._get_queryset().filter(**kwargs).first()
 
-    def get_uid(self, uid):
-        # 获取指定 uid 的数据，如果不存在则创建
-        return self._get_queryset().get_or_create(uid=uid)[0]
-
-    def sql_add(self, pdu_id):
-        # 向数据库中添加数据
-        kwargs = {'pdu_id': pdu_id}
-        return self._get_queryset().get_or_create(**kwargs)[0]
-
-    def sql_get(self, pdu_id):
-        # 获取指定 pdu_id 的数据，如果不存在则创建
-        kwargs = {'pdu_id': pdu_id}
-        obj, _ = self._get_queryset().get_or_create(**kwargs)
-        return obj
-
-    def _save_object(self, obj):
-        # 保存对象
-        obj.save(using=self.using)
-
-    def sql_set(self, pdu_id, key, value):
-        # 设置指定 pdu_id 的属性值
-        db = self.sql_get(pdu_id)
-        setattr(db, key, value)
-        self._save_object(db)
-
-    def sql_update(self, pdu_id, **kwargs):
-        # 更新指定 pdu_id 的数据
-        self.sql_update_one({'pdu_id': pdu_id}, **kwargs)
+    def sql_update(self, id, **kwargs):
+        # 更新指定 cabinet_id 的数据
+        self.sql_update_one({'cabinet_id': id}, **kwargs)
 
     def sql_update_one(self, query, **kwargs):
         # 更新符合条件的数据
-        obj, _ = self._get_queryset().update_or_create(**query, defaults=kwargs)
+        obj, _ = self._get_queryset().update_or_create(defaults=kwargs, **query)
+
+
+
 
 
 class MongoDatabase:
@@ -96,27 +93,12 @@ class MongoDatabase:
         result = self.collection.update_many(query, new_values)
         return result.modified_count
 
-    def mongo_delete(self, query):
-        # 删除单个文档
-        result = self.collection.delete_one(query)
-        return result.deleted_count
-
-    def mongo_delete_many(self, query):
-        # 删除多个文档
-        result = self.collection.delete_many(query)
-        return result.deleted_count
-
-    def mongo_is_exit(self, query, value, ratio):
-        query_value = dict(query)
-        query_value.update({'value': value})
+    def mongo_is_exist(self, query, value, ratio):
         document = self.mongo_find_one(query)
         if document is not None:
-            item = self.mongo_find_one(query_value)
-            if item is not None:
+            apparent_power = document.get('apparent_power', 0)
+            if abs(apparent_power - value) <= ratio * apparent_power:
                 return True
-            else:
-                if abs(document['value'] - value) < ratio:
-                    return True
         return False
 
 
@@ -125,6 +107,8 @@ class OrmObj(SqlDatabase, MongoDatabase):
     def __init__(self, model_class, using='default'):
         super().__init__(model_class, using)
         MongoDatabase.__init__(self, model_class._meta.db_table)
+
+
 
 
 
