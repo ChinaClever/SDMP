@@ -41,3 +41,5 @@ class CabinetIndexStore:
     @classmethod
     def pow_capacity(cls, id):
         return cls.m_objects.get(id).pow_capacity
+
+    

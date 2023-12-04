@@ -21,3 +21,7 @@ class RoomIndexStore:
     @classmethod
     def is_exist(cls, id):
         return id in cls.m_objects
+
+    @classmethod
+    def list_by_idc(cls, idc_id):
+        return [obj.id for obj in cls.m_objects.values() if obj.idc_id == idc_id]

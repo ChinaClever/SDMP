@@ -4,7 +4,7 @@ from cabinet.associate.models import CabinetPduModel, CabinetBoxModel
 from typing import Dict, List
 
 class CabinetAssociatePduStore:
-    m_objects = {}
+    m_objects: Dict[int, CabinetPduModel] = {}
 
     @classmethod
     def __init__(cls):
@@ -26,6 +26,16 @@ class CabinetAssociatePduStore:
     @classmethod
     def pdu_obj(cls, id):
         return cls.m_objects.get(id)
+
+    @classmethod
+    def pdu_id(cls, id, a_b):
+        obj = cls.pdu_obj(id)
+        if 1 == a_b:
+            return obj.a_pdu_id
+        elif 2 == a_b:
+            return obj.b_pdu_id
+
+        return 0
 
 
 

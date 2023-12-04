@@ -51,7 +51,9 @@ class PduIndexStore:
     def get_obj_by_id(cls, id: int) -> PduIndexModel:
         return cls.m_id_objects.get(id)
 
-
+    @classmethod
+    def get_key_by_id(cls, id: int) -> str:
+        return cls.m_id_objects.get(id).key
 
 
     @staticmethod

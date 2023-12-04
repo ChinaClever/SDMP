@@ -64,5 +64,14 @@ class RoomDataStore:
         for room_id in room_ids:
             cls.room_update(room_id)
 
+    @classmethod
+    def list_objs(cls, idc_id):
+        return [cls.get_obj(id) for id in RoomIndexStore.list_by_idc(idc_id)]
 
-
+    @classmethod
+    def add_up(cls, idc_id):
+        objs = cls.list_objs(idc_id)
+        total_ele = sum(obj.total_ele for obj in objs)
+        active_power = sum(obj.active_power for obj in objs)
+        apparent_power = sum(obj.apparent_power for obj in objs)
+        return active_power, apparent_power, total_ele
