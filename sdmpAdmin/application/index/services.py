@@ -25,7 +25,7 @@ import json
 import logging
 
 from application.index import forms
-from application.user.models import User
+from application.sys_mange.user.models import User
 from utils import R, regular, md5
 
 

@@ -28,7 +28,7 @@ from datetime import datetime, timedelta
 from captcha.models import CaptchaStore
 
 from application.login import forms
-from application.user.models import User
+from application.sys_mange.user.models import User
 from utils import R, regular, md5
 
 # 用户登录

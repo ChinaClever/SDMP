@@ -24,7 +24,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 
-import application.menu.services
+import application.sys_mange.menu.services
 
 from utils import R
 
@@ -42,7 +42,7 @@ class PermissionRequired(PermissionRequiredMixin):
         user_id = uid(self.request)
         if user_id != 1:
             # 获取用户权限节点
-            permission_list = application.menu.services.GetPermissionsList(user_id)
+            permission_list = application.system.menu.services.GetPermissionsList(user_id)
             for permission in permissions:
                 if permission not in permission_list:
                     # 无节点权限，禁止放行

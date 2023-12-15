@@ -5,9 +5,9 @@ export default {
   // 不显示侧栏的路由
   hideSidebars: [],
   // 不显示全局页脚的路由
-  hideFooters: ['/system/dictionary', '/system/organization', '/form/advanced', '/example/choose'],
+  hideFooters: ['/sys_mange/dictionary', '/sys_mange/organization', '/form/advanced', '/example/choose'],
   // 页签可重复打开的路由
-  repeatableTabs: ['/system/user/info'],
+  repeatableTabs: ['/sys_mange/user/info'],
   // 不需要登录的路由
   whiteList: ['/login', '/forget'],
   // 菜单数据接口

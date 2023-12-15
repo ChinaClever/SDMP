@@ -21,16 +21,16 @@
 # | 法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
 # +----------------------------------------------------------------------
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 # Create your views here.
 
 from django.utils.decorators import method_decorator
 from django.views import View
 
-import application.menu.services
+import application.sys_mange.menu.services
 from application.index import services
-from application.user.models import User
+from application.sys_mange.user.models import User
 from config.env import DEBUG
 from middleware.login_middleware import check_login
 from utils import R
@@ -44,7 +44,7 @@ class MenuView(View):
     # 接收GET请求并渲染HTML
     def get(self, request):
         # 获取菜单列表
-        menuList = application.menu.services.GetPermissionMenuList(uid(request))
+        menuList = application.sys_mange.menu.services.GetPermissionMenuList(uid(request))
         # 返回结果
         return R.ok(data=menuList)
 
@@ -59,7 +59,7 @@ class UserView(View):
         if not user:
             return R.failed("用户不存在")
         # 获取权限节点列表
-        permissionList = application.menu.services.GetPermissionsList(uid(request))
+        permissionList = application.sys_mange.menu.services.GetPermissionsList(uid(request))
         # 返回用户信息
         info = {
             'realname': user.realname,

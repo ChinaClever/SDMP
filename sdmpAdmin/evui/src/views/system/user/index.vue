@@ -71,7 +71,7 @@
         </template>
         <!-- 用户名列 -->
         <template slot="realname" slot-scope="{row}">
-          <router-link :to="'/system/user/info?id=' + row.id">
+          <router-link :to="'/sys_mange/user/info?id=' + row.id">
             {{ row.realname }}
           </router-link>
         </template>

@@ -226,7 +226,7 @@ export default {
     /* 菜单路由国际化对应的名称 */
     i18n(path, key/*, menu*/) {
       // 参数三menu即原始菜单数据, 如果需要菜单标题多语言数据从接口返回可用此参数获取对应的多语言标题
-      // 例如下面这样写, 接口的菜单数据为{path: '/system/user', titles: {zh: '用户管理', en: 'User'}}
+      // 例如下面这样写, 接口的菜单数据为{path: '/sys_mange/user', titles: {zh: '用户管理', en: 'User'}}
       // return menu ? menu.titles[this.$i18n.locale] : null;
       const k = 'route.' + key + '._name', title = this.$t(k);
       return title === k ? null : title;
