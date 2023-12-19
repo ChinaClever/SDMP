@@ -21,14 +21,30 @@
 # | 法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
 # +----------------------------------------------------------------------
 
-from django.urls import path
+# Create your views here.
 
-from application.config_web import views
 
-# 网站配置模块路由
-urlpatterns = [
-    # 首页
-    path('index', views.ConfigWebView.as_view()),
-    # 首页
-    path('save', views.ConfigWebSaveView.as_view()),
-]
+from django.utils.decorators import method_decorator
+from django.views import View
+
+from application.demo.upload import services
+from config.env import DEBUG
+from middleware.login_middleware import check_login
+from utils import R
+
+
+# 图片上传
+@method_decorator(check_login, name='post')
+class uploadImage(View):
+    # 接收POST请求
+    def post(self, request):
+        if DEBUG:
+            return R.failed("演示环境，暂无操作权限")
+        # 调用上传文件方法
+        result = services.uploadImage(request)
+        # 返回结果
+        result = {
+            'fileName': result['fileName'],
+            'fileUrl': result['fileUrl'],
+        }
+        return R.ok(msg="上传成功", data=result)

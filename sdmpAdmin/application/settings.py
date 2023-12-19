@@ -106,16 +106,16 @@ INSTALLED_APPS = [
     'application.demo.operation_center.ad',
     'application.demo.data.notice',
     'application.sys_mange.user',
-    'application.user_role',
+    'application.sys_mange.user_role',
     'application.demo.member_manage.member_level',
     'application.demo.member_manage.member',
     'application.demo.data.dict',
     'application.demo.data.dict_data',
     'application.demo.data.config',
-    'application.config_data',
+    'application.demo.data.config_data',
     'application.sys_mange.menu',
-    'application.config_web',
-    'application.upload',
+    'application.demo.data.config_web',
+    'application.demo.upload',
 ]
 
 MIDDLEWARE = [

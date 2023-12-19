@@ -32,8 +32,8 @@ from application.sys_mange.level.models import Level
 from application.sys_mange.position.models import Position
 from application.sys_mange.user import forms
 from application.sys_mange.user.models import User
-from application.user_role import services
-from application.user_role.models import UserRole
+from application.sys_mange.user_role import services
+from application.sys_mange.user_role.models import UserRole
 from constant.constants import PAGE_LIMIT
 from utils import R, regular, md5
 

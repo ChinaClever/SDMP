@@ -25,7 +25,7 @@ import json
 import logging
 
 from application.demo.data.config.models import Config
-from application.config_data.models import ConfigData
+from application.demo.data.config_data.models import ConfigData
 from utils import R
 from utils.utils import getImageURL, saveImage
 

@@ -23,7 +23,7 @@
 
 from django import forms
 
-from application.config_data import models
+from application.demo.data.config_data import models
 
 
 # 配置项表单验证

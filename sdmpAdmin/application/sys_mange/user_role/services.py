@@ -1,4 +1,4 @@
-from application.user_role.models import UserRole
+from application.sys_mange.user_role.models import UserRole
 
 
 # 根据用户ID查询角色列表
