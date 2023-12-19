@@ -46,7 +46,7 @@ urlpatterns = [
     # 系统主页
     path('index/', include('application.index.urls')),
     # 文件上传
-    path('upload/', include('application.upload.urls')),
+    path('upload/', include('application.demo.upload.urls')),
     # 使用include函数，level.urls为业务模块里的urls包
     # 职级总路由
     path('level/', include('application.sys_mange.level.urls')),
@@ -85,9 +85,9 @@ urlpatterns = [
     # 配置总路由
     path('config/', include('application.demo.data.config.urls')),
     # 配置项总路由
-    path('configdata/', include('application.config_data.urls')),
+    path('configdata/', include('application.demo.data.config_data.urls')),
     # 菜单总路由
     path('menu/', include('application.sys_mange.menu.urls')),
     # 网站配置总路由
-    path('configweb/', include('application.config_web.urls')),
+    path('configweb/', include('application.demo.data.config_web.urls')),
 ]

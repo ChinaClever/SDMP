@@ -21,14 +21,12 @@
 # | 法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
 # +----------------------------------------------------------------------
 
-from django.shortcuts import render
-
 # Create your views here.
 
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from application.config_data import services
+from application.demo.data.config_data import services
 from config.env import DEBUG
 from middleware.login_middleware import check_login
 from middleware.permission_middleware import PermissionRequired

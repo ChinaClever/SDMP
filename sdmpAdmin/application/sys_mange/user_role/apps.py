@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class UserRoleConfig(AppConfig):
-    name = 'application.user_role'
+    name = 'application.sys_mange.user_role'

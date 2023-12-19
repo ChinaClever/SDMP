@@ -23,7 +23,7 @@
 
 from django.urls import path  # 导入路径相关配置
 
-from application.upload import views
+from application.demo.upload import views
 
 # 文件上传路由
 urlpatterns = [

@@ -26,8 +26,8 @@ import logging
 
 from django.core.paginator import Paginator
 
-from application.config_data import forms
-from application.config_data.models import ConfigData
+from application.demo.data.config_data import forms
+from application.demo.data.config_data.models import ConfigData
 from application.constants import CONFIG_DATA_TYPE_LIST
 from constant.constants import PAGE_LIMIT
 from utils import R, regular

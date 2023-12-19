@@ -21,48 +21,22 @@
 # | 法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
 # +----------------------------------------------------------------------
 
+from django.urls import path
 
-from django.shortcuts import render
+from application.demo.data.config_data import views
 
-# Create your views here.
-
-
-from django.utils.decorators import method_decorator
-from django.views import View
-
-from application.config_web import services
-from config.env import DEBUG
-from middleware.login_middleware import check_login
-from middleware.permission_middleware import PermissionRequired
-
-from utils import R
-
-
-# 渲染网站配置页
-@method_decorator(check_login, name="get")
-class ConfigWebView(PermissionRequired, View):
-    # 方法权限标识
-    permission_required = ("sys:configweb:index",)
-
-    # 接收GET请求
-    def get(self, request):
-        # 调用获取配置信息方法
-        result = services.getConfigInfo()
-        # 返回结果
-        return R.ok(result)
-
-
-# 保存配置信息
-@method_decorator(check_login, name="put")
-class ConfigWebSaveView(PermissionRequired, View):
-    # 方法权限标识
-    permission_required = ("sys:configweb:save",)
-
-    # 接收POST请求与
-    def put(self, request):
-        if DEBUG:
-            return R.failed("演示环境，暂无操作权限")
-        # 调用保存配置信息方法
-        result = services.saveConfigInfo(request)
-        # 返回结果
-        return result
+# 配置项模块路由
+urlpatterns = [
+    # 查询配置项分页列表
+    path('list', views.ConfigDataListView.as_view()),
+    # 查询配置项详情
+    path('detail/<int:config_id>', views.ConfigDataDetailView.as_view()),
+    # 添加配置项
+    path('add', views.ConfigDataAddView.as_view()),
+    # 更新配置项
+    path('update', views.ConfigDataUpdateView.as_view()),
+    # 删除配置项
+    path('delete/<str:config_id>', views.ConfigDataDeleteView.as_view()),
+    # 设置状态
+    path('status', views.ConfigDataStatusView.as_view()),
+]
