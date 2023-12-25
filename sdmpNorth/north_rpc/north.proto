@@ -1,0 +1,50 @@
+// 文件名 north.proto
+syntax = "proto3";
+
+package north.dev;
+
+service Pdu {
+  rpc Keys (PduKeysRequest) returns(PduKeysReply) {}
+  rpc Meta (PduMetaRequest) returns(PduMetaReply) {}
+}
+
+message PduKeysRequest {
+  // 获取所有PDU设备的key
+}
+
+message PduKeysReply {
+  // 返回所有PDU的Key
+  string keys = 1;
+}
+
+message PduMetaRequest {
+   // 根据key来获取PDU的数据包
+  string key = 1;
+}
+
+message PduMetaReply {
+  // 返回PDU的数据包
+  string key = 1;
+  string value = 2;
+}
+
+
+
+
+
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+} 
