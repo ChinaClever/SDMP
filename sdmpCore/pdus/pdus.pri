@@ -1,4 +1,4 @@
 #INCLUDEPATH += $$PWD
 
-include(index/index.pri)
+include(models/models.pri)
 

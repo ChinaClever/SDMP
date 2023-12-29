@@ -4,8 +4,6 @@
  *      Author: Lzy
  */
 #include "pduindexmodel.h"
-#include <QxOrm_Impl.h>
-
 QX_REGISTER_CPP_APP(PduIndexModel)
 
 namespace qx
@@ -14,8 +12,10 @@ namespace qx
     {
         t.setName(PduIndexModel::tableName());
         t.id(&PduIndexModel::id, "id");
-        t.data(&PduIndexModel::name, "name");
-        t.data(&PduIndexModel::age, "age");
+        t.data(&PduIndexModel::uid, "uid");
+        t.data(&PduIndexModel::ip, "ip_addr");
+        t.data(&PduIndexModel::cascade_num, "cascade_num");
+        t.data(&PduIndexModel::createtime, "createtime");
     }
 }
 

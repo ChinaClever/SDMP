@@ -4,5 +4,6 @@
 
 #include "QxOrm.h"
 #include "export.h"
+#include "QxOrm_Impl.h"
 
 #endif // PRECOMPILED_H

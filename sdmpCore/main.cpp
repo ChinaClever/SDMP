@@ -1,11 +1,20 @@
 #include <QCoreApplication>
-#include "pdus/index/pduindexsql.h"
+#include "pdus/models/pdueventsql.h"
+#include "commons/http/httpserverobj.h"
+
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    PduIndexSql::bulid();
+    PduEventSql::bulid();
 
+
+
+
+
+
+
+    // HttpServerObj *obj = new HttpServerObj();
 
 
     return a.exec();

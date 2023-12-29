@@ -9,6 +9,8 @@ public:
     static PduIndexSql *bulid();
 
 
+protected:
+    void test();
 };
 
 #endif // PDUINDEXSQL_H

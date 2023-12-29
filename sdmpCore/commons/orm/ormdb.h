@@ -1,6 +1,7 @@
 #ifndef ORMDB_H
 #define ORMDB_H
 #include "precompiled.h"
+#include <QtCore>
 
 class OrmDb
 {
@@ -36,6 +37,7 @@ public:
 
     bool isTableExists();
     bool sql_clear();
+    void mdelay(int msec);
 
 protected:
     void initDb();
@@ -48,7 +50,8 @@ protected:
     bool throwError(const QSqlError &err);
 
 protected:
-    static QSqlDatabase mDb;
+    static QSqlDatabase sDb;
+    // static QMutex msLock;
 };
 
 #define cout qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") << "[" << __FILE__ << ":" << Q_FUNC_INFO << ":" << __LINE__ << "]"
