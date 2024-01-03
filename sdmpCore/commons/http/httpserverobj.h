@@ -16,9 +16,12 @@ class HttpServerObj
 public:
     HttpServerObj();
 
+    bool http_listen(quint16 port);
+    QString queryItem(const QHttpServerRequest &request, const QString &key);
+
+private:
     void init_demo(QHttpServer &httpServer);
     bool init_ssl(QHttpServer &httpServer, quint16 port);
-    bool http_listen(QHttpServer &httpServer, quint16 port);
 
 protected:
     QHttpServer mHttpServer;

@@ -3,22 +3,22 @@
  *  Created on: 2025年1月1日
  *      Author: Lzy
  */
-#include "pduelesql.h"
+#include "pdu_elesql.h"
 
-PduEleSql::PduEleSql()
+Pdu_EleSql::Pdu_EleSql()
 {
     // test();
 }
 
 
-PduEleSql *PduEleSql::bulid()
+Pdu_EleSql *Pdu_EleSql::bulid()
 {
-    static PduEleSql* sington = nullptr;
-    if(!sington) sington = new PduEleSql();
+    static Pdu_EleSql* sington = nullptr;
+    if(!sington) sington = new Pdu_EleSql();
     return sington;
 }
 
-void PduEleSql::append(uint pdu_id, uchar type, uchar indexes, double value)
+void Pdu_EleSql::append(uint pdu_id, uchar type, uchar indexes, double value)
 {
     ModelPtr it(addModel());
     it->pdu_id = pdu_id;
@@ -28,7 +28,7 @@ void PduEleSql::append(uint pdu_id, uchar type, uchar indexes, double value)
     mLstIts.append(it);
 }
 
-void PduEleSql::test()
+void Pdu_EleSql::test()
 {
     for(int i=0; i<5; ++i) {
         append(i, i,i,i);

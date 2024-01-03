@@ -1,6 +1,6 @@
 #ifndef PDUEVENTMODEL_H
 #define PDUEVENTMODEL_H
-#include "pdualarmsql.h"
+#include "pdu_alarmsql.h"
 
 class PduEventModel
 {

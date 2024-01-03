@@ -3,23 +3,23 @@
  *  Created on: 2025年1月1日
  *      Author: Lzy
  */
-#include "pdualarmsql.h"
+#include "pdu_alarmsql.h"
 
-PduAlarmSql::PduAlarmSql()
+Pdu_AlarmSql::Pdu_AlarmSql()
 {
     // test();
 }
 
 
-PduAlarmSql *PduAlarmSql::bulid()
+Pdu_AlarmSql *Pdu_AlarmSql::bulid()
 {
-    static PduAlarmSql* sington = nullptr;
-    if(!sington) sington = new PduAlarmSql();
+    static Pdu_AlarmSql* sington = nullptr;
+    if(!sington) sington = new Pdu_AlarmSql();
     return sington;
 }
 
 
-void PduAlarmSql::append(uint pdu_id, const QString &status, const QString &content)
+void Pdu_AlarmSql::append(uint pdu_id, const QString &status, const QString &content)
 {
     ModelPtr it(addModel());
     it->pdu_id = pdu_id;
@@ -29,7 +29,7 @@ void PduAlarmSql::append(uint pdu_id, const QString &status, const QString &cont
 }
 
 
-void PduAlarmSql::test()
+void Pdu_AlarmSql::test()
 {
     for(int i=0; i<5; ++i) {
         append(i, "1","2");

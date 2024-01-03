@@ -1,14 +1,16 @@
 #include <QCoreApplication>
-#include "pdus/models/pdueventsql.h"
-#include "commons/http/httpserverobj.h"
+#include "pdus/models/pdu_eventsql.h"
+// #include "commons/http/httpserverobj.h"
+#include "pdu_httpserver.h"
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    PduEventSql::bulid();
 
 
+    Pdu_HttpServer *obj = new Pdu_HttpServer();
+    obj->http_listen(43796);
 
 
 

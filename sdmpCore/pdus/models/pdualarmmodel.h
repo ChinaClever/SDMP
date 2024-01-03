@@ -1,6 +1,6 @@
 #ifndef PDUALARMMODEL_H
 #define PDUALARMMODEL_H
-#include "pduhdasql.h"
+#include "pdu_hdasql.h"
 
 class PduAlarmModel
 {

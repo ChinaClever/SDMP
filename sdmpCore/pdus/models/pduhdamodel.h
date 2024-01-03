@@ -1,6 +1,6 @@
 #ifndef PDUHDAMODEL_H
 #define PDUHDAMODEL_H
-#include "pduelesql.h"
+#include "pdu_elesql.h"
 
 class PduHdaModel
 {

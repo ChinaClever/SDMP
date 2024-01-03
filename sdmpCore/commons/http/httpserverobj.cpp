@@ -36,6 +36,14 @@ HttpServerObj::HttpServerObj()
 
 }
 
+QString HttpServerObj::queryItem(const QHttpServerRequest &request, const QString &key)
+{
+    QString res; if(request.query().hasQueryItem(key)) {
+        res = request.query().queryItemValue(key);
+    }
+    return res;
+}
+
 void HttpServerObj::init_demo(QHttpServer &httpServer)
 {
     httpServer.route("/", []() {
@@ -120,15 +128,15 @@ void HttpServerObj::init_demo(QHttpServer &httpServer)
     //! [Using afterRequest()]
 }
 
-bool HttpServerObj::http_listen(QHttpServer &httpServer, quint16 port)
+bool HttpServerObj::http_listen(quint16 port)
 {
-    const auto ret = httpServer.listen(QHostAddress::Any, port);
+    const auto ret = mHttpServer.listen(QHostAddress::Any, port);
     if (!ret) {
         qWarning() << QCoreApplication::translate("QHttpServer", "Server failed to listen on a port.");
         return false;
     }
 
-    return init_ssl(httpServer, ret);
+    return init_ssl(mHttpServer, ret);
 }
 
 //! [HTTPS Configuration ]

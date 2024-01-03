@@ -3,25 +3,25 @@
 # include(orm/orm.pri)
 
 HEADERS += \
+    $$PWD/pdu_alarmsql.h \
+    $$PWD/pdu_elesql.h \
+    $$PWD/pdu_eventsql.h \
+    $$PWD/pdu_hdasql.h \
+    $$PWD/pdu_indexsql.h \
     $$PWD/pdualarmmodel.h \
-    $$PWD/pdualarmsql.h \
     $$PWD/pduelemodel.h \
-    $$PWD/pduelesql.h \
     $$PWD/pdueventmodel.h \
-    $$PWD/pdueventsql.h \
     $$PWD/pduhdamodel.h \
-    $$PWD/pduhdasql.h \
-    $$PWD/pduindexmodel.h \
-    $$PWD/pduindexsql.h
+    $$PWD/pduindexmodel.h
 
 SOURCES += \
+    $$PWD/pdu_alarmsql.cpp \
+    $$PWD/pdu_elesql.cpp \
+    $$PWD/pdu_eventsql.cpp \
+    $$PWD/pdu_hdasql.cpp \
+    $$PWD/pdu_indexsql.cpp \
     $$PWD/pdualarmmodel.cpp \
-    $$PWD/pdualarmsql.cpp \
     $$PWD/pduelemodel.cpp \
-    $$PWD/pduelesql.cpp \
     $$PWD/pdueventmodel.cpp \
-    $$PWD/pdueventsql.cpp \
     $$PWD/pduhdamodel.cpp \
-    $$PWD/pduhdasql.cpp \
-    $$PWD/pduindexmodel.cpp \
-    $$PWD/pduindexsql.cpp
+    $$PWD/pduindexmodel.cpp

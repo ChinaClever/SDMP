@@ -3,24 +3,30 @@
  *  Created on: 2025年1月1日
  *      Author: Lzy
  */
-#include "pduindexsql.h"
+#include "pdu_indexsql.h"
 
-PduIndexSql::PduIndexSql()
+Pdu_IndexSql::Pdu_IndexSql()
 {
     // test();
 }
 
 
 
-PduIndexSql *PduIndexSql::bulid()
+Pdu_IndexSql *Pdu_IndexSql::bulid()
 {
-    static PduIndexSql* sington = nullptr;
-    if(!sington)  sington = new PduIndexSql();
+    static Pdu_IndexSql* sington = nullptr;
+    if(!sington)  sington = new Pdu_IndexSql();
     return sington;
 }
 
+void Pdu_IndexSql::init()
+{
+    fetch_all();
 
-void PduIndexSql::test()
+}
+
+
+void Pdu_IndexSql::test()
 {
     QList<PduIndexModel> itLst;
     for(int i = 0;i < 5;i ++) {

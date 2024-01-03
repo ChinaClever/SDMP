@@ -3,22 +3,22 @@
  *  Created on: 2025年1月1日
  *      Author: Lzy
  */
-#include "pdueventsql.h"
+#include "pdu_eventsql.h"
 
-PduEventSql::PduEventSql()
+Pdu_EventSql::Pdu_EventSql()
 {
     // test();
 }
 
-PduEventSql *PduEventSql::bulid()
+Pdu_EventSql *Pdu_EventSql::bulid()
 {
-    static PduEventSql* sington = nullptr;
-    if(!sington) sington = new PduEventSql();
+    static Pdu_EventSql* sington = nullptr;
+    if(!sington) sington = new Pdu_EventSql();
     return sington;
 }
 
 
-void PduEventSql::append(uint pdu_id, const QString &type, const QString &content)
+void Pdu_EventSql::append(uint pdu_id, const QString &type, const QString &content)
 {
     ModelPtr it(addModel());
     it->pdu_id = pdu_id;
@@ -28,7 +28,7 @@ void PduEventSql::append(uint pdu_id, const QString &type, const QString &conten
 }
 
 
-void PduEventSql::test()
+void Pdu_EventSql::test()
 {
     for(int i=0; i<5; ++i) {
         append(i, "1","2");
