@@ -1,8 +1,10 @@
 INCLUDEPATH += $$PWD
 
 QT += httpserver
+include(httpclient/http.pri)
 
 HEADERS += \
+    # $$PWD/httpclient.h \
     $$PWD/httpserverobj.h
 
 SOURCES += \

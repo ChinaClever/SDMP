@@ -279,3 +279,41 @@ bool OrmDb::sqlQuery(const QString &sql)
     return sqlQuery(query, sql);
 }
 
+
+QJsonObject OrmDb::getObject(const QJsonObject &object, const QString &key)
+{
+    QJsonObject obj; if (object.contains(key)){
+        QJsonValue value = object.value(key);
+        if (value.isObject()) obj = value.toObject();
+    }
+    return obj;
+}
+
+QJsonArray OrmDb::getArray(const QJsonObject &object, const QString &key)
+{
+    QJsonArray array; if (object.contains(key)) {
+        QJsonValue value = object.value(key);
+        if (value.isArray())  array = value.toArray();
+    }
+
+    return array;
+}
+
+
+double OrmDb::getData(const QJsonObject &object, const QString &key)
+{
+    double ret = -1; if (object.contains(key))  {
+        ret = object.value(key).toDouble();
+    }
+
+    return ret;
+}
+
+QString OrmDb::getString(const QJsonObject &object, const QString &key)
+{
+    QString str; if (object.contains(key)) {
+        str = object.value(key).toString();
+    }
+
+    return str;
+}

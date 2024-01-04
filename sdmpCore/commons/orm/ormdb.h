@@ -34,6 +34,10 @@ public:
     bool sql_updateColumn(const QString& column_name, double value, const QString &condition);
     QVariantList sql_listColumn(const QString &column_name, const QString &condition);
     QVariantList sql_selectIds(const QString &condition="");
+    QJsonArray getArray(const QJsonObject &object, const QString &key);
+    QJsonObject getObject(const QJsonObject &object, const QString &key);
+    QString getString(const QJsonObject &object, const QString &key);
+    double getData(const QJsonObject &object, const QString &key);
 
     bool isTableExists();
     bool sql_clear();

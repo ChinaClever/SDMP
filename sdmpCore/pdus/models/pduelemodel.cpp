@@ -16,7 +16,7 @@ namespace qx
         t.data(&PduEleModel::type, "type");
         t.data(&PduEleModel::indexes, "indexes");
         t.data(&PduEleModel::value, "value");
-        t.data(&PduEleModel::createdate, "createdate");
-        t.data(&PduEleModel::createtime, "createtime");
+        t.data(&PduEleModel::createdate, "create_date");
+        t.data(&PduEleModel::createtime, "create_time");
     }
 }

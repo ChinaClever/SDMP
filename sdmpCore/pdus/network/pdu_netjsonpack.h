@@ -25,13 +25,15 @@ public:
     QJsonValue tg(const QString &key);
     QJsonObject alarm();
 
-    void remove(const QString &key) {mHash.remove(key);}
+    bool remove(const QString &key);
     void append(const QString &key, const QString &ip, uchar addr);
-    QString toUid(const QString &ip, uchar addr);
+    bool getByKey(const QString &key, QString &ip, uchar &addr);
     QString getKey(const QString &ip, uchar addr);
+    QString toUid(const QString &ip, uchar addr);
     QStringList keys() {return mHash.keys();}
     QStringList online_list();
     QStringList offline_list();
+    bool is_online(const QString &key);
 
 signals:
     void online_offline_sig(const QString &key, bool statue);

@@ -23,6 +23,7 @@ private:
     void pdu_offline();
     void pdu_online();
     void pdu_alarm();
+    void pdu_delete();
 
 private:
     Pdu_NetJsonPack *mNetJson;

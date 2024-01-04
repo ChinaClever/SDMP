@@ -17,6 +17,6 @@ namespace qx
         t.data(&PduHdaModel::topic, "topic");
         t.data(&PduHdaModel::indexes, "indexes");
         t.data(&PduHdaModel::value, "value");
-        t.data(&PduHdaModel::createtime, "createtime");
+        t.data(&PduHdaModel::createtime, "create_time");
     }
 }

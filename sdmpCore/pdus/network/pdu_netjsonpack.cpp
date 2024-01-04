@@ -8,7 +8,7 @@
 Pdu_NetJsonPack::Pdu_NetJsonPack(QObject *parent) : QThread(parent)
 {
     mUdp = new Pdu_UdpReceiver(parent);
-    mTimer = new QTimer(this); mTimer->start(3500); this->start();
+    mTimer = new QTimer(this); mTimer->start(2500); this->start();
     connect(mTimer, &QTimer::timeout, this, &Pdu_NetJsonPack::onTimeout);
 }
 
@@ -52,7 +52,7 @@ QStringList Pdu_NetJsonPack::online_list()
 {
     QStringList lst;
     foreach (const auto &key, mOnlineHash.keys()) {
-        if(!mOnlineHash.value(key)) lst << key;
+        if(mOnlineHash.value(key)) lst << key;
     }
     return lst;
 }
@@ -61,7 +61,7 @@ QStringList Pdu_NetJsonPack::offline_list()
 {
     QStringList lst;
     foreach (const auto &key, mOnlineHash.keys()) {
-        if(mOnlineHash.value(key)) lst << key;
+        if(!mOnlineHash.value(key)) lst << key;
     }
     return lst;
 }
@@ -199,6 +199,15 @@ QJsonValue Pdu_NetJsonPack::env(const QString &key)
     return value;
 }
 
+bool Pdu_NetJsonPack::is_online(const QString &key)
+{
+    bool ret = mOnlineHash.contains(key);
+    if(ret) {
+        ret = mOnlineHash.value(key);
+    }
+    return ret;
+}
+
 
 QString Pdu_NetJsonPack::getKey(const QString &ip, uchar addr)
 {
@@ -211,23 +220,36 @@ QString Pdu_NetJsonPack::getKey(const QString &ip, uchar addr)
     return "";
 }
 
-void Pdu_NetJsonPack::append(const QString &key, const QString &ip, uchar addr)
+bool Pdu_NetJsonPack::getByKey(const QString &key, QString &ip, uchar &addr)
 {
-    QSharedPointer<QJsonObject> jsonObj;
-    if(mHash.contains(key)) {
-        jsonObj = mHash.value(key);
-    } else {
-        jsonObj = QSharedPointer<QJsonObject>(new QJsonObject());
-        jsonObj->insert("status", 5);
+    bool ret = mHash.contains(key);
+    if(ret) {
+        auto it = mHash.value(key);
+        addr = it->value("addr").toInt();
+        ip = it->value("ip").toString();
     }
-
-    jsonObj->insert("ip", ip);
-    jsonObj->insert("addr", addr);
-    QDateTime datetime = QDateTime::currentDateTime();
-    jsonObj->insert("uptime", datetime.toString("yyyy-MM-dd hh:mm:ss"));
-    mHash.insert(key, jsonObj);
+    return ret;
 }
 
+void Pdu_NetJsonPack::append(const QString &key, const QString &ip, uchar addr)
+{
+    if(!mHash.contains(key)) {
+        QSharedPointer<QJsonObject> jsonObj(new QJsonObject());
+        jsonObj->insert("ip", ip);
+        jsonObj->insert("uuid", key);
+        jsonObj->insert("status", 5);
+        jsonObj->insert("addr", addr);
+        QDateTime datetime = QDateTime::currentDateTime().addSecs(-60);
+        jsonObj->insert("uptime", datetime.toString("yyyy-MM-dd hh:mm:ss"));
+        mHash.insert(key, jsonObj);
+    }
+}
+
+bool Pdu_NetJsonPack::remove(const QString &key)
+{
+    mHash.remove(key);
+    return mOnlineHash.remove(key);
+}
 
 QString Pdu_NetJsonPack::toUid(const QString &ip, uchar addr)
 {

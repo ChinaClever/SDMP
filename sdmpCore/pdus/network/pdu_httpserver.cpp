@@ -52,6 +52,20 @@ void Pdu_HttpServer::pdu_data()
     });
 }
 
+void Pdu_HttpServer::pdu_delete()
+{
+    mHttpServer.route("/pdu/delete", [&](const QHttpServerRequest &request) {
+        QString uuid = queryItem(request, "key");
+        if(uuid.size()) {
+            bool ret = mNetJson->remove(uuid);
+            if(ret) return QJsonObject{ {"msg", "delete ok"} };
+            else return QJsonObject{ {"msg", "delete error"} };
+        } else {
+            return QJsonObject{ {"msg", "parameter error"} };
+        }
+    });
+}
+
 void Pdu_HttpServer::pdu_line()
 {
     mHttpServer.route("/pdu/line", [&](const QHttpServerRequest &request) {

@@ -14,8 +14,10 @@ namespace qx
         t.id(&PduIndexModel::id, "id");
         t.data(&PduIndexModel::uid, "uid");
         t.data(&PduIndexModel::ip, "ip_addr");
+        t.data(&PduIndexModel::is_delete, "is_delete");
         t.data(&PduIndexModel::cascade_num, "cascade_num");
-        t.data(&PduIndexModel::createtime, "createtime");
+        t.data(&PduIndexModel::createtime, "create_time");
+        t.data(&PduIndexModel::updatetime, "update_time");
     }
 }
 
