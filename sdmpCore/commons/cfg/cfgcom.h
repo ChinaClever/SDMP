@@ -12,7 +12,6 @@ struct sCfgDbItem
     QString prefix = "sdmp";
 };
 
-
 struct sCfgSqlItem
 {
     bool hda_en = true;
@@ -24,6 +23,12 @@ struct sCfgSqlItem
     QDateTime ele_last_time; // 上一次记录时间
 };
 
+struct sCfgLogItem
+{
+    bool en = true;
+    QString url = "";
+};
+
 class CfgCom : public CfgObj
 {
     CfgCom(const QString& fn, QObject *parent = nullptr);
@@ -32,11 +37,13 @@ public:
 
     static sCfgDbItem mCfgDb;
     static sCfgSqlItem mCfgSql;
+    static sCfgLogItem mCfgLog;
 
 private:
     static void initCfg();    
     void initCfgDb();
     void initCfgSql();
+    void initCfgLog();
 };
 
 #endif // CFGCOM_H

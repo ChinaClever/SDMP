@@ -8,12 +8,15 @@
 
 sCfgDbItem CfgCom::mCfgDb;
 sCfgSqlItem CfgCom::mCfgSql;
+sCfgLogItem CfgCom::mCfgLog;
+
 CfgCom::CfgCom(const QString &fn, QObject *parent)
     : CfgObj(fn, parent)
 {
     initCfg();
     initCfgDb();
     initCfgSql();
+    initCfgLog();
 }
 
 void CfgCom::initCfg()
@@ -54,4 +57,11 @@ void CfgCom::initCfgSql()
     it->ele_en = readCfg("ele_en", true, g).toBool();
     it->ele_interval = readCfg("ele_interval", 12, g).toInt();
     it->ele_last_time = readCfg("ele_last_time", QDateTime::currentDateTime(), g).toDateTime();
+}
+
+void CfgCom::initCfgLog()
+{
+    QString g = "log"; sCfgLogItem *it = &mCfgLog;
+    it->en = readCfg("en", true, g).toBool();
+    it->url = readCfg("url", "", g).toString();
 }
