@@ -9,7 +9,7 @@
 
 // QMutex OrmDb::msLock;
 QSqlDatabase OrmDb::sDb;
-
+sCfgDbItem OrmDb::mCfgDbItem;
 OrmDb::OrmDb()
 {
     initDb();

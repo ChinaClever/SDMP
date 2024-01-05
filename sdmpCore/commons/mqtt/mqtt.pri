@@ -1,0 +1,4 @@
+
+
+include(qmqtt/qmqtt.pri)
+

@@ -1,13 +1,22 @@
 #ifndef ORMDB_H
 #define ORMDB_H
 #include "precompiled.h"
-#include <QtCore>
+#include "cfgcom.h"
+
+struct sCfgDbItem
+{
+    QString name = "sdmp_db";
+    QString host = "127.0.0.1";
+    QString user = "root";
+    QString pwd = "123456";
+};
 
 class OrmDb
 {
 public:
     explicit OrmDb();
     virtual QString tableName() = 0;
+    static sCfgDbItem mCfgDbItem;
 
     bool sql_remove(int id);
     bool sql_removeMinIds(int id);
@@ -57,7 +66,5 @@ protected:
     static QSqlDatabase sDb;
     // static QMutex msLock;
 };
-
-#define cout qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") << "[" << __FILE__ << ":" << Q_FUNC_INFO << ":" << __LINE__ << "]"
 
 #endif // ORMDB_H
