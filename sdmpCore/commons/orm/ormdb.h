@@ -3,20 +3,12 @@
 #include "precompiled.h"
 #include "cfgcom.h"
 
-struct sCfgDbItem
-{
-    QString name = "sdmp_db";
-    QString host = "127.0.0.1";
-    QString user = "root";
-    QString pwd = "123456";
-};
 
 class OrmDb
 {
 public:
     explicit OrmDb();
     virtual QString tableName() = 0;
-    static sCfgDbItem mCfgDbItem;
 
     bool sql_remove(int id);
     bool sql_removeMinIds(int id);

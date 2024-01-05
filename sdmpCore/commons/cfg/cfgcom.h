@@ -3,7 +3,26 @@
 #include "cfgobj.h"
 #define CFG_FN "cfg.ini"
 
+struct sCfgDbItem
+{
+    QString name = "sdmp_db";
+    QString host = "127.0.0.1";
+    QString user = "root";
+    QString pwd = "123456";
+    QString prefix = "sdmp";
+};
 
+
+struct sCfgSqlItem
+{
+    bool hda_en = true;
+    int hda_interval = 10; // 分钟
+    QDateTime hda_last_time; // 上一次记录时间
+
+    bool ele_en = true;
+    int ele_interval = 12; // 小时
+    QDateTime ele_last_time; // 上一次记录时间
+};
 
 class CfgCom : public CfgObj
 {
@@ -11,8 +30,13 @@ class CfgCom : public CfgObj
 public:
     static CfgCom* bulid(QObject *parent = nullptr, const QString& fn=CFG_FN);
 
+    static sCfgDbItem mCfgDb;
+    static sCfgSqlItem mCfgSql;
+
 private:
-    static void initCfg();
+    static void initCfg();    
+    void initCfgDb();
+    void initCfgSql();
 };
 
 #endif // CFGCOM_H

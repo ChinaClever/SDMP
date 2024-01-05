@@ -9,7 +9,6 @@
 
 // QMutex OrmDb::msLock;
 QSqlDatabase OrmDb::sDb;
-sCfgDbItem OrmDb::mCfgDbItem;
 OrmDb::OrmDb()
 {
     initDb();
@@ -227,14 +226,16 @@ void OrmDb::initDebugInfo()
 }
 
 
+
 void OrmDb::initDb()
 {
-    if(!sDb.isOpen()) {
+    if(!sDb.isOpen()) { CfgCom::bulid();
+        sCfgDbItem *it = &CfgCom::mCfgDb;
         sDb = QSqlDatabase::addDatabase("QMYSQL");
-        sDb.setDatabaseName("sdmp_db");
-        sDb.setHostName("localhost");
-        sDb.setUserName("root");
-        sDb.setPassword("123456");
+        sDb.setDatabaseName(it->name);
+        sDb.setHostName(it->host);
+        sDb.setUserName(it->user);
+        sDb.setPassword(it->pwd);
         if(sDb.open()) initDebugInfo();
         else qCritical() << "DB open error";
     }
