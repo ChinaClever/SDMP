@@ -9,7 +9,6 @@ Pdu_EleSql::Pdu_EleSql()
 {
     mIndexSql = Pdu_IndexSql::bulid();
     mNetJsonPack = Pdu_NetJsonPack::bulid();
-    // test();
 }
 
 
@@ -66,19 +65,3 @@ void Pdu_EleSql::append()
     mLstIts.append(it);
 }
 
-void Pdu_EleSql::test()
-{
-    QtConcurrent::run([&](){
-        mIndexSql->initFun();
-        while(1) {
-            QThread::sleep(5);
-            eleWork();
-
-            // qDebug() << mNetJsonPack->offline_list();
-        }
-    });
-
-    // for(int i=0; i<5; ++i) {
-    //     append(i, i,i,i);
-    // }insert();
-}

@@ -10,6 +10,7 @@ CONFIG += c++17
 
 include(pdus/pdus.pri)
 include(commons/commons.pri)
+include(cabinets/cabinets.pri)
 
 SOURCES += \
     main.cpp \

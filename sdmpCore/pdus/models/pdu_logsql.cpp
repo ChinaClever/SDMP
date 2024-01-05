@@ -9,7 +9,6 @@
 Pdu_LogSql::Pdu_LogSql()
 {
     initUdp();
-    // test();
 }
 
 
@@ -77,7 +76,10 @@ void Pdu_LogSql::append(const QJsonObject &obj)
 
 void Pdu_LogSql::http_post()
 {
-    QUrl url("https://some.domain.url/");
+    sCfgLogItem *it = &CfgCom::mCfgLog;
+    if(!it->en) {mLst.clear(); return;}
+
+    QUrl url(it->url); // "https://some.domain.url/"
     auto reply = Http::instance().post(url, mLst);
     QObject::connect(reply, &HttpReply::finished, [&](auto &reply) {
         if (reply.isSuccessful()) {
@@ -94,10 +96,3 @@ void Pdu_LogSql::workDown()
     if(mLst.size()) http_post();
 }
 
-
-void Pdu_LogSql::test()
-{
-    // for(int i=0; i<5; ++i) {
-    //     append(i, "1","2");
-    // }insert();
-}

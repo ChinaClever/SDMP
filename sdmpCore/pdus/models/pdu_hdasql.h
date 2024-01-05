@@ -20,7 +20,6 @@ class Pdu_HdaSql : public OrmObj<PduHdaModel>
 public:
     static Pdu_HdaSql *bulid();
     void hdaWork();
-    void test();
 
 private:
     void append();

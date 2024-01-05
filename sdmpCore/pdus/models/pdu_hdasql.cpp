@@ -93,26 +93,3 @@ void Pdu_HdaSql::append()
     it->value = mItem.value;
     mLstIts.append(it);
 }
-
-void Pdu_HdaSql::test()
-{
-
-    QtConcurrent::run([&](){
-        mIndexSql->initFun();
-        while(1) {
-            QThread::sleep(5);
-            hdaWork();
-
-            // qDebug() << mNetJsonPack->offline_list();
-        }
-    });
-
-    return ;
-
-
-    // for(int i=0; i<5; ++i) {
-    //     append(i, i, i,i,i);
-    // }
-    // insert();
-    // cout << count();
-}

@@ -19,7 +19,6 @@ class Pdu_EleSql: public OrmObj<PduEleModel>
 public:
     static Pdu_EleSql *bulid();
     void eleWork();
-    void test();
 
 private:
     void append();
