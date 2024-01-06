@@ -1,6 +1,6 @@
 #ifndef CABPDUMODEL_H
 #define CABPDUMODEL_H
-#include "cab_indexsql.h"
+#include "cabindexmodel.h"
 
 class APP_DLL_EXPORT CabPduModel
 {

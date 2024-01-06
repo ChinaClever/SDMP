@@ -1,8 +1,8 @@
 #ifndef PDULOGMODEL_H
 #define PDULOGMODEL_H
-#include "pdu_hdasql.h"
+#include "pduhdamodel.h"
 
-class PduLogModel
+class APP_DLL_EXPORT PduLogModel
 {
 public:
     uint id = 0;

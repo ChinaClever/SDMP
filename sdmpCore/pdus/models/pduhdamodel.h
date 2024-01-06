@@ -1,8 +1,8 @@
 #ifndef PDUHDAMODEL_H
 #define PDUHDAMODEL_H
-#include "pdu_elesql.h"
+#include "pduelemodel.h"
 
-class PduHdaModel
+class APP_DLL_EXPORT PduHdaModel
 {
 public:
     uint id = 0;

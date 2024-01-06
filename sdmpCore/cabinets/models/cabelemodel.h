@@ -1,6 +1,6 @@
 #ifndef CABELEMODEL_H
 #define CABELEMODEL_H
-#include "cab_hdasql.h"
+#include "cabboxmodel.h"
 
 class APP_DLL_EXPORT CabEleModel
 {

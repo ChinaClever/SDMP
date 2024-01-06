@@ -1,6 +1,6 @@
 #ifndef PDU_ELESQL_H
 #define PDU_ELESQL_H
-#include "pduelemodel.h"
+#include "pdu_indexsql.h"
 
 enum DType{Tg, Line, Loop, Output, Group, Dual, Env=6, Sensor, CabTg=11, CabLine, CabLoop};
 enum DTopic{Relay, Vol, Cur, Pow, ArtPow, ReactivePow, Ele, PF, HdaEle, LineVol, Tem=11, Hum, Door1=21, Door2, Water, Smoke, Wind};

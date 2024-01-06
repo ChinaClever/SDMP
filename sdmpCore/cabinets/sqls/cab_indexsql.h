@@ -1,6 +1,6 @@
 #ifndef CAB_INDEXSQL_H
 #define CAB_INDEXSQL_H
-#include "cabindexmodel.h"
+#include "../models/cabhdamodel.h"
 
 class Cab_IndexSql : public OrmObj<CabIndexModel>
 {
@@ -8,6 +8,11 @@ class Cab_IndexSql : public OrmObj<CabIndexModel>
 public:
     static Cab_IndexSql *bulid();
 
+    void initFun();
+    uchar is_pdu_box(uint id);
+    int getIds(QList<uint> &pdu, QList<uint> &box);
+
+private:
 
 };
 

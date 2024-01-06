@@ -1,6 +1,6 @@
 #ifndef CAB_PDUSQL_H
 #define CAB_PDUSQL_H
-#include "cabpdumodel.h"
+#include "cab_indexsql.h"
 
 class Cab_PduSql : public OrmObj<CabPduModel>
 {
@@ -8,6 +8,11 @@ class Cab_PduSql : public OrmObj<CabPduModel>
 public:
     static Cab_PduSql *bulid();
 
+    void initFun();
+    bool getPdu(uint cab_id, uint &a_pdu, uint &b_pdu);
+
+private:
+    QHash<uint, uint> mHash;
 };
 
 #endif // CAB_PDUSQL_H

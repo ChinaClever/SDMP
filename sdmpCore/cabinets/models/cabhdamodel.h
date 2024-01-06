@@ -1,6 +1,6 @@
 #ifndef CABHDAMODEL_H
 #define CABHDAMODEL_H
-#include "cab_pdusql.h"
+#include "cabelemodel.h"
 
 class APP_DLL_EXPORT CabHdaModel
 {

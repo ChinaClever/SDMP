@@ -1,6 +1,6 @@
 #ifndef PDUELEMODEL_H
 #define PDUELEMODEL_H
-#include "pdu_indexsql.h"
+#include "pduindexmodel.h"
 
 class APP_DLL_EXPORT PduEleModel
 {

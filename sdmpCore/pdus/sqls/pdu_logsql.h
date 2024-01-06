@@ -1,6 +1,6 @@
 #ifndef PDU_LOGSQL_H
 #define PDU_LOGSQL_H
-#include "pdulogmodel.h"
+#include "pdu_hdasql.h"
 
 class Pdu_LogSql : public OrmObj<PduLogModel>
 {

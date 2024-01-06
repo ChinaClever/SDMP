@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-#include "cabinets/models/cab_indexsql.h"
-// #include "pdus/models/pdu_logsql.h"
+#include "cabinets/sqls/cab_indexsql.h"
+// #include "pdus/sqls/pdu_logsql.h"
 // #include "pdu_httpserver.h"
 
 int main(int argc, char *argv[])

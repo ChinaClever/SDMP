@@ -8,7 +8,6 @@
 Pdu_IndexSql::Pdu_IndexSql()
 {
     mNetJsonPack = Pdu_NetJsonPack::bulid();
-    //test();
 }
 
 
@@ -78,32 +77,11 @@ QStringList Pdu_IndexSql::getkeys()
     return mNetJsonPack->online_list();
 }
 
-
-void Pdu_IndexSql::test()
+QString Pdu_IndexSql::getKey(uint id)
 {
-    initFun();
-    QtConcurrent::run([&](){
-        while(1) {
-            QThread::sleep(1);
-            syncNetPack();
-
-            cout << mNetJsonPack->offline_list();
-        }
-    });
-
-
-    return ;
-
-
-    QList<PduIndexModel> itLst;
-    for(int i = 0;i < 5;i ++) {
-        PduIndexModel it;
-        it.uid = QString ("lzy %1").arg(i);
-        it.ip = "123456";
-        it.cascade_num = 0;
-        itLst.append(it);
+    QString res; if(mListModel.contains(id)) {
+        res = mListModel.getByKey(id).uid;
     }
-    cout << delete_all() << count() << mListModel.size();
-    cout; save(itLst); cout; save(itLst);
-    qDebug()  << count() <<  fetch_all() << mListModel.size() ;
+    return res;
 }
+

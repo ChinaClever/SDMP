@@ -1,7 +1,7 @@
 #ifndef PDU_INDEXSQL_H
 #define PDU_INDEXSQL_H
-#include "pduindexmodel.h"
-#include "pdu_httpserver.h"
+#include "../models/pdulogmodel.h"
+#include "../network/pdu_httpserver.h"
 
 class Pdu_IndexSql : public OrmObj<PduIndexModel>
 {
@@ -9,6 +9,7 @@ class Pdu_IndexSql : public OrmObj<PduIndexModel>
 public:
     static Pdu_IndexSql *bulid();
 
+    QString getKey(uint id);
     QStringList getkeys();
     uint getId(const QString &key);
     uint getId(const QString &ip, uchar addr);
@@ -18,7 +19,6 @@ public:
     void initFun();
     void syncNetPack();
     void toNetPack();
-    void test();
 
 private:
     QHash<QString, uint> mKeyHash;
