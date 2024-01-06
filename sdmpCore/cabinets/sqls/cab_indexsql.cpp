@@ -17,9 +17,12 @@ Cab_IndexSql *Cab_IndexSql::bulid()
     return sington;
 }
 
-void Cab_IndexSql::initFun()
+void Cab_IndexSql::syncFun()
 {
-    fetch_all();
+    if(isModified) {
+        fetch_all(); isModified = false;
+        Cab_PduSql::bulid()->initFun();
+    }
 }
 
 int Cab_IndexSql::getIds(QList<uint> &pdu, QList<uint> &box)

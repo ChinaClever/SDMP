@@ -1,6 +1,6 @@
 #ifndef CAB_ELESQL_H
 #define CAB_ELESQL_H
-#include "cab_boxsql.h"
+#include "cab_indexsql.h"
 #include "pdus/sqls/pdu_logsql.h"
 
 class Cab_EleSql: public OrmObj<CabEleModel>
@@ -16,7 +16,7 @@ public:
 private:
     void cabPduEle(uint cab_id);
     QJsonObject cabJsonPduEle(uint cab_id);
-    double pduTgEle(uint pdu_id);
+    bool pduTgEle(uint pdu_id, double &ele);
 
 private:
     Cab_PduSql *mPduSql;

@@ -18,6 +18,7 @@ public:
 
     void initFun();
     void syncNetPack();
+private:
     void toNetPack();
 
 private:

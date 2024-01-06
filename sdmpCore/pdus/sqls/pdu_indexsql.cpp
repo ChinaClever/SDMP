@@ -11,7 +11,6 @@ Pdu_IndexSql::Pdu_IndexSql()
 }
 
 
-
 Pdu_IndexSql *Pdu_IndexSql::bulid()
 {
     static Pdu_IndexSql* sington = nullptr;
@@ -37,11 +36,11 @@ void Pdu_IndexSql::syncNetPack()
         if(!mKeyHash.contains(uid)) {
             PduIndexModel it; it.uid = uid; it.is_delete = 0;
             bool ret = mNetJsonPack->getByKey(uid, it.ip, it.cascade_num);
-            if(ret) modelLst.append(it);
+            it.id = getId(uid); if(ret) modelLst.append(it);
         } else if(mDeleteHash.contains(uid)){
             PduIndexModel it = mDeleteHash.value(uid);
             mDeleteHash.remove(uid); it.is_delete = 0;
-            modelLst.append(it);
+            it.id = getId(uid); modelLst.append(it);
         }
     } if(modelLst.size()) {save(modelLst); toNetPack();}
 }
@@ -65,8 +64,7 @@ void Pdu_IndexSql::initFun()
 
 uint Pdu_IndexSql::getId(const QString &key)
 {
-    uint ret = 0;
-    if(mKeyHash.contains(key)) {
+    uint ret = 0; if(mKeyHash.contains(key)) {
         ret = mKeyHash.value(key);
     }
     return ret;
@@ -79,6 +77,7 @@ QStringList Pdu_IndexSql::getkeys()
 
 QString Pdu_IndexSql::getKey(uint id)
 {
+
     QString res; if(mListModel.contains(id)) {
         res = mListModel.getByKey(id).uid;
     }

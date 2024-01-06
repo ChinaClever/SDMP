@@ -19,27 +19,30 @@ Cab_HdaSql *Cab_HdaSql::bulid()
 }
 
 
-void Cab_HdaSql::pduHda(uint pdu_id, double &apparent_power, double &active_power)
+bool Cab_HdaSql::pduHda(uint pdu_id, double &apparent_power, double &active_power)
 {
     QString uid = Pdu_IndexSql::bulid()->getKey(pdu_id);
     QJsonValue jsonValue = Pdu_NetJsonPack::bulid()->tg(uid);
-    if(jsonValue.isObject()) {
+    bool ret = jsonValue.isObject(); if(ret) {
         active_power = getData(jsonValue.toObject(), "pow");
         apparent_power = getData(jsonValue.toObject(), "apparent_pow");
     }
+    return ret;
 }
 
 
 void Cab_HdaSql::cabPduHda(uint cab_id)
 {
-    uint a_pdu=0, b_pdu=0;
+    uint a_pdu=0, b_pdu=0; bool a_ret=false, b_ret=false;
     if(mPduSql->getPdu(cab_id, a_pdu, b_pdu)) {
         ModelPtr it(addModel()); it->cabinet_id = cab_id;
-        if(a_pdu) pduHda(a_pdu, it->a_apparent_power, it->a_active_power);
-        if(b_pdu) pduHda(b_pdu, it->b_apparent_power, it->b_active_power);
-        it->tg_apparent_power = it->a_apparent_power + it->b_apparent_power;
-        it->tg_active_power = it->a_active_power + it->b_active_power;
-        mLstIts.append(it);
+        if(a_pdu) a_ret = pduHda(a_pdu, it->a_apparent_power, it->a_active_power);
+        if(b_pdu) b_ret = pduHda(b_pdu, it->b_apparent_power, it->b_active_power);
+        if(a_ret || b_ret) {
+            it->tg_apparent_power = it->a_apparent_power + it->b_apparent_power;
+            it->tg_active_power = it->a_active_power + it->b_active_power;
+            mLstIts.append(it);
+        }
     }
 }
 
@@ -86,6 +89,8 @@ void Cab_HdaSql::workDown()
     foreach (const auto &cab_id, pduLst) cabPduHda(cab_id);
 
 
+
+    if(mLstIts.size()) insert();
 }
 
 

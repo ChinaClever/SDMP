@@ -1,6 +1,6 @@
 #ifndef CAB_BOXSQL_H
 #define CAB_BOXSQL_H
-#include "cab_pdusql.h"
+#include "../models/cabhdamodel.h"
 
 class Cab_BoxSql: public OrmObj<CabBoxModel>
 {

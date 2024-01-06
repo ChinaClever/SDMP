@@ -13,10 +13,12 @@ include(commons/commons.pri)
 include(cabinets/cabinets.pri)
 
 SOURCES += \
+    dbcorethread.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    dbcorethread.h \
     mainwindow.h
 
 FORMS += \

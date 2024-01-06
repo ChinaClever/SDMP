@@ -86,7 +86,7 @@ void Pdu_NetJsonPack::toJson(QByteArray &datagram, const QString &ip)
             QDateTime datetime = QDateTime::currentDateTime();
             jsonObj.insert("uptime", datetime.toString("yyyy-MM-dd hh:mm:ss"));
             QSharedPointer<QJsonObject> sharedPtr(new QJsonObject(jsonObj));
-            mHash.insert(uid, sharedPtr);  //qDebug() << ip;
+            mHash.insert(uid, sharedPtr); // qDebug() << "AAAAAAAAA@@@@@@@" << ip;
         } else {
             qDebug() << "JSON document is not an object";
         }

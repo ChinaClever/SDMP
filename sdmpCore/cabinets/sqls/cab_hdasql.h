@@ -13,7 +13,7 @@ public:
 
 
 private:
-    void pduHda(uint pdu_id, double &apparent_power, double &active_power);
+    bool pduHda(uint pdu_id, double &apparent_power, double &active_power);
     QJsonObject cabJsonPduHda(uint cab_id);
     void cabPduHda(uint cab_id);
 
