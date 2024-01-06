@@ -25,6 +25,16 @@ void Cab_IndexSql::syncFun()
     }
 }
 
+QList<uint> Cab_IndexSql::getIds()
+{
+    QList<uint> lst;
+    foreach (const auto &it, mListModel) {
+        if(!it.second.is_delete) lst << it.first;
+    }
+
+    return lst;
+}
+
 int Cab_IndexSql::getIds(QList<uint> &pdu, QList<uint> &box)
 {
     foreach (const auto &it, mListModel) {
@@ -40,4 +50,9 @@ int Cab_IndexSql::getIds(QList<uint> &pdu, QList<uint> &box)
 uchar Cab_IndexSql::is_pdu_box(uint id)
 {
     return mListModel.getByKey(id).pdu_box;
+}
+
+double Cab_IndexSql::pow_capacity(uint id)
+{
+    return mListModel.getByKey(id).pow_capacity;
 }

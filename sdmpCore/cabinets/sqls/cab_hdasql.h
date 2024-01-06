@@ -9,7 +9,7 @@ public:
     static Cab_HdaSql *bulid();
 
     void workDown();
-    QJsonObject cabEle(uint cab_id);
+    QJsonObject cabHda(uint cab_id);
 
 
 private:

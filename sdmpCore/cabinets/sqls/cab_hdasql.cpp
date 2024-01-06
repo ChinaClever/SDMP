@@ -74,7 +74,7 @@ QJsonObject Cab_HdaSql::cabJsonPduHda(uint cab_id)
 }
 
 
-QJsonObject Cab_HdaSql::cabEle(uint cab_id)
+QJsonObject Cab_HdaSql::cabHda(uint cab_id)
 {
     int ret = mIndexSql->is_pdu_box(cab_id);
     if(ret) {

@@ -9,8 +9,11 @@ public:
     static Cab_IndexSql *bulid();
 
     void syncFun();
+    QList<uint> getIds();
     uchar is_pdu_box(uint id);
     int getIds(QList<uint> &pdu, QList<uint> &box);
+    void set() {isModified = true;}
+    double pow_capacity(uint id);
 
 private:
     bool isModified = true;

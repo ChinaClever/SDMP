@@ -1,10 +1,10 @@
 #INCLUDEPATH += $$PWD
 
-include(sqls/sqls.pri)
-include(models/models.pri)
 
-HEADERS +=
+HEADERS += \
+    $$PWD/cab_httpserver.h
 
-SOURCES +=
+SOURCES += \
+    $$PWD/cab_httpserver.cpp
 
 

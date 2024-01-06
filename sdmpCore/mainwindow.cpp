@@ -5,7 +5,7 @@
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "cabinets/sqls/cab_indexsql.h"
+#include "cabinets/network/cab_httpserver.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Pdu_HttpServer *obj = new Pdu_HttpServer(this);
+    Cab_HttpServer *obj = new Cab_HttpServer(this);
     obj->http_listen(43796);
     mDbCore = new DbCoreThread(this);
 }
