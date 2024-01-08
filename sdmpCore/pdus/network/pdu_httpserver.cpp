@@ -5,7 +5,7 @@
  */
 #include "pdu_httpserver.h"
 
-Pdu_HttpServer::Pdu_HttpServer(QObject *parent)
+Pdu_HttpServer::Pdu_HttpServer(QObject *parent): HttpServerObj{parent}
 {
     mNetJson = Pdu_NetJsonPack::bulid(parent);
     pdu_httpInit(); // http_listen( 43796);

@@ -10,6 +10,7 @@ public:
 
     void workDown();
     QJsonObject cabHda(uint cab_id);
+    double tgApparentPower(uint cab_id);
 
 
 private:

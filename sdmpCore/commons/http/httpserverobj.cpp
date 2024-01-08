@@ -7,7 +7,6 @@
 #include "httpserverobj.h"
 
 
-
 using namespace Qt::StringLiterals;
 
 static inline QString host(const QHttpServerRequest &request)
@@ -16,7 +15,7 @@ static inline QString host(const QHttpServerRequest &request)
 }
 
 
-HttpServerObj::HttpServerObj()
+HttpServerObj::HttpServerObj(QObject *parent) : QThread{parent}
 {
     // mHttpServer.route("/", []() {
     //     return "Hello world";

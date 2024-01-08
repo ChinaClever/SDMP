@@ -11,10 +11,10 @@
 #include <QJsonObject>
 #include <QtCore>
 
-class HttpServerObj
+class HttpServerObj : public QThread
 {
 public:
-    HttpServerObj();
+    explicit HttpServerObj(QObject *parent = nullptr);
 
     bool http_listen(quint16 port);
     QString queryItem(const QHttpServerRequest &request, const QString &key);

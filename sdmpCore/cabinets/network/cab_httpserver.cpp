@@ -5,7 +5,7 @@
  */
 #include "cab_httpserver.h"
 
-Cab_HttpServer::Cab_HttpServer(QObject *parent) : Pdu_HttpServer(parent)
+Cab_HttpServer::Cab_HttpServer(QObject *parent) : Pdu_HttpServer{parent}
 {
     cab_init();
 }

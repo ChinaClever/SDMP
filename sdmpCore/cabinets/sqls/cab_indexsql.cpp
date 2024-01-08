@@ -56,3 +56,8 @@ double Cab_IndexSql::pow_capacity(uint id)
 {
     return mListModel.getByKey(id).pow_capacity;
 }
+
+int Cab_IndexSql::is_disabled(uint id)
+{
+    return mListModel.getByKey(id).is_disabled;
+}

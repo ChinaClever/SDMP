@@ -46,6 +46,23 @@ void Cab_HdaSql::cabPduHda(uint cab_id)
     }
 }
 
+double Cab_HdaSql::tgApparentPower(uint cab_id)
+{
+    double tg_apparent_power = 0;
+    uint a_pdu=0, b_pdu=0; QJsonObject obj;
+    if(mPduSql->getPdu(cab_id, a_pdu, b_pdu)) {
+        double a_apparent_power=0, a_active_power=0;
+        if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
+
+        double b_apparent_power=0, b_active_power=0;
+        if(b_pdu) pduHda(b_pdu, b_apparent_power, b_active_power);
+
+        tg_apparent_power = a_apparent_power + b_apparent_power;
+    }
+
+    return tg_apparent_power;
+}
+
 
 
 QJsonObject Cab_HdaSql::cabJsonPduHda(uint cab_id)

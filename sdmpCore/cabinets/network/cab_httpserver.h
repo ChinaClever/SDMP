@@ -1,11 +1,11 @@
 #ifndef CAB_HTTPSERVER_H
 #define CAB_HTTPSERVER_H
-#include "../sqls/cab_hdasql.h"
+#include "cab_alarm.h"
 
 class Cab_HttpServer: public Pdu_HttpServer
 {
 public:
-    Cab_HttpServer(QObject *parent = nullptr);
+    explicit Cab_HttpServer(QObject *parent = nullptr);
 
 private:
     void cab_init();

@@ -14,6 +14,7 @@ public:
     int getIds(QList<uint> &pdu, QList<uint> &box);
     void set() {isModified = true;}
     double pow_capacity(uint id);
+    int is_disabled(uint id);
 
 private:
     bool isModified = true;

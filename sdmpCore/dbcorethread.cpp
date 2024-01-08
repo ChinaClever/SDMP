@@ -6,8 +6,9 @@
 #include "dbcorethread.h"
 
 DbCoreThread::DbCoreThread(QObject *parent)
-    : QThread{parent}
+    : Cab_HttpServer{parent}
 {
+    this->http_listen(43796);
     mTimer = new QTimer(this); mTimer->start(1000);
     connect(mTimer, &QTimer::timeout, this, &DbCoreThread::onTimeout);
 
@@ -66,6 +67,7 @@ void DbCoreThread::eleWork()
 void DbCoreThread::alarmWork()
 {
     Pdu_LogSql::bulid()->workDown();
+    Cab_Alarm::bulid()->alarmWork();
 }
 
 
