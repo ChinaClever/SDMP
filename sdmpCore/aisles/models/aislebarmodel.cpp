@@ -15,6 +15,8 @@ namespace qx
         t.data(&AisleBarModel::aisle_id, "aisle_id");
         t.data(&AisleBarModel::a_bar_id, "a_bar_id");
         t.data(&AisleBarModel::b_bar_id, "b_bar_id");
+        t.data(&AisleBarModel::a_bar_ip, "a_bar_ip");
+        t.data(&AisleBarModel::b_bar_ip, "b_bar_ip");
         t.data(&AisleBarModel::createtime, "create_time");
         t.data(&AisleBarModel::updatetime, "update_time");
     }

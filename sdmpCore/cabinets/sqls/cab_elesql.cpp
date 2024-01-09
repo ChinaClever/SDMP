@@ -34,8 +34,8 @@ void Cab_EleSql::cabPduEle(uint cab_id)
     CabPduModel model; bool a_ret=false, b_ret=false;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
         ModelPtr it(addModel()); it->cabinet_id = cab_id;
         if(a_pdu) a_ret = pduTgEle(a_pdu, it->a_ele);
         if(b_pdu) b_ret = pduTgEle(b_pdu, it->b_ele);
@@ -51,8 +51,8 @@ QJsonObject Cab_EleSql::cabJsonPduEle(uint cab_id)
     QJsonObject obj; CabPduModel model;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
         double a_ele=0;  pduTgEle(a_pdu, a_ele);
         double b_ele=0; pduTgEle(b_pdu, b_ele);
         double tg_ele = a_ele + b_ele;

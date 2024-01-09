@@ -37,8 +37,8 @@ void Cab_HdaSql::cabPduHda(uint cab_id)
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
         ModelPtr it(addModel()); it->cabinet_id = cab_id;        
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
         if(a_pdu) a_ret = pduHda(a_pdu, it->a_apparent_power, it->a_active_power);
         if(b_pdu) b_ret = pduHda(b_pdu, it->b_apparent_power, it->b_active_power);
         if(a_ret || b_ret) {
@@ -55,8 +55,8 @@ double Cab_HdaSql::tgApparentPower(uint cab_id)
     double tg_apparent_power = 0;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
-         uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
-         uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
+         uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+         uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
 
         double a_apparent_power=0, a_active_power=0;
         if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
@@ -76,8 +76,8 @@ QJsonObject Cab_HdaSql::cabJsonPduHda(uint cab_id)
     CabPduModel model; QJsonObject obj;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
         double a_apparent_power=0, a_active_power=0;
         if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
 

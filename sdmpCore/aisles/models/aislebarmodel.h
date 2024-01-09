@@ -7,8 +7,9 @@ class APP_DLL_EXPORT AisleBarModel
 public:
     uint id = 0;
     uint aisle_id=0;
-    uint a_bar_id = 0;
-    uint b_bar_id = 0;
+    uchar a_bar_id = 0;
+    uchar b_bar_id = 0;
+    QString a_bar_ip, b_bar_ip;
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
