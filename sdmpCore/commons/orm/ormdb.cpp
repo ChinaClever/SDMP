@@ -229,7 +229,7 @@ void OrmDb::initDebugInfo()
 
 void OrmDb::initDb()
 {
-    if(!sDb.isOpen()) { CfgCom::bulid();
+    if(!sDb.isOpen()) { CfgCom::build();
         sCfgDbItem *it = &CfgCom::mCfgDb;
         sDb = QSqlDatabase::addDatabase("QMYSQL");
         sDb.setDatabaseName(it->name);

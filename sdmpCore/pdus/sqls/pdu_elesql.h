@@ -17,7 +17,7 @@ class Pdu_EleSql: public OrmObj<PduEleModel>
 {
     Pdu_EleSql();
 public:
-    static Pdu_EleSql *bulid();
+    static Pdu_EleSql *build();
     void eleWork();
 
 private:

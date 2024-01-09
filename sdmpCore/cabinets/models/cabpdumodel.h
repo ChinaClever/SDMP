@@ -7,8 +7,9 @@ class APP_DLL_EXPORT CabPduModel
 public:
     uint id = 0;
     uint cabinet_id=0;
-    uint a_pdu_id = 0;
-    uint b_pdu_id = 0;
+    uchar a_cascade_num = 0;
+    uchar b_cascade_num = 0;
+    QString a_pdu_ip, b_pdu_ip;
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 

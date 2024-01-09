@@ -7,7 +7,7 @@ class Pdu_IndexSql : public OrmObj<PduIndexModel>
 {
     explicit Pdu_IndexSql();
 public:
-    static Pdu_IndexSql *bulid();
+    static Pdu_IndexSql *build();
 
     QString getKey(uint id);
     QStringList getkeys();

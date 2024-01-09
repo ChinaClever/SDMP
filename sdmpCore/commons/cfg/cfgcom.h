@@ -33,7 +33,7 @@ class CfgCom : public CfgObj
 {
     CfgCom(const QString& fn, QObject *parent = nullptr);
 public:
-    static CfgCom* bulid(QObject *parent = nullptr, const QString& fn=CFG_FN);
+    static CfgCom* build(QObject *parent = nullptr, const QString& fn=CFG_FN);
 
     static sCfgDbItem mCfgDb;
     static sCfgSqlItem mCfgSql;

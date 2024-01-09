@@ -18,7 +18,7 @@ void DbCoreThread::initFun()
 {
     static bool initialized=false;
     if(initialized) return ; else initialized=true;
-    Pdu_LogSql::bulid(); Pdu_IndexSql::bulid()->initFun();
+    Pdu_LogSql::build(); Pdu_IndexSql::build()->initFun();
 
 
 
@@ -28,21 +28,21 @@ void DbCoreThread::initFun()
 
 void DbCoreThread::syncWork()
 {
-    Pdu_IndexSql::bulid()->syncNetPack();
-    Cab_IndexSql::bulid()->syncFun();
+    Pdu_IndexSql::build()->syncNetPack();
+    Cab_IndexSql::build()->syncFun();
 
 
 }
 
 void DbCoreThread::hdaWork()
 {
-    sCfgSqlItem *it = &CfgCom::bulid()->mCfgSql;
+    sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     if(it->hda_en && it->hda_interval) {
         // QDateTime t = it->hda_last_time.addSecs(it->hda_interval *60);
         // if(QDateTime::currentDateTime() > t) {
             it->hda_last_time = QDateTime::currentDateTime();
-            Pdu_HdaSql::bulid()->hdaWork();
-            Cab_HdaSql::bulid()->workDown();
+            Pdu_HdaSql::build()->hdaWork();
+            Cab_HdaSql::build()->workDown();
 
 
         // }
@@ -51,13 +51,13 @@ void DbCoreThread::hdaWork()
 
 void DbCoreThread::eleWork()
 {
-    sCfgSqlItem *it = &CfgCom::bulid()->mCfgSql;
+    sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     if(it->ele_en && it->ele_interval) {
         // QDateTime t = it->ele_last_time.addSecs(it->ele_interval*60*60);
         // if(QDateTime::currentDateTime() > t) {
             it->ele_last_time = QDateTime::currentDateTime();
-            Pdu_EleSql::bulid()->eleWork();
-            Cab_EleSql::bulid()->workDown();
+            Pdu_EleSql::build()->eleWork();
+            Cab_EleSql::build()->workDown();
 
 
         // }
@@ -66,8 +66,8 @@ void DbCoreThread::eleWork()
 
 void DbCoreThread::alarmWork()
 {
-    Pdu_LogSql::bulid()->workDown();
-    Cab_Alarm::bulid()->alarmWork();
+    Pdu_LogSql::build()->workDown();
+    Cab_Alarm::build()->alarmWork();
 }
 
 

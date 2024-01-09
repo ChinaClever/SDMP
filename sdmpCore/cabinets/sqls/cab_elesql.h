@@ -7,7 +7,7 @@ class Cab_EleSql: public OrmObj<CabEleModel>
 {
     Cab_EleSql();
 public:
-    static Cab_EleSql *bulid();
+    static Cab_EleSql *build();
 
     void workDown();
     QJsonObject cabEle(uint cab_id);

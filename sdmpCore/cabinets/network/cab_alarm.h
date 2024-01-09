@@ -6,7 +6,7 @@ class Cab_Alarm
 {
     Cab_Alarm();
 public:
-    static Cab_Alarm *bulid();
+    static Cab_Alarm *build();
 
     void alarmWork();
 private:

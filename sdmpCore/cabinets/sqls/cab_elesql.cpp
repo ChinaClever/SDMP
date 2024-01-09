@@ -8,11 +8,11 @@
 
 Cab_EleSql::Cab_EleSql()
 {
-    mPduSql = Cab_PduSql::bulid();
-    mIndexSql = Cab_IndexSql::bulid();
+    mPduSql = Cab_PduSql::build();
+    mIndexSql = Cab_IndexSql::build();
 }
 
-Cab_EleSql *Cab_EleSql::bulid()
+Cab_EleSql *Cab_EleSql::build()
 {
     static Cab_EleSql* sington = nullptr;
     if(!sington) sington = new Cab_EleSql();
@@ -22,8 +22,8 @@ Cab_EleSql *Cab_EleSql::bulid()
 
 bool Cab_EleSql::pduTgEle(uint pdu_id, double &ele)
 {
-    QString uid = Pdu_IndexSql::bulid()->getKey(pdu_id);
-    QJsonValue jsonValue = Pdu_NetJsonPack::bulid()->tg(uid);
+    QString uid = Pdu_IndexSql::build()->getKey(pdu_id);
+    QJsonValue jsonValue = Pdu_NetJsonPack::build()->tg(uid);
     bool ret = jsonValue.isObject();
     if(ret) ele = getData(jsonValue.toObject(), "ele");
     return ret;
@@ -31,8 +31,11 @@ bool Cab_EleSql::pduTgEle(uint pdu_id, double &ele)
 
 void Cab_EleSql::cabPduEle(uint cab_id)
 {
-    uint a_pdu=0, b_pdu=0; bool a_ret=false, b_ret=false;
-    if(mPduSql->getPdu(cab_id, a_pdu, b_pdu)) {
+    CabPduModel model; bool a_ret=false, b_ret=false;
+    Pdu_IndexSql *pdu = Pdu_IndexSql::build();
+    if(mPduSql->getPdu(cab_id, model)) {
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
         ModelPtr it(addModel()); it->cabinet_id = cab_id;
         if(a_pdu) a_ret = pduTgEle(a_pdu, it->a_ele);
         if(b_pdu) b_ret = pduTgEle(b_pdu, it->b_ele);
@@ -45,8 +48,11 @@ void Cab_EleSql::cabPduEle(uint cab_id)
 
 QJsonObject Cab_EleSql::cabJsonPduEle(uint cab_id)
 {
-    uint a_pdu=0, b_pdu=0; QJsonObject obj;
-    if(mPduSql->getPdu(cab_id, a_pdu, b_pdu)) {
+    QJsonObject obj; CabPduModel model;
+    Pdu_IndexSql *pdu = Pdu_IndexSql::build();
+    if(mPduSql->getPdu(cab_id, model)) {
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cascade_num);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cascade_num);
         double a_ele=0;  pduTgEle(a_pdu, a_ele);
         double b_ele=0; pduTgEle(b_pdu, b_ele);
         double tg_ele = a_ele + b_ele;

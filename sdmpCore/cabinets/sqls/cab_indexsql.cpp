@@ -10,7 +10,7 @@ Cab_IndexSql::Cab_IndexSql()
 
 }
 
-Cab_IndexSql *Cab_IndexSql::bulid()
+Cab_IndexSql *Cab_IndexSql::build()
 {
     static Cab_IndexSql* sington = nullptr;
     if(!sington) sington = new Cab_IndexSql();
@@ -21,7 +21,7 @@ void Cab_IndexSql::syncFun()
 {
     if(isModified) {
         fetch_all(); isModified = false;
-        Cab_PduSql::bulid()->initFun();
+        Cab_PduSql::build()->initFun();
     }
 }
 

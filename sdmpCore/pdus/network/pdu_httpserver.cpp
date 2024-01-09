@@ -7,7 +7,7 @@
 
 Pdu_HttpServer::Pdu_HttpServer(QObject *parent): HttpServerObj{parent}
 {
-    mNetJson = Pdu_NetJsonPack::bulid(parent);
+    mNetJson = Pdu_NetJsonPack::build(parent);
     pdu_httpInit(); // http_listen( 43796);
 }
 

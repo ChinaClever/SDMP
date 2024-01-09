@@ -18,7 +18,7 @@ Pdu_NetJsonPack::~Pdu_NetJsonPack()
     wait();
 }
 
-Pdu_NetJsonPack *Pdu_NetJsonPack::bulid(QObject *parent)
+Pdu_NetJsonPack *Pdu_NetJsonPack::build(QObject *parent)
 {
     static Pdu_NetJsonPack* sington = nullptr;
     if(!sington) sington = new Pdu_NetJsonPack(parent);
@@ -31,7 +31,7 @@ void Pdu_NetJsonPack::online_offline_update()
     QString str = "uptime";
     foreach (const auto &it, mHash.values()) {
         if(it->contains(str)) {
-            QString key = it->value("uuid").toString();
+            QString key = it->value("dev_key").toString();
             QDateTime overtime = QDateTime::currentDateTime().addSecs(-12);
             QDateTime uptime = QDateTime::fromString(it->value(str).toString(), "yyyy-MM-dd hh:mm:ss");
             if(uptime >= overtime) {
@@ -44,8 +44,9 @@ void Pdu_NetJsonPack::online_offline_update()
                     it->insert("status", 5); it->insert("pdu_alarm", "Offline");
                 } mOnlineHash[key] = false;
             }
-        }
+        }else qDebug() << "uptime error";
     }
+
 }
 
 QStringList Pdu_NetJsonPack::online_list()
@@ -71,28 +72,22 @@ void Pdu_NetJsonPack::toJson(QByteArray &datagram, const QString &ip)
     QJsonDocument jsonDoc = QJsonDocument::fromJson(datagram);
     if (!jsonDoc.isNull()) {
         if (jsonDoc.isObject()) {
-            QJsonObject jsonObj = jsonDoc.object();
-            jsonObj.insert("ip", ip); QString uid;
-            if(jsonObj.contains("uuid")) {
-                uid = jsonObj["uuid"].toString();
+            QJsonObject jsonObj = jsonDoc.object();           
+            QString dev_key; jsonObj.insert("ip", ip);
+            if(jsonObj.contains("uuid"))  {
+                dev_key = jsonObj["uuid"].toString();
             } else if(jsonObj.contains("addr")) {
                 int addr = jsonObj["addr"].toInt();
-                uid = ip + "_" + QString::number(addr);
-            } else {
-                qDebug() << "UDP datagram error";
-                return ;
-            }
+                dev_key = ip + "_" + QString::number(addr);
+            } else { qDebug() << "UDP datagram error"; return ; }
 
+            jsonObj.insert("dev_key", dev_key);
             QDateTime datetime = QDateTime::currentDateTime();
             jsonObj.insert("uptime", datetime.toString("yyyy-MM-dd hh:mm:ss"));
-            QSharedPointer<QJsonObject> sharedPtr(new QJsonObject(jsonObj));
-            mHash.insert(uid, sharedPtr); // qDebug() << "AAAAAAAAA@@@@@@@" << ip;
-        } else {
-            qDebug() << "JSON document is not an object";
-        }
-    } else {
-        qDebug() << "Failed to parse JSON";
-    }
+            QSharedPointer<QJsonObject> sharedPtr(new QJsonObject(jsonObj));            
+            mHash.insert(dev_key, sharedPtr); //qDebug() << "AAAAAAAAA@" << ip << dev_key;
+        } else  qDebug() << "PDU JSON document is not an object";
+    } else qDebug() << "PDU Failed to parse JSON";
 }
 
 bool Pdu_NetJsonPack::workDown()
@@ -126,12 +121,12 @@ QJsonObject Pdu_NetJsonPack::meta(const QString &key)
     return QJsonObject();
 }
 
-QJsonValue Pdu_NetJsonPack::getJsonObject(const QString &uuid, const QString &key)
+QJsonValue Pdu_NetJsonPack::getJsonObject(const QString &dev, const QString &key)
 {
     QJsonValue value;
-    bool ret = mHash.contains(uuid);
+    bool ret = mHash.contains(dev);
     if(ret) {
-        QSharedPointer<QJsonObject> sptr = shredPointer(uuid);
+        QSharedPointer<QJsonObject> sptr = shredPointer(dev);
         value = sptr->value(key);
     }
     return value;
@@ -143,7 +138,7 @@ QJsonObject Pdu_NetJsonPack::alarm()
     foreach (const auto &it, mHash.values()) {
         int status = it->value("status").toInt();
         if(0 != status) {
-            QString key = it->value("uuid").toString();
+            QString key = it->value("dev_key").toString();
             QString alarm = it->value("pdu_alarm").toString();
             obj.insert(key, alarm);
         }
@@ -214,8 +209,8 @@ QString Pdu_NetJsonPack::getKey(const QString &ip, uchar addr)
     foreach (const auto &it, mHash.values()) {
         int src_addr = it->value("addr").toInt();
         QString src_ip = it->value("ip").toString();
-        QString uuid = it->value("uuid").toString();
-        if((src_ip == ip) && (addr == src_addr)) return uuid;
+        QString key = it->value("dev_key").toString();
+        if((src_ip == ip) && (addr == src_addr)) return key;
     }
     return "";
 }
@@ -235,10 +230,8 @@ void Pdu_NetJsonPack::append(const QString &key, const QString &ip, uchar addr)
 {
     if(!mHash.contains(key)) {
         QSharedPointer<QJsonObject> jsonObj(new QJsonObject());
-        jsonObj->insert("ip", ip);
-        jsonObj->insert("uuid", key);
-        jsonObj->insert("status", 5);
-        jsonObj->insert("addr", addr);
+        jsonObj->insert("ip", ip); jsonObj->insert("status", 5);
+        jsonObj->insert("addr", addr); jsonObj->insert("dev_key", key);
         QDateTime datetime = QDateTime::currentDateTime().addSecs(-60);
         jsonObj->insert("uptime", datetime.toString("yyyy-MM-dd hh:mm:ss"));
         mHash.insert(key, jsonObj);
@@ -251,7 +244,7 @@ bool Pdu_NetJsonPack::remove(const QString &key)
     return mOnlineHash.remove(key);
 }
 
-QString Pdu_NetJsonPack::toUid(const QString &ip, uchar addr)
+QString Pdu_NetJsonPack::toKey(const QString &ip, uchar addr)
 {
     QString key = ip + "_" + QString::number(addr);
     return key;

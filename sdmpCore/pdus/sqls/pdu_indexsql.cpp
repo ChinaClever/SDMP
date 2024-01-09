@@ -7,11 +7,11 @@
 
 Pdu_IndexSql::Pdu_IndexSql()
 {
-    mNetJsonPack = Pdu_NetJsonPack::bulid();
+    mNetJsonPack = Pdu_NetJsonPack::build();
 }
 
 
-Pdu_IndexSql *Pdu_IndexSql::bulid()
+Pdu_IndexSql *Pdu_IndexSql::build()
 {
     static Pdu_IndexSql* sington = nullptr;
     if(!sington)  sington = new Pdu_IndexSql();
@@ -22,9 +22,9 @@ Pdu_IndexSql *Pdu_IndexSql::bulid()
 void Pdu_IndexSql::toNetPack()
 {
     foreach (const auto &it, mListModel) {
-        auto obj = it.second; uint key = it.first; mKeyHash.insert(obj.uid, key);
-        if(!obj.is_delete) mNetJsonPack->append(obj.uid, obj.ip, obj.cascade_num);
-        else mDeleteHash.insert(obj.uid, obj);
+        auto obj = it.second; uint key = it.first; mKeyHash.insert(obj.key, key);
+        if(!obj.is_delete) mNetJsonPack->append(obj.key, obj.ip, obj.cascade_num);
+        else mDeleteHash.insert(obj.key, obj);
     }
 }
 
@@ -32,15 +32,15 @@ void Pdu_IndexSql::syncNetPack()
 {
     QList<PduIndexModel> modelLst;
     QStringList onLst = mNetJsonPack->online_list();
-    foreach (const auto &uid, onLst) {
-        if(!mKeyHash.contains(uid)) {
-            PduIndexModel it; it.uid = uid; it.is_delete = 0;
-            bool ret = mNetJsonPack->getByKey(uid, it.ip, it.cascade_num);
-            it.id = getId(uid); if(ret) modelLst.append(it);
-        } else if(mDeleteHash.contains(uid)){
-            PduIndexModel it = mDeleteHash.value(uid);
-            mDeleteHash.remove(uid); it.is_delete = 0;
-            it.id = getId(uid); modelLst.append(it);
+    foreach (const auto &key, onLst) {
+        if(!mKeyHash.contains(key)) {
+            PduIndexModel it; it.key = key; it.is_delete = 0;
+            bool ret = mNetJsonPack->getByKey(key, it.ip, it.cascade_num);
+            it.id = getId(key); if(ret) modelLst.append(it);
+        } else if(mDeleteHash.contains(key)){
+            PduIndexModel it = mDeleteHash.value(key);
+            mDeleteHash.remove(key); it.is_delete = 0;
+            it.id = getId(key); modelLst.append(it);
         }
     } if(modelLst.size()) {save(modelLst); toNetPack();}
 }
@@ -58,7 +58,7 @@ uint Pdu_IndexSql::getId(const QString &ip, uchar addr)
 
 void Pdu_IndexSql::initFun()
 {
-    mNetJsonPack = Pdu_NetJsonPack::bulid();
+    mNetJsonPack = Pdu_NetJsonPack::build();
     fetch_all(); mKeyHash.clear(); toNetPack(); //syncNetPack();
 }
 
@@ -77,9 +77,8 @@ QStringList Pdu_IndexSql::getkeys()
 
 QString Pdu_IndexSql::getKey(uint id)
 {
-
     QString res; if(mListModel.contains(id)) {
-        res = mListModel.getByKey(id).uid;
+        res = mListModel.getByKey(id).key;
     }
     return res;
 }

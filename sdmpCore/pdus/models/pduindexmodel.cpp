@@ -12,8 +12,8 @@ namespace qx
     {
         t.setName(PduIndexModel::tableName());
         t.id(&PduIndexModel::id, "id");
-        t.data(&PduIndexModel::uid, "uid");
         t.data(&PduIndexModel::ip, "ip_addr");
+        t.data(&PduIndexModel::key, "dev_key");
         t.data(&PduIndexModel::is_delete, "is_delete");
         t.data(&PduIndexModel::cascade_num, "cascade_num");
         t.data(&PduIndexModel::createtime, "create_time");

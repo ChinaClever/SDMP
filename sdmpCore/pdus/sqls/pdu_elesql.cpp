@@ -7,12 +7,12 @@
 
 Pdu_EleSql::Pdu_EleSql()
 {
-    mIndexSql = Pdu_IndexSql::bulid();
-    mNetJsonPack = Pdu_NetJsonPack::bulid();
+    mIndexSql = Pdu_IndexSql::build();
+    mNetJsonPack = Pdu_NetJsonPack::build();
 }
 
 
-Pdu_EleSql *Pdu_EleSql::bulid()
+Pdu_EleSql *Pdu_EleSql::build()
 {
     static Pdu_EleSql* sington = nullptr;
     if(!sington) sington = new Pdu_EleSql();

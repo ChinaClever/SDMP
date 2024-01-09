@@ -32,7 +32,7 @@ void Cab_HttpServer::cab_datas()
 void Cab_HttpServer::cab_modified()
 {
     mHttpServer.route("/cabinet/modified", [&] {
-        Cab_IndexSql::bulid()->set();
+        Cab_IndexSql::build()->set();
         return QJsonObject{ {"msg", "ok"} };
     });
 }
@@ -52,8 +52,8 @@ void Cab_HttpServer::cab_data()
 
 QJsonObject Cab_HttpServer::cab_getData(uint id)
 {
-    QJsonObject hda = Cab_HdaSql::bulid()->cabHda(id);
-    QJsonObject ele = Cab_EleSql::bulid()->cabEle(id);
+    QJsonObject hda = Cab_HdaSql::build()->cabHda(id);
+    QJsonObject ele = Cab_EleSql::build()->cabEle(id);
     QJsonObject mergedObject(hda);
     for (const QString& key : ele.keys()) {
         mergedObject.insert(key, ele.value(key));
@@ -64,7 +64,7 @@ QJsonObject Cab_HttpServer::cab_getData(uint id)
 QJsonArray Cab_HttpServer::cab_getIds()
 {
     QJsonArray jsonArray;
-    QList<uint> lst = Cab_IndexSql::bulid()->getIds();
+    QList<uint> lst = Cab_IndexSql::build()->getIds();
     foreach (const auto& it, lst) {
         jsonArray.append((int)it);
     } return jsonArray;

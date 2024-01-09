@@ -6,7 +6,7 @@ class APP_DLL_EXPORT PduIndexModel
 {
 public:
     uint id = 0;
-    QString uid, ip;
+    QString key,ip;
     uchar is_delete = 0;
     uchar cascade_num = 0;
     QDateTime createtime = QDateTime::currentDateTime();

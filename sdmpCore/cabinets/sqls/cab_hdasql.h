@@ -6,7 +6,7 @@ class Cab_HdaSql: public OrmObj<CabHdaModel>
 {
     Cab_HdaSql();
 public:
-    static Cab_HdaSql *bulid();
+    static Cab_HdaSql *build();
 
     void workDown();
     QJsonObject cabHda(uint cab_id);

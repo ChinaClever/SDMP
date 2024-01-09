@@ -10,7 +10,7 @@ Cab_BoxSql::Cab_BoxSql()
 
 }
 
-Cab_BoxSql *Cab_BoxSql::bulid()
+Cab_BoxSql *Cab_BoxSql::build()
 {
     static Cab_BoxSql* sington = nullptr;
     if(!sington) sington = new Cab_BoxSql();

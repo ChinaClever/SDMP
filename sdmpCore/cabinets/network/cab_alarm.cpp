@@ -9,7 +9,7 @@
 Cab_Alarm::Cab_Alarm() {}
 
 
-Cab_Alarm *Cab_Alarm::bulid()
+Cab_Alarm *Cab_Alarm::build()
 {
     static Cab_Alarm* sington = nullptr;
     if(!sington) sington = new Cab_Alarm();
@@ -39,8 +39,8 @@ void Cab_Alarm::http_post(const QJsonObject &obj)
 
 void Cab_Alarm::alarmWork()
 {
-    Cab_HdaSql *hdaSql = Cab_HdaSql::bulid();
-    Cab_IndexSql *cabSql = Cab_IndexSql::bulid();
+    Cab_HdaSql *hdaSql = Cab_HdaSql::build();
+    Cab_IndexSql *cabSql = Cab_IndexSql::build();
     QList<uint> cab_ids = cabSql->getIds();
     foreach (const auto id, cab_ids) {
         int is_disabled = cabSql->is_disabled(id);

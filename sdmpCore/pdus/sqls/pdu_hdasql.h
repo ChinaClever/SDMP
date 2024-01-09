@@ -18,7 +18,7 @@ class Pdu_HdaSql : public OrmObj<PduHdaModel>
 {
     Pdu_HdaSql();
 public:
-    static Pdu_HdaSql *bulid();
+    static Pdu_HdaSql *build();
     void hdaWork();
 
 private:

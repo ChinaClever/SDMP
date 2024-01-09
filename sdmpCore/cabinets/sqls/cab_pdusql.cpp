@@ -11,7 +11,7 @@ Cab_PduSql::Cab_PduSql()
 }
 
 
-Cab_PduSql *Cab_PduSql::bulid()
+Cab_PduSql *Cab_PduSql::build()
 {
     static Cab_PduSql* sington = nullptr;
     if(!sington) sington = new Cab_PduSql();
@@ -26,13 +26,12 @@ void Cab_PduSql::initFun()
     }
 }
 
-bool Cab_PduSql::getPdu(uint cab_id, uint &a_pdu, uint &b_pdu)
+bool Cab_PduSql::getPdu(uint cab_id, CabPduModel &model)
 {
     bool ret = mHash.contains(cab_id);
     if(ret) {
         uint id = mHash.value(cab_id);
-        CabPduModel model = mListModel.getByKey(id);
-        a_pdu = model.a_pdu_id; b_pdu = model.b_pdu_id;
+        model = mListModel.getByKey(id);
     }
 
     return ret;

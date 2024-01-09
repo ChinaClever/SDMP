@@ -6,7 +6,7 @@ class Pdu_LogSql : public OrmObj<PduLogModel>
 {
     Pdu_LogSql();
 public:
-    static Pdu_LogSql *bulid();
+    static Pdu_LogSql *build();
     void workDown();
 
 private:

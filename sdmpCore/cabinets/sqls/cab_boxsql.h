@@ -6,7 +6,7 @@ class Cab_BoxSql: public OrmObj<CabBoxModel>
 {
     Cab_BoxSql();
 public:
-    static Cab_BoxSql *bulid();
+    static Cab_BoxSql *build();
 
 
 };

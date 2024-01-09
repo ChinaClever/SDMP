@@ -12,7 +12,7 @@ Pdu_LogSql::Pdu_LogSql()
 }
 
 
-Pdu_LogSql *Pdu_LogSql::bulid()
+Pdu_LogSql *Pdu_LogSql::build()
 {
     static Pdu_LogSql* sington = nullptr;
     if(!sington) sington = new Pdu_LogSql();
@@ -63,7 +63,7 @@ void Pdu_LogSql::append(const QJsonObject &obj)
 {
     ModelPtr it(addModel());
     QString uuid = getString(obj, "uuid");
-    uint pdu_id = Pdu_IndexSql::bulid()->getId(uuid);
+    uint pdu_id = Pdu_IndexSql::build()->getId(uuid);
     if(pdu_id) {
         it->pdu_id = pdu_id;
         it->content = getString(obj, "content");

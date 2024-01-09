@@ -6,7 +6,7 @@ class Cab_IndexSql : public OrmObj<CabIndexModel>
 {
     Cab_IndexSql();
 public:
-    static Cab_IndexSql *bulid();
+    static Cab_IndexSql *build();
 
     void syncFun();
     QList<uint> getIds();

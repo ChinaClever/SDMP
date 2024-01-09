@@ -7,12 +7,12 @@
 
 Pdu_HdaSql::Pdu_HdaSql()
 {
-    mIndexSql = Pdu_IndexSql::bulid();
-    mNetJsonPack = Pdu_NetJsonPack::bulid();
+    mIndexSql = Pdu_IndexSql::build();
+    mNetJsonPack = Pdu_NetJsonPack::build();
     // test();
 }
 
-Pdu_HdaSql *Pdu_HdaSql::bulid()
+Pdu_HdaSql *Pdu_HdaSql::build()
 {
     static Pdu_HdaSql* sington = nullptr;
     if(!sington) sington = new Pdu_HdaSql();

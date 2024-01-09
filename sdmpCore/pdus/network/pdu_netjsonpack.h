@@ -9,11 +9,11 @@ class Pdu_NetJsonPack : public QThread
     Q_OBJECT
     explicit Pdu_NetJsonPack(QObject* parent = nullptr);
 public:
-    static Pdu_NetJsonPack *bulid(QObject* parent = nullptr);
+    static Pdu_NetJsonPack *build(QObject* parent = nullptr);
     auto get() {return &mHash;}
     ~Pdu_NetJsonPack();
 
-    QJsonValue getJsonObject(const QString &uuid, const QString &key);
+    QJsonValue getJsonObject(const QString &dev, const QString &key);
     QSharedPointer<QJsonObject> shredPointer(const QString &key);
     QJsonObject meta(const QString &key);
     QJsonValue dev(const QString &key);
@@ -29,7 +29,7 @@ public:
     void append(const QString &key, const QString &ip, uchar addr);
     bool getByKey(const QString &key, QString &ip, uchar &addr);
     QString getKey(const QString &ip, uchar addr);
-    QString toUid(const QString &ip, uchar addr);
+    QString toKey(const QString &ip, uchar addr);
     QStringList keys() {return mHash.keys();}
     QStringList online_list();
     QStringList offline_list();

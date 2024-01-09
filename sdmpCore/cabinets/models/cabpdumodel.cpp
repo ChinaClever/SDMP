@@ -12,9 +12,11 @@ namespace qx
     {
         t.setName(CabPduModel::tableName());
         t.id(&CabPduModel::id, "id");
-        t.data(&CabPduModel::a_pdu_id, "a_pdu_id");
-        t.data(&CabPduModel::b_pdu_id, "b_pdu_id");
+        t.data(&CabPduModel::a_pdu_ip, "a_pdu_ip");
+        t.data(&CabPduModel::b_pdu_ip, "b_pdu_ip");
         t.data(&CabPduModel::cabinet_id, "cabinet_id");
+        t.data(&CabPduModel::a_cascade_num, "a_cascade_num");
+        t.data(&CabPduModel::b_cascade_num, "b_cascade_num");
         t.data(&CabPduModel::createtime, "create_time");
         t.data(&CabPduModel::updatetime, "update_time");
     }

@@ -6,10 +6,10 @@ class Cab_PduSql : public OrmObj<CabPduModel>
 {
     Cab_PduSql();
 public:
-    static Cab_PduSql *bulid();
+    static Cab_PduSql *build();
 
     void initFun();
-    bool getPdu(uint cab_id, uint &a_pdu, uint &b_pdu);
+    bool getPdu(uint cab_id, CabPduModel &model);
 
 private:
     QHash<uint, uint> mHash;

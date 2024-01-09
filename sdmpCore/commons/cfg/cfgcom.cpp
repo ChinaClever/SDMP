@@ -26,7 +26,7 @@ void CfgCom::initCfg()
     QCoreApplication::setApplicationName("sdmp");
 }
 
-CfgCom *CfgCom::bulid(QObject *parent, const QString& fn)
+CfgCom *CfgCom::build(QObject *parent, const QString& fn)
 {
     static CfgCom* sington = nullptr;
     if(!sington) {
