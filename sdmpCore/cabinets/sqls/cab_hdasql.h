@@ -9,7 +9,8 @@ public:
     static Cab_HdaSql *build();
 
     void workDown();
-    QJsonObject cabHda(uint cab_id);
+    CabHdaModel cabHda(uint cab_id);
+    QJsonObject cabHdaJson(uint cab_id);
     double tgApparentPower(uint cab_id);
 
 

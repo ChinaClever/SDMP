@@ -17,3 +17,23 @@ Aisle_BarSql *Aisle_BarSql::build()
     if(!sington) sington = new Aisle_BarSql();
     return sington;
 }
+
+
+void Aisle_BarSql::initFun()
+{
+    fetch_all(); mHash.clear();
+    foreach (const auto &it, mListModel) {
+        mHash.insert(it.second.aisle_id, it.first);
+    }
+}
+
+bool Aisle_BarSql::getPdu(uint aisle_id, AisleBarModel &model)
+{
+    bool ret = mHash.contains(aisle_id);
+    if(ret) {
+        uint id = mHash.value(aisle_id);
+        model = mListModel.getByKey(id);
+    }
+
+    return ret;
+}

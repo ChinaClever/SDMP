@@ -46,32 +46,40 @@ void Cab_EleSql::cabPduEle(uint cab_id)
     }
 }
 
-QJsonObject Cab_EleSql::cabJsonPduEle(uint cab_id)
+CabEleModel Cab_EleSql::getPduEle(uint cab_id)
 {
-    QJsonObject obj; CabPduModel model;
+    CabEleModel obj; CabPduModel model;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
         uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
         uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
-        double a_ele=0;  pduTgEle(a_pdu, a_ele);
-        double b_ele=0; pduTgEle(b_pdu, b_ele);
-        double tg_ele = a_ele + b_ele;
-        obj.insert("cabinet_id", (int)cab_id);
-        obj.insert("a_ele", a_ele);
-        obj.insert("b_ele", b_ele);
-        obj.insert("tg_ele", tg_ele);
+        if(a_pdu) pduTgEle(a_pdu, obj.a_ele);
+        if(b_pdu) pduTgEle(b_pdu, obj.b_ele);
+        obj.tg_ele = obj.a_ele + obj.b_ele;
+        obj.cabinet_id = cab_id;
     }
 
     return obj;
 }
 
-
-QJsonObject Cab_EleSql::cabEle(uint cab_id)
+CabEleModel Cab_EleSql::cabEle(uint cab_id)
 {
     int ret = mIndexSql->is_pdu_box(cab_id);
     if(ret) {
 
-    } else  return cabJsonPduEle(cab_id);
+    } else  return getPduEle(cab_id);
+
+}
+
+QJsonObject Cab_EleSql::cabEleJson(uint cab_id)
+{
+    QJsonObject obj;
+    CabEleModel model = cabEle(cab_id);
+    obj.insert("cabinet_id", (int)cab_id);
+    obj.insert("tg_ele", model.tg_ele);
+    obj.insert("a_ele", model.a_ele);
+    obj.insert("b_ele", model.b_ele);
+    return obj;
 }
 
 

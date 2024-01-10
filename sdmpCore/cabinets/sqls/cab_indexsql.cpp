@@ -35,6 +35,15 @@ QList<uint> Cab_IndexSql::getIds()
     return lst;
 }
 
+QList<uint> Cab_IndexSql::getIdsByAisle(uint aisle_id)
+{
+    QList<uint> lst; foreach (const auto &it, mListModel) {
+        auto model = it.second; if(!model.is_delete && (model.aisle_id==aisle_id)) lst << it.first;
+    }
+
+    return lst;
+}
+
 int Cab_IndexSql::getIds(QList<uint> &pdu, QList<uint> &box)
 {
     foreach (const auto &it, mListModel) {

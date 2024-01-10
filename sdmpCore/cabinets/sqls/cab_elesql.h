@@ -10,12 +10,13 @@ public:
     static Cab_EleSql *build();
 
     void workDown();
-    QJsonObject cabEle(uint cab_id);
+    CabEleModel cabEle(uint cab_id);
+    QJsonObject cabEleJson(uint cab_id);
 
 
 private:
     void cabPduEle(uint cab_id);
-    QJsonObject cabJsonPduEle(uint cab_id);
+    CabEleModel getPduEle(uint cab_id);
     bool pduTgEle(uint pdu_id, double &ele);
 
 private:

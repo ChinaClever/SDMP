@@ -55,8 +55,8 @@ double Cab_HdaSql::tgApparentPower(uint cab_id)
     double tg_apparent_power = 0;
     Pdu_IndexSql *pdu = Pdu_IndexSql::build();
     if(mPduSql->getPdu(cab_id, model)) {
-         uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
-         uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
+        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
+        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
 
         double a_apparent_power=0, a_active_power=0;
         if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
@@ -69,38 +69,40 @@ double Cab_HdaSql::tgApparentPower(uint cab_id)
     return tg_apparent_power;
 }
 
+CabHdaModel Cab_HdaSql::cabHda(uint cab_id)
+{
+    CabHdaModel hdaModel; CabPduModel pduModel;
+    Pdu_IndexSql *pdu = Pdu_IndexSql::build();
+    if(mPduSql->getPdu(cab_id, pduModel)) {
+        uint a_pdu = pdu->getId(pduModel.a_pdu_ip, pduModel.a_cas_id);
+        uint b_pdu = pdu->getId(pduModel.b_pdu_ip, pduModel.b_cas_id);
+        if(a_pdu) pduHda(a_pdu, hdaModel.a_apparent_power, hdaModel.a_active_power);
+        if(b_pdu) pduHda(b_pdu, hdaModel.b_apparent_power, hdaModel.b_active_power);
+        hdaModel.tg_active_power = hdaModel.a_active_power + hdaModel.b_active_power;
+        hdaModel.tg_apparent_power = hdaModel.a_apparent_power + hdaModel.b_apparent_power;
+        hdaModel.cabinet_id = cab_id;
+    }
+
+    return hdaModel;
+}
 
 
 QJsonObject Cab_HdaSql::cabJsonPduHda(uint cab_id)
 {
-    CabPduModel model; QJsonObject obj;
-    Pdu_IndexSql *pdu = Pdu_IndexSql::build();
-    if(mPduSql->getPdu(cab_id, model)) {
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
-        double a_apparent_power=0, a_active_power=0;
-        if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
-
-        double b_apparent_power=0, b_active_power=0;
-        if(b_pdu) pduHda(b_pdu, b_apparent_power, b_active_power);
-
-        double tg_apparent_power = a_apparent_power + b_apparent_power;
-        double tg_active_power = a_active_power + b_active_power;
-        obj.insert("tg_apparent_power", tg_apparent_power);
-        obj.insert("tg_active_power", tg_active_power);
-
-        obj.insert("a_apparent_power", a_apparent_power);
-        obj.insert("b_apparent_power", b_apparent_power);
-        obj.insert("a_active_power", a_active_power);
-        obj.insert("b_active_power", b_active_power);
-        obj.insert("cabinet_id", (int)cab_id);
-    }
+    CabHdaModel model = cabHda(cab_id); QJsonObject obj;
+    obj.insert("tg_apparent_power", model.tg_apparent_power);
+    obj.insert("tg_active_power", model.tg_active_power);
+    obj.insert("a_apparent_power", model.a_apparent_power);
+    obj.insert("b_apparent_power", model.b_apparent_power);
+    obj.insert("a_active_power", model.a_active_power);
+    obj.insert("b_active_power", model.b_active_power);
+    obj.insert("cabinet_id", (int)cab_id);
 
     return obj;
 }
 
 
-QJsonObject Cab_HdaSql::cabHda(uint cab_id)
+QJsonObject Cab_HdaSql::cabHdaJson(uint cab_id)
 {
     int ret = mIndexSql->is_pdu_box(cab_id);
     if(ret) {

@@ -16,6 +16,8 @@ public:
     double pow_capacity(uint id);
     int is_disabled(uint id);
 
+    QList<uint> getIdsByAisle(uint aisle_id);
+
 private:
     bool isModified = true;
 };

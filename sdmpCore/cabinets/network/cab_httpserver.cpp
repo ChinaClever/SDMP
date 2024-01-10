@@ -52,8 +52,8 @@ void Cab_HttpServer::cab_data()
 
 QJsonObject Cab_HttpServer::cab_getData(uint id)
 {
-    QJsonObject hda = Cab_HdaSql::build()->cabHda(id);
-    QJsonObject ele = Cab_EleSql::build()->cabEle(id);
+    QJsonObject hda = Cab_HdaSql::build()->cabHdaJson(id);
+    QJsonObject ele = Cab_EleSql::build()->cabEleJson(id);
     QJsonObject mergedObject(hda);
     for (const QString& key : ele.keys()) {
         mergedObject.insert(key, ele.value(key));

@@ -1,6 +1,7 @@
 #ifndef AISLE_INDEXSQL_H
 #define AISLE_INDEXSQL_H
 #include "aisle_barsql.h"
+#include "cabinets/sqls/cab_hdasql.h"
 
 class Aisle_IndexSql : public OrmObj<AisleIndexModel>
 {
@@ -8,8 +9,15 @@ class Aisle_IndexSql : public OrmObj<AisleIndexModel>
 public:
     static Aisle_IndexSql *build();
 
+    void syncFun();
+    QList<uint> getIds();
+    QList<uint> getCabinetIds(uint id);
+    void set() {isModified = true;}
 
 
+
+private:
+    bool isModified = true;
 };
 
 #endif // AISLE_INDEXSQL_H

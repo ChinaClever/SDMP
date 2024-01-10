@@ -8,7 +8,10 @@ class Aisle_EleSql : public OrmObj<AisleEleModel>
 public:
     static Aisle_EleSql *build();
 
+    void workDown();
 
+private:
+    Aisle_IndexSql *mIndexSql;
 };
 
 #endif // AISLE_ELESQL_H
