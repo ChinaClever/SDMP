@@ -1,6 +1,0 @@
-cd "./debug/"
-del /F /S /Q "./*.*"
-cd "../lib/"
-del /F /S /Q "./QxOrmd.*"
-cd "../"
-del /F /S /Q "./vc90.pdb"
