@@ -51,22 +51,8 @@ void Cab_HdaSql::cabPduHda(uint cab_id)
 
 double Cab_HdaSql::tgApparentPower(uint cab_id)
 {
-    CabPduModel model;
-    double tg_apparent_power = 0;
-    Pdu_IndexSql *pdu = Pdu_IndexSql::build();
-    if(mPduSql->getPdu(cab_id, model)) {
-        uint a_pdu = pdu->getId(model.a_pdu_ip, model.a_cas_id);
-        uint b_pdu = pdu->getId(model.b_pdu_ip, model.b_cas_id);
-
-        double a_apparent_power=0, a_active_power=0;
-        if(a_pdu) pduHda(a_pdu, a_apparent_power, a_active_power);
-
-        double b_apparent_power=0, b_active_power=0;
-        if(b_pdu) pduHda(b_pdu, b_apparent_power, b_active_power);
-        tg_apparent_power = a_apparent_power + b_apparent_power;
-    }
-
-    return tg_apparent_power;
+    CabHdaModel model = cabHda(cab_id);
+    return model.tg_apparent_power;
 }
 
 CabHdaModel Cab_HdaSql::cabHda(uint cab_id)

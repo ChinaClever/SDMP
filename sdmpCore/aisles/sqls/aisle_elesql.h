@@ -8,7 +8,13 @@ class Aisle_EleSql : public OrmObj<AisleEleModel>
 public:
     static Aisle_EleSql *build();
 
-    void workDown();
+    void eleWork();
+    AisleEleModel aisleEle(uint id);
+    QJsonObject aisleEleJson(uint id);
+
+private:
+    void appendEle(const AisleEleModel &model);
+    AisleEleModel aisleEleByCab(uint aisleId);
 
 private:
     Aisle_IndexSql *mIndexSql;

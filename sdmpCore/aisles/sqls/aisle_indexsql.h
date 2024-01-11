@@ -13,6 +13,7 @@ public:
     QList<uint> getIds();
     QList<uint> getCabinetIds(uint id);
     void set() {isModified = true;}
+    int pdu_bar(uint id);
 
 
 

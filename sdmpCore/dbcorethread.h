@@ -1,7 +1,7 @@
 #ifndef DBCORETHREAD_H
 #define DBCORETHREAD_H
 #include "cabinets/network/cab_httpserver.h"
-// #include "cabinets/sqls/cab_hdasql.h"
+#include "aisles/sqls/aisle_hdasql.h"
 
 class DbCoreThread : public Cab_HttpServer
 {

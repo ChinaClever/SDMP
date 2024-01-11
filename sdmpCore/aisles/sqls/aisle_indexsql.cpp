@@ -41,3 +41,8 @@ QList<uint> Aisle_IndexSql::getCabinetIds(uint id)
 {
     return Cab_IndexSql::build()->getIdsByAisle(id);
 }
+
+int Aisle_IndexSql::pdu_bar(uint id)
+{
+    return mListModel.getByKey(id).pdu_bar;
+}

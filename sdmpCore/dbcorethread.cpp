@@ -30,6 +30,7 @@ void DbCoreThread::syncWork()
 {
     Pdu_IndexSql::build()->syncNetPack();
     Cab_IndexSql::build()->syncFun();
+    Aisle_IndexSql::build()->syncFun();
 
 
 }
@@ -43,7 +44,7 @@ void DbCoreThread::hdaWork()
             it->hda_last_time = QDateTime::currentDateTime();
             Pdu_HdaSql::build()->hdaWork();
             Cab_HdaSql::build()->workDown();
-
+            Aisle_HdaSql::build()->hdaWork();
 
         // }
     }
@@ -58,6 +59,7 @@ void DbCoreThread::eleWork()
             it->ele_last_time = QDateTime::currentDateTime();
             Pdu_EleSql::build()->eleWork();
             Cab_EleSql::build()->workDown();
+            Aisle_EleSql::build()->eleWork();
 
 
         // }
