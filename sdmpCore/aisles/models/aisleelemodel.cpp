@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2025年1月1日
+ *      Author: Lzy
+ */
 #include "aisleelemodel.h"
 QX_REGISTER_CPP_APP(AisleEleModel)
 
