@@ -42,7 +42,7 @@ void CfgCom::initCfgDb()
     QString g = "db"; sCfgDbItem *it = &mCfgDb;
     it->prefix = readCfg("prefix", "sdmp", g).toString();
     it->name = readCfg("name", "sdmp_db", g).toString();
-    it->host = readCfg("host", "192.168.1.11", g).toString();
+    it->host = readCfg("host", "127.0.0.1", g).toString();
     it->user = readCfg("user", "root", g).toString();
     it->pwd = readCfg("pwd", "123456", g).toString();
 }
