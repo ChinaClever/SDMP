@@ -31,7 +31,7 @@ void DbCoreThread::syncWork()
     Pdu_IndexSql::build()->syncNetPack();
     Cab_IndexSql::build()->syncFun();
     Aisle_IndexSql::build()->syncFun();
-
+    Room_IndexSql::build()->syncFun();
 
 }
 
@@ -45,6 +45,7 @@ void DbCoreThread::hdaWork()
             Pdu_HdaSql::build()->hdaWork();
             Cab_HdaSql::build()->workDown();
             Aisle_HdaSql::build()->hdaWork();
+            Room_HdaSql::build()->hdaWork();
 
         // }
     }
@@ -60,6 +61,7 @@ void DbCoreThread::eleWork()
             Pdu_EleSql::build()->eleWork();
             Cab_EleSql::build()->workDown();
             Aisle_EleSql::build()->eleWork();
+            Room_EleSql::build()->eleWork();
 
 
         // }

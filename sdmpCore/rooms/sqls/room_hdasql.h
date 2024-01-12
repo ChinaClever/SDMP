@@ -7,6 +7,15 @@ class Room_HdaSql: public OrmObj<RoomHdaModel>
     Room_HdaSql();
 public:
     static Room_HdaSql *build();
+    RoomHdaModel roomHda(uint id);
+    QJsonObject roomHdaJson(uint id);
+    void hdaWork();
+
+private:
+    void appendHda(const RoomHdaModel &model);
+
+private:
+    Room_IndexSql *mIndexSql;
 };
 
 #endif // ROOM_HDASQL_H

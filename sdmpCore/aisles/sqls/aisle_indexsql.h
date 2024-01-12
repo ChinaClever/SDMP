@@ -11,6 +11,7 @@ public:
 
     void syncFun();
     QList<uint> getIds();
+    QList<uint> getIdsByRoom(uint id);
     QList<uint> getCabinetIds(uint id);
     void set() {isModified = true;}
     int pdu_bar(uint id);
