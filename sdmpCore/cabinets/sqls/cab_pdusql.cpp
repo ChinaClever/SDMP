@@ -20,7 +20,7 @@ Cab_PduSql *Cab_PduSql::build()
 
 void Cab_PduSql::initFun()
 {
-    fetch_all(); mHash.clear();
+    if(syncFun()) mHash.clear(); else return;
     foreach (const auto &it, mListModel) {
         mHash.insert(it.second.cabinet_id, it.first);
     }

@@ -21,7 +21,7 @@ Aisle_BarSql *Aisle_BarSql::build()
 
 void Aisle_BarSql::initFun()
 {
-    fetch_all(); mHash.clear();
+    if(syncFun()) mHash.clear(); else return;
     foreach (const auto &it, mListModel) {
         mHash.insert(it.second.aisle_id, it.first);
     }

@@ -32,7 +32,10 @@ void DbCoreThread::syncWork()
     Cab_IndexSql::build()->syncFun();
     Aisle_IndexSql::build()->syncFun();
     Room_IndexSql::build()->syncFun();
-
+    Rack_IndexSql::build()->syncFun();
+    Aisle_IndexSql::build()->syncFun();
+    Aisle_BarSql::build()->initFun();
+    Cab_PduSql::build()->initFun();
 }
 
 void DbCoreThread::hdaWork()
@@ -62,6 +65,7 @@ void DbCoreThread::eleWork()
             Cab_EleSql::build()->workDown();
             Aisle_EleSql::build()->eleWork();
             Room_EleSql::build()->eleWork();
+            Rack_EleSql::build()->eleWork();
 
 
         // }

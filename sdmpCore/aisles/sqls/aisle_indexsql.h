@@ -9,17 +9,11 @@ class Aisle_IndexSql : public OrmObj<AisleIndexModel>
 public:
     static Aisle_IndexSql *build();
 
-    void syncFun();
     QList<uint> getIds();
     QList<uint> getIdsByRoom(uint id);
     QList<uint> getCabinetIds(uint id);
-    void set() {isModified = true;}
     int pdu_bar(uint id);
 
-
-
-private:
-    bool isModified = true;
 };
 
 #endif // AISLE_INDEXSQL_H

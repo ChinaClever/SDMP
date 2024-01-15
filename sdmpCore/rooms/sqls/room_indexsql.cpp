@@ -18,14 +18,6 @@ Room_IndexSql *Room_IndexSql::build()
     return sington;
 }
 
-void Room_IndexSql::syncFun()
-{
-    if(isModified) {
-        fetch_all();
-        isModified = false;
-    }
-}
-
 
 QList<uint> Room_IndexSql::getIds()
 {

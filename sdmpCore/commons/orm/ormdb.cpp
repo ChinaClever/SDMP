@@ -152,6 +152,14 @@ bool OrmDb::sql_countsRemove(int count)
 }
 
 
+QDateTime OrmDb::sql_updateTime()
+{
+    QString query = "SELECT MAX(%1) AS maxModificationTime FROM %2 LIMIT 1";
+    QDateTime dt(QDate(2024,1,1), QTime(0,0,0)); QSqlQuery sqlQuery(query.arg("update_time", tableName()));  // 执行查询语句
+    if (sqlQuery.exec() && sqlQuery.next()) dt = sqlQuery.value("maxModificationTime").toDateTime();
+    return dt;
+}
+
 /**
  * @brief 函数返回列的所有值
  * @param column_name 列名
@@ -198,6 +206,8 @@ bool OrmDb::sql_clear()
     sqlQuery(sql.arg(tableName()));
     return sqlQuery("VACUUM");
 }
+
+
 
 // 获取系统支持的数据库驱动程序列表
 bool OrmDb::availableDrivers()

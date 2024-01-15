@@ -30,6 +30,7 @@ public:
     int sql_contains(const QString &name, const QString &value);
     int sql_counts(const QString &column_name, const QString &condition);
     bool sql_countsRemove(int count);
+    QDateTime sql_updateTime();
 
     bool sql_updateColumn(const QString& column_name, QString value, const QString &condition);
     bool sql_updateColumn(const QString& column_name, double value, const QString &condition);

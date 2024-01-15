@@ -19,14 +19,6 @@ Aisle_IndexSql *Aisle_IndexSql::build()
 }
 
 
-void Aisle_IndexSql::syncFun()
-{
-    if(isModified) {
-        fetch_all(); isModified = false;
-        Aisle_BarSql::build()->initFun();
-    }
-}
-
 QList<uint> Aisle_IndexSql::getIds()
 {
     QList<uint> lst;

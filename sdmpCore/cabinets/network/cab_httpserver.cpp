@@ -32,7 +32,7 @@ void Cab_HttpServer::cab_datas()
 void Cab_HttpServer::cab_modified()
 {
     mHttpServer.route("/cabinet/modified", [&] {
-        Cab_IndexSql::build()->set();
+        //Cab_IndexSql::build()->set();
         return QJsonObject{ {"msg", "ok"} };
     });
 }

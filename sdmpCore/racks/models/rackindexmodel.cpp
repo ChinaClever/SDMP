@@ -15,6 +15,7 @@ namespace qx
         t.data(&RackIndexModel::a_port, "a_port");
         t.data(&RackIndexModel::b_port, "b_port");
         t.data(&RackIndexModel::is_delete, "is_delete");
+        t.data(&RackIndexModel::cabinet_id, "cabinet_id");
         t.data(&RackIndexModel::createtime, "create_time");
         t.data(&RackIndexModel::updatetime, "update_time");
     }

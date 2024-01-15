@@ -9,13 +9,9 @@ class Room_IndexSql : public OrmObj<RoomIndexModel>
 public:
     static Room_IndexSql *build();
 
-    void syncFun();
     QList<uint> getIds();
     QList<uint> getAisleIds(uint id);
-    void set() {isModified = true;}
 
-private:
-    bool isModified = true;
 };
 
 #endif // ROOM_INDEXSQL_H
