@@ -34,7 +34,7 @@ double Rack_EleSql::a_outlet(uint rack_id)
 
 double Rack_EleSql::b_outlet(uint rack_id)
 {
-    uint port = mIndexSql->a_port(rack_id);
+    uint port = mIndexSql->b_port(rack_id);
     QJsonObject root = mIndexSql->outletByRack(rack_id);
     double res = 0; if(root.size() && port) {
         QJsonObject json = getObject(root, "b_pdu_outlet");

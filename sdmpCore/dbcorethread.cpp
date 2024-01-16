@@ -49,6 +49,7 @@ void DbCoreThread::hdaWork()
             Cab_HdaSql::build()->workDown();
             Aisle_HdaSql::build()->hdaWork();
             Room_HdaSql::build()->hdaWork();
+            Rack_HdaSql::build()->hdaWork();
 
         // }
     }
