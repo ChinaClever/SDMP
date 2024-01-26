@@ -12,9 +12,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    PduIndexModel(){}
-    virtual ~PduIndexModel(){}
-    static QString tableName() {return "pdu_index";}
+    virtual ~PduIndexModel(){} PduIndexModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"pdu_index";}
 };
 
 QX_REGISTER_PRIMARY_KEY(PduIndexModel, uint)  // 定义主键的类型

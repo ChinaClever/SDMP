@@ -16,10 +16,10 @@ public:
     bool sql_remove(const QString &condition);
     bool sql_remove(const QString &name, const QString &vale);
 
-    int sql_maxId();
-    int sql_id_select(const QString &sql);
-    int sql_maxId(const QString &condition);
-    int sql_maxId(const QString &column_name, const QString &condition);
+    quint64 sql_maxId();
+    quint64 sql_id_select(const QString &sql);
+    quint64 sql_maxId(const QString &condition);
+    quint64 sql_maxId(const QString &column_name, const QString &condition);
 
     int sql_minId();
     int sql_minId(const QString &condition);

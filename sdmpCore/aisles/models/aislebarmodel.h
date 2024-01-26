@@ -13,9 +13,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    AisleBarModel(){}
-    virtual ~AisleBarModel(){}
-    static QString tableName() {return "aisle_bar";}
+    virtual ~AisleBarModel(){} AisleBarModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"aisle_bar";}
 };
 
 QX_REGISTER_PRIMARY_KEY(AisleBarModel, uint)  // 定义主键的类型

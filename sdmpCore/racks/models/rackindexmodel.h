@@ -13,9 +13,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    RackIndexModel(){}
-    virtual ~RackIndexModel(){}
-    static QString tableName() {return "rack_index";}
+    virtual ~RackIndexModel(){} RackIndexModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"rack_index";}
 };
 
 QX_REGISTER_PRIMARY_KEY(RackIndexModel, uint)  // 定义主键的类型

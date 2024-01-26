@@ -13,9 +13,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    CabPduModel(){}
-    virtual ~CabPduModel(){}
-    static QString tableName() {return "cab_pdu";}
+    virtual ~CabPduModel(){} CabPduModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"cab_pdu";}
 };
 
 QX_REGISTER_PRIMARY_KEY(CabPduModel, uint)  // 定义主键的类型

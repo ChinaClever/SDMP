@@ -15,9 +15,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    CabIndexModel(){}
-    virtual ~CabIndexModel(){}
-    static QString tableName() {return "cab_index";}
+    virtual ~CabIndexModel(){} CabIndexModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"cab_index";}
 };
 
 QX_REGISTER_PRIMARY_KEY(CabIndexModel, uint)  // 定义主键的类型

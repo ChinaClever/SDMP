@@ -11,9 +11,8 @@ public:
     QDateTime createtime = QDateTime::currentDateTime();
     QDateTime updatetime = QDateTime::currentDateTime();
 
-    RoomIndexModel(){}
-    virtual ~RoomIndexModel(){}
-    static QString tableName() {return "room_index";}
+    virtual ~RoomIndexModel(){} RoomIndexModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"room_index";}
 };
 
 QX_REGISTER_PRIMARY_KEY(RoomIndexModel, uint)  // 定义主键的类型

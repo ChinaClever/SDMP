@@ -13,10 +13,10 @@ template<typename T>
 class OrmObj : public OrmDb
 {
 public:
-    explicit OrmObj() {if(!isTableExists()) createTable(); }
+    explicit OrmObj() {init_cnt_max(); if(!isTableExists()) createTable(); }
 
     //qx::QxSqlQuery query("WHERE User.name = 'test 8'");
-    int count(const qx::QxSqlQuery & query = qx::QxSqlQuery()) {return  qx::dao::count<T>(query, &sDb);}
+    long count(const qx::QxSqlQuery & query = qx::QxSqlQuery()) {return  qx::dao::count<T>(query, &sDb);}
 
     bool fetch_all(const QStringList & columns = QStringList()) {
         mListModel.clear(); return throwError(qx::dao::fetch_all(mListModel, &sDb, columns));
@@ -30,7 +30,7 @@ public:
     void ansyInsert(){QtConcurrent::run([&](){insert();});}
     bool insert(T &t) { return throwError(qx::dao::insert(t, &sDb));}
     bool insert(QList<T> &t) {return throwError(qx::dao::insert(t, &sDb));}
-    void insert() {if(throwError(qx::dao::insert(mLstIts, &sDb, true))) mLstIts.clear();}
+    void insert() {update_cnt_max();if(throwError(qx::dao::insert(mLstIts, &sDb, true))) mLstIts.clear();}
     //qx::QxSession session(sDb); session.insert(mLstIts); if(session.isValid()) mLstIts.clear();
 
     void save(QList<T> &t) {if(throwError(qx::dao::save(t, &sDb))) updateListModel(t);}
@@ -51,12 +51,47 @@ public:
     bool createTable() { return throwError(qx::dao::create_table<T>(&sDb));} //为默认数据库创建表格
     bool is_modified() {bool res=true; QDateTime dt=sql_updateTime(); if(dt>m_max_uptime)m_max_uptime=dt;else res=false; return res;}
     bool syncFun() { bool ret = is_modified(); if(ret){fetch_all();} return ret;}
+    void update_cnt_max() {m_max_id += mLstIts.size(); m_cnt += mLstIts.size();}
+    void init_cnt_max() {m_cnt=count(); m_max_id = sql_maxId();}
 
 protected:
     typedef QSharedPointer<T> ModelPtr;
     qx::QxCollection<uint, T> mListModel;
     QList<ModelPtr> mLstIts;
     QDateTime m_max_uptime;
+    quint64 m_max_id=0;
+    quint64 m_cnt=0;
 };
+
+
+class OrmEleModelBase
+{
+public:
+    quint64 id = 0;
+    double tg_ele = 0;
+    double a_ele = 0;
+    double b_ele = 0;
+    QDate createdate = QDate::currentDate();
+    QTime createtime = QTime::currentTime();
+    virtual ~OrmEleModelBase(){}
+    OrmEleModelBase(){}
+};
+
+
+class OrmHdaModelBase
+{
+public:
+    quint64 id = 0;
+    double tg_apparent_power = 0;
+    double a_apparent_power = 0;
+    double b_apparent_power = 0;
+    double tg_active_power = 0;
+    double a_active_power = 0;
+    double b_active_power = 0;
+    QDateTime createtime = QDateTime::currentDateTime();
+    virtual ~OrmHdaModelBase(){}
+    OrmHdaModelBase(){}
+};
+
 
 #endif // ORMOBJ_H

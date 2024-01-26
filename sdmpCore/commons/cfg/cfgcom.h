@@ -5,11 +5,12 @@
 
 struct sCfgDbItem
 {
+    QString driver = "QMYSQL";
     QString name = "sdmp_db";
     QString host = "127.0.0.1";
     QString user = "root";
     QString pwd = "123456";
-    QString prefix = "sdmp";
+    QString prefix = "sdmp_";
 };
 
 struct sCfgSqlItem
@@ -34,6 +35,7 @@ class CfgCom : public CfgObj
     CfgCom(const QString& fn, QObject *parent = nullptr);
 public:
     static CfgCom* build(QObject *parent = nullptr, const QString& fn=CFG_FN);
+    static QString db_prefix() {return mCfgDb.prefix;}
 
     static sCfgDbItem mCfgDb;
     static sCfgSqlItem mCfgSql;

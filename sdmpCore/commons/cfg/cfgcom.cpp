@@ -21,9 +21,7 @@ CfgCom::CfgCom(const QString &fn, QObject *parent)
 
 void CfgCom::initCfg()
 {
-    QCoreApplication::setOrganizationName("CLEVER");
-    QCoreApplication::setOrganizationDomain("clever.com");
-    QCoreApplication::setApplicationName("sdmp");
+
 }
 
 CfgCom *CfgCom::build(QObject *parent, const QString& fn)
@@ -40,7 +38,8 @@ CfgCom *CfgCom::build(QObject *parent, const QString& fn)
 void CfgCom::initCfgDb()
 {
     QString g = "db"; sCfgDbItem *it = &mCfgDb;
-    it->prefix = readCfg("prefix", "sdmp", g).toString();
+    it->driver = readCfg("driver", "QMYSQL", g).toString();
+    it->prefix = readCfg("prefix", "sdmp_", g).toString();
     it->name = readCfg("name", "sdmp_db", g).toString();
     it->host = readCfg("host", "127.0.0.1", g).toString();
     it->user = readCfg("user", "root", g).toString();

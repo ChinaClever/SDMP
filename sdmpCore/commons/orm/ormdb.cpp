@@ -66,27 +66,27 @@ bool OrmDb::sql_removeMaxIds(int id)
 }
 
 
-int OrmDb::sql_id_select(const QString &sql)
+quint64 OrmDb::sql_id_select(const QString &sql)
 {
     int id = 0; QSqlQuery query(sDb);
     if(sqlQuery(query, sql)) {
-        if(query.next()) id = query.value(0).toInt();
+        if(query.next()) id = query.value(0).toULongLong();
     }
     return id;
 }
 
-int OrmDb::sql_maxId(const QString &column_name, const QString &condition)
+quint64 OrmDb::sql_maxId(const QString &column_name, const QString &condition)
 {
     QString sql = "select max(%1) from %2 %3";
     return sql_id_select(sql.arg(column_name, tableName(), condition));
 }
 
-int OrmDb::sql_maxId()
+quint64 OrmDb::sql_maxId()
 {
     return sql_maxId("id", "");
 }
 
-int OrmDb::sql_maxId(const QString &condition)
+quint64 OrmDb::sql_maxId(const QString &condition)
 {
     return sql_maxId("id", QString("where %1").arg(condition));
 }
@@ -248,6 +248,7 @@ void OrmDb::initDb()
         sDb.setPassword(it->pwd);
         if(sDb.open()) initDebugInfo();
         else qCritical() << "DB open error";
+        availableDrivers();
     }
 }
 

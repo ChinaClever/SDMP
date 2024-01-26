@@ -14,7 +14,7 @@ public:
 
     AisleIndexModel(){}
     virtual ~AisleIndexModel(){}
-    static QString tableName() {return "aisle_index";}
+    static QString tableName() {return CfgCom::db_prefix()+"aisle_index";}
 };
 
 QX_REGISTER_PRIMARY_KEY(AisleIndexModel, uint)  // 定义主键的类型

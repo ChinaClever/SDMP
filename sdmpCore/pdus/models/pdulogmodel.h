@@ -11,9 +11,8 @@ public:
     QString state_type, content;
     QDateTime createtime = QDateTime::currentDateTime();
 
-    PduLogModel(){}
-    virtual ~PduLogModel(){}
-    static QString tableName() {return "pdu_log";}
+    virtual ~PduLogModel(){} PduLogModel(){}
+    static QString tableName() {return CfgCom::db_prefix()+"pdu_log";}
 };
 
 QX_REGISTER_PRIMARY_KEY(PduLogModel, uint)  // 定义主键的类型
