@@ -58,7 +58,7 @@ QJsonObject Aisle_EleSql::aisleEleJson(uint id)
 
 
 
-void Aisle_EleSql::eleWork()
+int Aisle_EleSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &id, idLst) {
@@ -66,5 +66,5 @@ void Aisle_EleSql::eleWork()
     }
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }

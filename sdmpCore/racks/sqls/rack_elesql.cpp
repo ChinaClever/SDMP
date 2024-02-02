@@ -77,7 +77,7 @@ QJsonObject Rack_EleSql::rackEleJson(uint id)
 }
 
 
-void Rack_EleSql::eleWork()
+int Rack_EleSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &rack_id, idLst) {
@@ -85,5 +85,5 @@ void Rack_EleSql::eleWork()
     }
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }

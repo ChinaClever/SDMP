@@ -67,7 +67,7 @@ QJsonObject Aisle_HdaSql::aisleHdaJson(uint id)
 }
 
 
-void Aisle_HdaSql::hdaWork()
+int Aisle_HdaSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &id, idLst) {
@@ -76,6 +76,6 @@ void Aisle_HdaSql::hdaWork()
 
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }
 

@@ -51,7 +51,14 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QStackedWidget" name="stackedWid"/>
+     <widget class="QStackedWidget" name="stackedWid">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -9,7 +9,7 @@ public:
     static Room_HdaSql *build();
     RoomHdaModel roomHda(uint id);
     QJsonObject roomHdaJson(uint id);
-    void hdaWork();
+    int workDown();
 
 private:
     void appendHda(const RoomHdaModel &model);

@@ -61,6 +61,7 @@ void Pdu_LogSql::toJson(const QByteArray &datagram, const QString &ip)
 
 void Pdu_LogSql::append(const QJsonObject &obj)
 {
+    if(!CfgCom::mCfgDb.en) return ;
     ModelPtr it(addModel());
     QString uuid = getString(obj, "uuid");
     uint pdu_id = Pdu_IndexSql::build()->getId(uuid);
@@ -90,9 +91,11 @@ void Pdu_LogSql::http_post()
     });
 }
 
-void Pdu_LogSql::workDown()
+int Pdu_LogSql::workDown()
 {
-    if(mLstIts.size()) insert();
     if(mLst.size()) http_post();
+    int ret = mLstIts.size();
+    if(ret) insert();
+    return ret;
 }
 

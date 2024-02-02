@@ -14,6 +14,20 @@ DbCoreThread::DbCoreThread(QObject *parent)
 
 }
 
+DbCoreThread *DbCoreThread::build(QObject *parent)
+{
+    static DbCoreThread* sington = nullptr;
+    if(!sington) sington = new DbCoreThread(parent);
+    return sington;
+}
+
+QStringList DbCoreThread::writeMsg()
+{
+    QStringList res = mWriteLst;
+    mWriteLst.clear();
+    return res;
+}
+
 void DbCoreThread::initFun()
 {
     static bool initialized=false;
@@ -28,6 +42,7 @@ void DbCoreThread::initFun()
 
 void DbCoreThread::syncWork()
 {
+    if(!CfgCom::mCfgDb.en) return ;
     Pdu_IndexSql::build()->syncNetPack();
     Cab_IndexSql::build()->syncFun();
     Aisle_IndexSql::build()->syncFun();
@@ -38,39 +53,76 @@ void DbCoreThread::syncWork()
     Cab_PduSql::build()->initFun();
 }
 
+void DbCoreThread::computetime(const QTime &start, int cnt, const QString &msg)
+{
+    QString time_str;
+    QTime end = QTime::currentTime();
+    int time_difference = start.msecsTo(end);
+    int minutes = time_difference / (1000 * 60);
+    int seconds = (time_difference / 1000) % 60;
+    int milliseconds = time_difference % 1000;
+    if(minutes) time_str += QString::number(minutes) + tr("分");
+    if(seconds) time_str += QString::number(seconds) + tr("秒");
+    if(milliseconds) time_str += QString::number(milliseconds) + tr("毫秒");
+
+    QString fmd = "%1  写入%2条记录  耗时%3";
+    if(cnt) mWriteLst << fmd.arg(msg).arg(cnt).arg(time_str);
+}
+
+bool DbCoreThread::compareTime(sCfgSqlUnit &unit, int sec)
+{
+    bool ret = false; if(unit.en && unit.interval) {
+        QDateTime t = unit.last_time.addSecs(unit.interval *sec);
+        QDateTime c = QDateTime::currentDateTime();
+        if(c > t) ret = true;
+    } ret = true; //////=======
+    return ret;
+}
+
+void DbCoreThread::last_time(sCfgSqlUnit &unit)
+{
+    QDateTime c = QDateTime::currentDateTime(); unit.last_time = c;
+    CfgCom::build()->writeCfg(unit.prefix+"last_time", c, "sql");
+}
+
+void DbCoreThread::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
+{
+    QTime start = QTime::currentTime();
+    if(compareTime(unit, 60)) isWrite = true; else return;
+    computetime(start, db->workDown(), msg+tr("数据"));
+    last_time(unit);
+}
+
 void DbCoreThread::hdaWork()
 {
+    if(!CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
-    if(it->hda_en && it->hda_interval) {
-        // QDateTime t = it->hda_last_time.addSecs(it->hda_interval *60);
-        // if(QDateTime::currentDateTime() > t) {
-            it->hda_last_time = QDateTime::currentDateTime();
-            Pdu_HdaSql::build()->hdaWork();
-            Cab_HdaSql::build()->workDown();
-            Aisle_HdaSql::build()->hdaWork();
-            Room_HdaSql::build()->hdaWork();
-            Rack_HdaSql::build()->hdaWork();
-
-        // }
-    }
+    hdaObj(Pdu_HdaSql::build(), it->pdu_hda, tr("PDU"));
+    hdaObj(Cab_HdaSql::build(), it->cab_hda, tr("机柜"));
+    hdaObj(Aisle_HdaSql::build(),it->aisle_hda, tr("柜列"));
+    hdaObj(Room_HdaSql::build(), it->room_hda, tr("机房"));
+    hdaObj(Rack_HdaSql::build(), it->rack_hda, tr("机架"));
 }
+
+
+void DbCoreThread::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
+{
+    QTime start = QTime::currentTime();
+    if(compareTime(unit, 60*60)) isWrite = true; else return;
+    computetime(start, db->workDown(), msg+tr("电能"));
+    last_time(unit);
+}
+
 
 void DbCoreThread::eleWork()
 {
+    if(!CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
-    if(it->ele_en && it->ele_interval) {
-        // QDateTime t = it->ele_last_time.addSecs(it->ele_interval*60*60);
-        // if(QDateTime::currentDateTime() > t) {
-            it->ele_last_time = QDateTime::currentDateTime();
-            Pdu_EleSql::build()->eleWork();
-            Cab_EleSql::build()->workDown();
-            Aisle_EleSql::build()->eleWork();
-            Room_EleSql::build()->eleWork();
-            Rack_EleSql::build()->eleWork();
-
-
-        // }
-    }
+    eleObj(Pdu_EleSql::build(), it->pdu_ele, tr("PDU"));
+    eleObj(Cab_EleSql::build(), it->cab_ele, tr("机柜"));
+    eleObj(Aisle_EleSql::build(),it->aisle_ele, tr("柜列"));
+    eleObj(Room_EleSql::build(), it->room_ele, tr("机房"));
+    eleObj(Rack_EleSql::build(), it->rack_ele, tr("机架"));
 }
 
 void DbCoreThread::alarmWork()
@@ -96,5 +148,6 @@ void DbCoreThread::run()
 {
     if(isRun) return; else isRun=true;
     mCnt++; workDown();
+    isWrite = false;
     isRun = false;
 }

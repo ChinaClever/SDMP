@@ -8,7 +8,7 @@ class Aisle_HdaSql : public OrmObj<AisleHdaModel>
 public:
     static Aisle_HdaSql *build();
 
-    void hdaWork();
+    int workDown();
     AisleHdaModel aisleHda(uint id);
     QJsonObject aisleHdaJson(uint id);
 

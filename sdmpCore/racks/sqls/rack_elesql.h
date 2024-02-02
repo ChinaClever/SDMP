@@ -9,7 +9,7 @@ public:
     static Rack_EleSql *build();
     RackEleModel rackEle(uint rackId);
     QJsonObject rackEleJson(uint id);
-    void eleWork();
+    int workDown();
 
 private:
     double a_outlet(uint rack_id);

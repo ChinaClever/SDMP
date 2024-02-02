@@ -33,6 +33,8 @@ QString CfgObj::pathOfCfg(const QString& name)
     QDir dataDir("/usr/data/clever/"); QString dirName = "cfg";
     if(!dataDir.exists(dirName)) {dataDir.mkdir(dirName);} dataDir.cd(dirName);
 #endif
+    cout << dataDir.absoluteFilePath(name);
+
     return dataDir.absoluteFilePath(name);
 }
 
@@ -56,9 +58,8 @@ void CfgObj::writeCfg(const QMap<QString,QVariant> &map, const QString &g)
     mCfgIni->beginGroup(g);
     for(auto &it: map.toStdMap()) {
         mCfgIni->setValue(it.first, it.second);
-    }
-    mCfgIni->endGroup();
-    //mCfgIni->sync();
+    } mCfgIni->endGroup();
+    mCfgIni->sync();
 }
 
 /**

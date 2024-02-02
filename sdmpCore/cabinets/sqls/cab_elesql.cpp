@@ -84,13 +84,12 @@ QJsonObject Cab_EleSql::cabEleJson(uint cab_id)
 
 
 
-void Cab_EleSql::workDown()
+int Cab_EleSql::workDown()
 {
     QList<uint> pduLst, boxLst;
     mIndexSql->getIds(pduLst, boxLst);
     foreach (const auto &cab_id, pduLst) cabPduEle(cab_id);
 
 
-    if(mLstIts.size()) insert();
-
+    return insert();
 }

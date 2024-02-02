@@ -11,17 +11,41 @@ struct sCfgDbItem
     QString user = "root";
     QString pwd = "123456";
     QString prefix = "sdmp_";
+    int port = 3306;
+    bool en = true;
 };
+
+struct sCfgSqlUnit
+{
+    bool en = true;
+    QString prefix;
+    int interval = 10;
+    QDateTime last_time;
+};
+
 
 struct sCfgSqlItem
 {
-    bool hda_en = true;
-    int hda_interval = 10; // 分钟
-    QDateTime hda_last_time; // 上一次记录时间
+    sCfgSqlUnit pdu_hda;
+    sCfgSqlUnit pdu_ele;
 
-    bool ele_en = true;
-    int ele_interval = 12; // 小时
-    QDateTime ele_last_time; // 上一次记录时间
+    sCfgSqlUnit room_hda;
+    sCfgSqlUnit room_ele;
+
+    sCfgSqlUnit aisle_hda;
+    sCfgSqlUnit aisle_ele;
+
+    sCfgSqlUnit cab_hda;
+    sCfgSqlUnit cab_ele;
+
+    sCfgSqlUnit rack_hda;
+    sCfgSqlUnit rack_ele;
+
+    sCfgSqlUnit bar_hda;
+    sCfgSqlUnit bar_ele;
+
+    sCfgSqlUnit box_hda;
+    sCfgSqlUnit box_ele;
 };
 
 struct sCfgLogItem
@@ -40,6 +64,8 @@ public:
     static sCfgDbItem mCfgDb;
     static sCfgSqlItem mCfgSql;
     static sCfgLogItem mCfgLog;
+
+    void writeCfgDb();
 
 private:
     static void initCfg();    

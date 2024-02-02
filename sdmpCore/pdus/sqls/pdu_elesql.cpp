@@ -40,7 +40,7 @@ void Pdu_EleSql::appnedArray(const QJsonObject &json, const QString &key)
     }
 }
 
-void Pdu_EleSql::eleWork()
+int Pdu_EleSql::workDown()
 {
     QStringList keys = mIndexSql->getkeys();
     foreach (const auto &key, keys) {
@@ -52,7 +52,8 @@ void Pdu_EleSql::eleWork()
             mItem.type = DType::Output; obj = getObject(root, "output_item_list"); appendObject(obj);
             mItem.type = DType::Group; obj = getObject(root, "group_item_list"); appendObject(obj);
         }
-    } if(keys.size()) insert();
+    }
+    return insert();
 }
 
 void Pdu_EleSql::append()

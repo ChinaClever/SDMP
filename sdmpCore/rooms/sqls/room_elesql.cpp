@@ -47,7 +47,7 @@ QJsonObject Room_EleSql::roomEleJson(uint id)
     return obj;
 }
 
-void Room_EleSql::eleWork()
+int Room_EleSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &id, idLst) {
@@ -55,5 +55,5 @@ void Room_EleSql::eleWork()
     }
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }

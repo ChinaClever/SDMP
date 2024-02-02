@@ -19,7 +19,9 @@ public:
     long count(const qx::QxSqlQuery & query = qx::QxSqlQuery()) {return  qx::dao::count<T>(query, &sDb);}
 
     bool fetch_all(const QStringList & columns = QStringList()) {
-        mListModel.clear(); return throwError(qx::dao::fetch_all(mListModel, &sDb, columns));
+        mListModel.clear(); bool ret = isOpen();
+        if(ret) throwError(qx::dao::fetch_all(mListModel, &sDb, columns));
+        return ret;
     }
 
     bool fetch_all(QList<T> &list, const QStringList & columns = QStringList()) {
@@ -30,12 +32,13 @@ public:
     void ansyInsert(){QtConcurrent::run([&](){insert();});}
     bool insert(T &t) { return throwError(qx::dao::insert(t, &sDb));}
     bool insert(QList<T> &t) {return throwError(qx::dao::insert(t, &sDb));}
-    void insert() {update_cnt_max();if(throwError(qx::dao::insert(mLstIts, &sDb, true))) mLstIts.clear();}
+    int insert() {int cnt =0; bool ret=isOpen(); if(ret){update_cnt_max(); cnt=mLstIts.size();
+            throwError(qx::dao::insert(mLstIts, &sDb, true));} mLstIts.clear(); return cnt;}
     //qx::QxSession session(sDb); session.insert(mLstIts); if(session.isValid()) mLstIts.clear();
 
     void save(QList<T> &t) {if(throwError(qx::dao::save(t, &sDb))) updateListModel(t);}
     void save(T &t) {if(throwError(qx::dao::save(t, &sDb))) updateListModel(t);}
-    bool save() { return throwError(qx::dao::save(mListModel, &sDb));}
+    bool save() {bool ret=isOpen(); if(ret)ret=throwError(qx::dao::save(mListModel, &sDb)); return ret;}
     void ansySave(){QtConcurrent::run([&](){save();});}
 
     void updateListModel(T &t) {mListModel.removeByKey(t.id); mListModel.insert(t.id, t);}
@@ -52,15 +55,13 @@ public:
     bool is_modified() {bool res=true; QDateTime dt=sql_updateTime(); if(dt>m_max_uptime)m_max_uptime=dt;else res=false; return res;}
     bool syncFun() { bool ret = is_modified(); if(ret){fetch_all();} return ret;}
     void update_cnt_max() {m_max_id += mLstIts.size(); m_cnt += mLstIts.size();}
-    void init_cnt_max() {m_cnt=count(); m_max_id = sql_maxId();}
+    void init_cnt_max() {if(isOpen()){m_cnt=count(); m_max_id = sql_maxId();}}    
 
 protected:
     typedef QSharedPointer<T> ModelPtr;
     qx::QxCollection<uint, T> mListModel;
     QList<ModelPtr> mLstIts;
     QDateTime m_max_uptime;
-    quint64 m_max_id=0;
-    quint64 m_cnt=0;
 };
 
 

@@ -32,6 +32,7 @@ public:
     bool sql_countsRemove(int count);
     QDateTime sql_updateTime();
 
+    static bool isOpen() {return sDb.isOpen();}
     bool sql_updateColumn(const QString& column_name, QString value, const QString &condition);
     bool sql_updateColumn(const QString& column_name, double value, const QString &condition);
     QVariantList sql_listColumn(const QString &column_name, const QString &condition);
@@ -40,6 +41,10 @@ public:
     QJsonObject getObject(const QJsonObject &object, const QString &key);
     QString getString(const QJsonObject &object, const QString &key);
     double getData(const QJsonObject &object, const QString &key);
+    quint64 get_max_id() {return m_max_id;}
+    quint64 get_cnt() {return m_cnt;}
+    static QStringList sql_error();
+    virtual int workDown(){return 0;}
 
     bool isTableExists();
     bool sql_clear();
@@ -57,6 +62,9 @@ protected:
 
 protected:
     static QSqlDatabase sDb;
+    static QStringList mSqlErrorLst;
+    quint64 m_max_id=0;
+    quint64 m_cnt=0;
     // static QMutex msLock;
 };
 

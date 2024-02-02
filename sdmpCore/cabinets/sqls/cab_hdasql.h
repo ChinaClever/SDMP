@@ -8,7 +8,7 @@ class Cab_HdaSql: public OrmObj<CabHdaModel>
 public:
     static Cab_HdaSql *build();
 
-    void workDown();
+    int workDown();
     CabHdaModel cabHda(uint cab_id);
     QJsonObject cabHdaJson(uint cab_id);
     double tgApparentPower(uint cab_id);

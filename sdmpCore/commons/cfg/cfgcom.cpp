@@ -44,18 +44,57 @@ void CfgCom::initCfgDb()
     it->host = readCfg("host", "127.0.0.1", g).toString();
     it->user = readCfg("user", "root", g).toString();
     it->pwd = readCfg("pwd", "123456", g).toString();
+    it->port = readCfg("port", "3306", g).toInt();
+    it->en = readCfg("en", true, g).toBool();
 }
+
+void CfgCom::writeCfgDb()
+{
+    QString g = "db";
+    sCfgDbItem *it = &mCfgDb;
+    QMap<QString,QVariant> map;
+    map.insert("driver", it->driver);
+    map.insert("prefix", it->prefix);
+    map.insert("name", it->name);
+    map.insert("host", it->host);
+    map.insert("user", it->user);
+    map.insert("port", it->port);
+    map.insert("pwd", it->pwd);
+    map.insert("en", it->en);
+    writeCfg(map, g);
+}
+
 
 void CfgCom::initCfgSql()
 {
     QString g = "sql"; sCfgSqlItem *it = &mCfgSql;
-    it->hda_en = readCfg("hda_en", true, g).toBool();
-    it->hda_interval = readCfg("hda_interval", 10, g).toInt();
-    it->hda_last_time = readCfg("hda_last_time", QDateTime::currentDateTime(), g).toDateTime();
+    sCfgSqlUnit *hda = nullptr, *ele = nullptr;
+    QString str;
 
-    it->ele_en = readCfg("ele_en", true, g).toBool();
-    it->ele_interval = readCfg("ele_interval", 12, g).toInt();
-    it->ele_last_time = readCfg("ele_last_time", QDateTime::currentDateTime(), g).toDateTime();
+    for(int i=0; i<10; ++i) {
+        switch (i) {
+        case 0: str = "pdu"; hda = &it->pdu_hda; ele = &it->pdu_ele; break;
+        case 1: str = "room"; hda = &it->room_hda; ele = &it->room_ele; break;
+        case 2: str = "aisle"; hda = &it->aisle_hda; ele = &it->aisle_ele; break;
+        case 3: str = "cab"; hda = &it->cab_hda; ele = &it->cab_ele; break;
+        case 4: str = "rack"; hda = &it->rack_hda; ele = &it->rack_ele; break;
+        case 5: str = "bar"; hda = &it->bar_hda; ele = &it->bar_ele; break;
+        case 6: str = "box"; hda = &it->box_hda; ele = &it->box_ele; break;
+        default: return;
+        }
+
+        str += "_";
+        hda->prefix = str +"hda_";
+        QDateTime t = QDateTime::currentDateTime();
+        hda->en = readCfg(str+"hda_en", true, g).toBool();
+        hda->interval = readCfg(str+"hda_interval", 15, g).toInt();
+        hda->last_time = readCfg(str+"hda_last_time", t, g).toDateTime();
+
+        ele->prefix = str +"ele_";
+        ele->en = readCfg(str+"ele_en", true, g).toBool();
+        ele->interval = readCfg(str+"ele_interval", 12, g).toInt();
+        ele->last_time = readCfg(str+"ele_last_time", t, g).toDateTime();
+    }
 }
 
 void CfgCom::initCfgLog()

@@ -66,7 +66,7 @@ void Pdu_HdaSql::appnedArray(const QJsonObject &json, const QString &key)
     }
 }
 
-void Pdu_HdaSql::hdaWork()
+int Pdu_HdaSql::workDown()
 {
     QStringList keys = mIndexSql->getkeys();
     foreach (const auto &key, keys) {
@@ -79,7 +79,9 @@ void Pdu_HdaSql::hdaWork()
             mItem.type = DType::Group; obj = getObject(root, "group_item_list"); appendObject(obj);
             mItem.type = DType::Env; obj = getObject(root, "env_item_list"); envData(obj);
         }
-    } if(keys.size()) insert();
+    }
+
+    return insert();
 }
 
 

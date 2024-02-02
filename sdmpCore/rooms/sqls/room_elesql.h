@@ -9,7 +9,7 @@ public:
     static Room_EleSql *build();
     RoomEleModel roomEle(uint id);
     QJsonObject roomEleJson(uint id);
-    void eleWork();
+    int workDown();
 
 private:
     void appendEle(const RoomEleModel &model);

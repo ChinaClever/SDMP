@@ -59,7 +59,9 @@ uint Pdu_IndexSql::getId(const QString &ip, uchar addr)
 void Pdu_IndexSql::initFun()
 {
     mNetJsonPack = Pdu_NetJsonPack::build();
-    fetch_all(); mKeyHash.clear(); toNetPack(); //syncNetPack();
+    if(CfgCom::mCfgDb.en) {
+        fetch_all(); mKeyHash.clear(); toNetPack(); //syncNetPack();
+    }
 }
 
 uint Pdu_IndexSql::getId(const QString &key)

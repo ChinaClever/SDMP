@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    mDbCore = new DbCoreThread(this);
+    mDbCore = DbCoreThread::build(this);
     mNavBarWid = new NavBarWid(ui->barWid);
     QTimer::singleShot(50,this,SLOT(initFunSlot())); //延时初始化
     connect(mNavBarWid, SIGNAL(navBarSig(int)), this, SLOT(navBarSlot(int)));

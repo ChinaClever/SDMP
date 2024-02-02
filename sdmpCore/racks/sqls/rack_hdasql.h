@@ -9,7 +9,7 @@ public:
     static Rack_HdaSql *build();
     RackHdaModel rackHda(uint rackId);
     QJsonObject rackHdaJson(uint id);
-    void hdaWork();
+    int workDown();
 
 
 private:

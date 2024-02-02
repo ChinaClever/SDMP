@@ -96,7 +96,7 @@ QJsonObject Cab_HdaSql::cabHdaJson(uint cab_id)
     } else  return cabJsonPduHda(cab_id);
 }
 
-void Cab_HdaSql::workDown()
+int Cab_HdaSql::workDown()
 {
     QList<uint> pduLst, boxLst;
     mIndexSql->getIds(pduLst, boxLst);
@@ -104,7 +104,7 @@ void Cab_HdaSql::workDown()
 
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }
 
 

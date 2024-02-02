@@ -88,7 +88,7 @@ QJsonObject Rack_HdaSql::rackHdaJson(uint id)
 }
 
 
-void Rack_HdaSql::hdaWork()
+int Rack_HdaSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &rack_id, idLst) {
@@ -96,6 +96,6 @@ void Rack_HdaSql::hdaWork()
     }
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }
 

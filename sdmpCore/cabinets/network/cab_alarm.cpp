@@ -39,6 +39,7 @@ void Cab_Alarm::http_post(const QJsonObject &obj)
 
 void Cab_Alarm::alarmWork()
 {
+    if(!CfgCom::mCfgDb.en) return ;
     Cab_HdaSql *hdaSql = Cab_HdaSql::build();
     Cab_IndexSql *cabSql = Cab_IndexSql::build();
     QList<uint> cab_ids = cabSql->getIds();

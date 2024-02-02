@@ -6,10 +6,14 @@
 class DbCoreThread : public Cab_HttpServer
 {
     Q_OBJECT
-public:
     explicit DbCoreThread(QObject *parent = nullptr);
+public:
+    static DbCoreThread *build(QObject *parent = nullptr);
+    bool writing(){return isWrite;}
+    QStringList writeMsg();
 
     void initFun();
+
 protected:
     void run();
     void syncWork();
@@ -17,6 +21,12 @@ protected:
     void eleWork();
     void alarmWork();
     void workDown();
+    void eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg);
+    void hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg);
+    void computetime(const QTime &start, int cnt, const QString &msg);
+    bool compareTime(sCfgSqlUnit &unit, int sec);
+    void last_time(sCfgSqlUnit &unit);
+
 
 private slots:
     void onTimeout() {start();}
@@ -24,6 +34,8 @@ private slots:
 private:
     uint mCnt = 1;
     bool isRun = false;
+    bool isWrite = false;
+    QStringList mWriteLst;
     QTimer *mTimer = nullptr;
 };
 

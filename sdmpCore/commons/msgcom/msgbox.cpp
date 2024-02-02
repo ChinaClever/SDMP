@@ -27,7 +27,7 @@ bool MsgBox::information(QWidget *parent,  const QString &str)
     return ret;
 }
 
-bool MsgBox::question(QWidget *parent,  const QString &str)
+bool MsgBox:: question(QWidget *parent,  const QString &str)
 {
     bool ret = false;
     QMessageBox::StandardButton reply;

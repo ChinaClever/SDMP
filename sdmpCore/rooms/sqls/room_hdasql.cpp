@@ -53,7 +53,7 @@ QJsonObject Room_HdaSql::roomHdaJson(uint id)
 }
 
 
-void Room_HdaSql::hdaWork()
+int Room_HdaSql::workDown()
 {
     QList<uint> idLst = mIndexSql->getIds();
     foreach (const auto &id, idLst) {
@@ -62,5 +62,5 @@ void Room_HdaSql::hdaWork()
 
 
 
-    if(mLstIts.size()) insert();
+    return insert();
 }

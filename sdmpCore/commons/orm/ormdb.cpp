@@ -9,6 +9,7 @@
 
 // QMutex OrmDb::msLock;
 QSqlDatabase OrmDb::sDb;
+QStringList OrmDb::mSqlErrorLst;
 OrmDb::OrmDb()
 {
     initDb();
@@ -208,16 +209,16 @@ bool OrmDb::sql_clear()
 }
 
 
-
 // 获取系统支持的数据库驱动程序列表
+// 检查系统是否支持 MySQL 驱动程序
 bool OrmDb::availableDrivers()
 {
-    // 检查系统是否支持 MySQL 驱动程序
-    bool ret = QSqlDatabase::isDriverAvailable("QMYSQL");
+    sCfgDbItem *it = &CfgCom::mCfgDb;
+    bool ret = QSqlDatabase::isDriverAvailable(it->driver);
     qDebug() <<  QSqlDatabase::drivers();if (ret) {
-        qDebug() << "MySQL driver is available.";
+        qDebug() << it->driver << "driver is available.";
     } else {
-        qDebug() << "MySQL driver is not available.";
+        qDebug() << it->driver << "driver is not available.";
     }
     return ret;
 }
@@ -239,13 +240,15 @@ void OrmDb::initDebugInfo()
 
 void OrmDb::initDb()
 {
+    if(!CfgCom::mCfgDb.en) return ;
     if(!sDb.isOpen()) { CfgCom::build();
         sCfgDbItem *it = &CfgCom::mCfgDb;
-        sDb = QSqlDatabase::addDatabase("QMYSQL");
+        sDb = QSqlDatabase::addDatabase(it->driver);
         sDb.setDatabaseName(it->name);
         sDb.setHostName(it->host);
         sDb.setUserName(it->user);
         sDb.setPassword(it->pwd);
+        sDb.setPort(it->port);
         if(sDb.open()) initDebugInfo();
         else qCritical() << "DB open error";
         availableDrivers();
@@ -263,12 +266,24 @@ bool OrmDb::throwError(const QSqlError &err)
         case QSqlError::ConnectionError: str = "ConnectionError";break;
         case QSqlError::StatementError: str = "StatementError"; break;
         case QSqlError::TransactionError: str = "TransactionError"; break;
-        } if(!ret) qCritical() << "sqlite error: " << tableName() << err.type() << str << err.text();
+        }
+
+        if(!ret) {
+            QString fmd = "sql error: %1 %2 %3";
+            QString msg = fmd.arg(tableName(), str, err.text());
+            qCritical() << msg; mSqlErrorLst << msg.remove("\n");
+        }
     } else ret = true;
 
     return ret;
 }
 
+QStringList OrmDb::sql_error()
+{
+    QStringList res = mSqlErrorLst;
+    mSqlErrorLst.clear();
+    return res;
+}
 
 bool OrmDb::sqlQuery(QSqlQuery &query)
 {
