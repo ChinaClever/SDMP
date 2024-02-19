@@ -1,12 +1,7 @@
 #ifndef GUI_DBSETDLG_H
 #define GUI_DBSETDLG_H
 
-#include "dbcorethread.h"
-#include "backcolourcom.h"
-#include "comtablewid.h"
-#include "msgbox.h"
-#include "cfgcom.h"
-#include <QDialog>
+#include "gui_restwid.h"
 
 namespace Ui {
 class Gui_DbSetDlg;

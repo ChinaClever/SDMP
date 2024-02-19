@@ -9,7 +9,7 @@
 sCfgDbItem CfgCom::mCfgDb;
 sCfgSqlItem CfgCom::mCfgSql;
 sCfgLogItem CfgCom::mCfgLog;
-
+sCfgRestItem CfgCom::mCfgRest;
 CfgCom::CfgCom(const QString &fn, QObject *parent)
     : CfgObj(fn, parent)
 {
@@ -17,6 +17,7 @@ CfgCom::CfgCom(const QString &fn, QObject *parent)
     initCfgDb();
     initCfgSql();
     initCfgLog();
+    initCfgRest();
 }
 
 void CfgCom::initCfg()
@@ -102,4 +103,18 @@ void CfgCom::initCfgLog()
     QString g = "log"; sCfgLogItem *it = &mCfgLog;
     it->en = readCfg("en", true, g).toBool();
     it->url = readCfg("url", "", g).toString();
+}
+
+void CfgCom::initCfgRest()
+{
+    QString g = "rest"; sCfgRestItem *it = &mCfgRest;
+    it->http.en = readCfg("http_en", true, g).toBool();
+    it->http.acl = readCfg("http_acl", 1, g).toInt();
+    it->http.port = readCfg("http_port", 43796, g).toInt();
+    it->http.url = readCfg("http_url", "0.0.0.0", g).toString();
+
+    it->https.en = readCfg("https_en", true, g).toBool();
+    it->https.acl = readCfg("https_acl", 1, g).toInt();
+    it->https.port = readCfg("https_port", 43795, g).toInt();
+    it->https.url = readCfg("https_url", "0.0.0.0", g).toString();
 }

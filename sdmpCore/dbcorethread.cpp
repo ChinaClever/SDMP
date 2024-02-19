@@ -8,10 +8,9 @@
 DbCoreThread::DbCoreThread(QObject *parent)
     : Cab_HttpServer{parent}
 {
-    this->http_listen(43796);
-    mTimer = new QTimer(this); mTimer->start(1000);
+    mTimer = new QTimer(this); //mTimer->start(1000);
     connect(mTimer, &QTimer::timeout, this, &DbCoreThread::onTimeout);
-
+    QTimer::singleShot(243,this,SLOT(initFunSlot()));
 }
 
 DbCoreThread *DbCoreThread::build(QObject *parent)
@@ -21,6 +20,12 @@ DbCoreThread *DbCoreThread::build(QObject *parent)
     return sington;
 }
 
+DbCoreThread::~DbCoreThread()
+{
+    isRun = false;
+    wait();
+}
+
 QStringList DbCoreThread::writeMsg()
 {
     QStringList res = mWriteLst;
@@ -28,10 +33,32 @@ QStringList DbCoreThread::writeMsg()
     return res;
 }
 
+void DbCoreThread::initFunSlot()
+{
+    sCfgRestItem *it = &CfgCom::build(this)->mCfgRest;
+    if(it->http.en) {
+        QHostAddress address(it->http.url);
+        switch(it->http.acl) {
+        case 1: address = QHostAddress::Any; break;
+        case 0: address = QHostAddress::LocalHost; break;
+        } this->http_listen(it->http.port, address);
+    }
+
+    if(it->https.en) {
+        QHostAddress address(it->https.url);
+        switch(it->https.acl) {
+        case 1: address = QHostAddress::Any; break;
+        case 0: address = QHostAddress::LocalHost; break;
+        } this->https_listen(it->https.port, address);
+    }
+
+    mTimer->start(1000);
+}
+
 void DbCoreThread::initFun()
 {
     static bool initialized=false;
-    if(initialized) return ; else initialized=true;
+    if(initialized) return; else initialized=true;
     Pdu_LogSql::build(); Pdu_IndexSql::build()->initFun();
 
 
@@ -42,7 +69,7 @@ void DbCoreThread::initFun()
 
 void DbCoreThread::syncWork()
 {
-    if(!CfgCom::mCfgDb.en) return ;
+    if(!isRun||!CfgCom::mCfgDb.en)return;
     Pdu_IndexSql::build()->syncNetPack();
     Cab_IndexSql::build()->syncFun();
     Aisle_IndexSql::build()->syncFun();
@@ -87,7 +114,7 @@ void DbCoreThread::last_time(sCfgSqlUnit &unit)
 
 void DbCoreThread::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 {
-    QTime start = QTime::currentTime();
+    if(!isRun) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60)) isWrite = true; else return;
     computetime(start, db->workDown(), msg+tr("数据"));
     last_time(unit);
@@ -95,7 +122,7 @@ void DbCoreThread::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 
 void DbCoreThread::hdaWork()
 {
-    if(!CfgCom::mCfgDb.en) return ;
+    if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     hdaObj(Pdu_HdaSql::build(), it->pdu_hda, tr("PDU"));
     hdaObj(Cab_HdaSql::build(), it->cab_hda, tr("机柜"));
@@ -106,8 +133,8 @@ void DbCoreThread::hdaWork()
 
 
 void DbCoreThread::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
-{
-    QTime start = QTime::currentTime();
+{    
+    if(!isRun) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60*60)) isWrite = true; else return;
     computetime(start, db->workDown(), msg+tr("电能"));
     last_time(unit);
@@ -116,7 +143,7 @@ void DbCoreThread::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 
 void DbCoreThread::eleWork()
 {
-    if(!CfgCom::mCfgDb.en) return ;
+    if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     eleObj(Pdu_EleSql::build(), it->pdu_ele, tr("PDU"));
     eleObj(Cab_EleSql::build(), it->cab_ele, tr("机柜"));
@@ -127,6 +154,7 @@ void DbCoreThread::eleWork()
 
 void DbCoreThread::alarmWork()
 {
+    if(!isRun) return;
     Pdu_LogSql::build()->workDown();
     Cab_Alarm::build()->alarmWork();
 }

@@ -11,7 +11,7 @@ public:
     static DbCoreThread *build(QObject *parent = nullptr);
     bool writing(){return isWrite;}
     QStringList writeMsg();
-
+    ~DbCoreThread();
     void initFun();
 
 protected:
@@ -30,6 +30,7 @@ protected:
 
 private slots:
     void onTimeout() {start();}
+    void initFunSlot();
 
 private:
     uint mCnt = 1;

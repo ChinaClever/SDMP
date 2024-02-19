@@ -48,6 +48,20 @@ struct sCfgSqlItem
     sCfgSqlUnit box_ele;
 };
 
+struct sCfgRestUnit
+{
+    bool en = true;
+    int port = 43796;
+    int acl = 1;
+    QString url = "0.0.0.0";
+};
+
+struct sCfgRestItem
+{
+    sCfgRestUnit http;
+    sCfgRestUnit https;
+};
+
 struct sCfgLogItem
 {
     bool en = true;
@@ -63,6 +77,7 @@ public:
 
     static sCfgDbItem mCfgDb;
     static sCfgSqlItem mCfgSql;
+    static sCfgRestItem mCfgRest;
     static sCfgLogItem mCfgLog;
 
     void writeCfgDb();
@@ -72,6 +87,7 @@ private:
     void initCfgDb();
     void initCfgSql();
     void initCfgLog();
+    void initCfgRest();
 };
 
 #endif // CFGCOM_H

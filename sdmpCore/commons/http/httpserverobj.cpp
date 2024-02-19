@@ -127,21 +127,22 @@ void HttpServerObj::init_demo(QHttpServer &httpServer)
     //! [Using afterRequest()]
 }
 
-bool HttpServerObj::http_listen(quint16 port)
+bool HttpServerObj::http_listen(quint16 port, const QHostAddress &address)
 {
-    const auto ret = mHttpServer.listen(QHostAddress::Any, port);
-    if (!ret) {
+    const auto ret = mHttpServer.listen(address, port);
+    if (ret) {
         qWarning() << QCoreApplication::translate("QHttpServer", "Server failed to listen on a port.");
-        return false;
+    } else {
+        qInfo().noquote() << QCoreApplication::translate("QHttpServer", "Running on http://%1:%2/ ")
+                                 .arg(address.toString()).arg(port);
     }
 
-    return init_ssl(mHttpServer, ret);
+    return ret;
 }
 
 //! [HTTPS Configuration ]
-bool HttpServerObj::init_ssl(QHttpServer &httpServer, quint16 port)
+bool HttpServerObj::https_listen(quint16 port, const QHostAddress &address)
 {
-
 #if QT_CONFIG(ssl)
     QString dir = ":/commons/http/assets/";
     const auto sslCertificateChain = QSslCertificate::fromPath(dir + "certificate.crt");
@@ -157,21 +158,17 @@ bool HttpServerObj::init_ssl(QHttpServer &httpServer, quint16 port)
         return false;
     }
 
-    httpServer.sslSetup(sslCertificateChain.front(), QSslKey(&privateKeyFile, QSsl::Rsa));
+    mHttpServer.sslSetup(sslCertificateChain.front(), QSslKey(&privateKeyFile, QSsl::Rsa));
     privateKeyFile.close();
 
-    const auto sslPort = httpServer.listen(QHostAddress::Any, port+1);
+    const auto sslPort = mHttpServer.listen(address, port);
     if (!sslPort) {
         qWarning() << QCoreApplication::translate("QHttpServer", "Server failed to listen on a port.");
         return false;
     }
 
     //! [HTTPS Configuration ]
-    qInfo().noquote()
-        << QCoreApplication::translate("QHttpServer",
-                                       "Running on http://127.0.0.1:%1/ and "
-                                       "https://127.0.0.1:%2/ (Press CTRL+C to quit)")
-               .arg(port).arg(sslPort);
+    qInfo().noquote() << QCoreApplication::translate("QHttpServer", "https://127.0.0.1:%1/") .arg(sslPort);
 #else
     qInfo().noquote()
         << QCoreApplication::translate("QHttpServer",

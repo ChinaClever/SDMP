@@ -31,6 +31,8 @@ private:
     DbCoreThread *mDbCore;    
     NavBarWid *mNavBarWid;
     Gui_MainWid *mMainWid;
+    Gui_RestWid *mRestWid;
+    Gui_MqttWid *mMqttWid;
     Gui_DbWid *mDbWid;
 };
 #endif // MAINWINDOW_H

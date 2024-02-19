@@ -36,7 +36,11 @@ void MainWindow::initWid()
     mDbWid = new Gui_DbWid(this);
     ui->stackedWid->addWidget(mDbWid);
 
+    mRestWid = new Gui_RestWid(this);
+    ui->stackedWid->addWidget(mRestWid);
 
+    mMqttWid = new Gui_MqttWid(this);
+    ui->stackedWid->addWidget(mMqttWid);
 }
 
 void MainWindow::navBarSlot(int id)
