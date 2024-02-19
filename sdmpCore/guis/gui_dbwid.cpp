@@ -143,7 +143,7 @@ void Gui_DbWid::setTextColor(bool pass)
 void Gui_DbWid::insertTextSlot(const QString &msg, bool pass)
 {
     QDateTime dt = QDateTime::currentDateTime();
-    QString t  = dt.toString("yyyy-MM-dd hh:mm:ss zzz");
+    QString t  = dt.toString("yyyy-MM-dd hh:mm:ss.zzz");
     QString fmd = QString::number(++mId) + "、[%1] %2\n";
     setTextColor(pass); ui->textEdit->insertPlainText(fmd.arg(t, msg));
     if (ui->textEdit->document()->blockCount() > 500) {  // 检查文本行数是否超过 500 行

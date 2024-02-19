@@ -110,7 +110,7 @@
       </font>
      </property>
      <property name="text">
-      <string>用户登陆</string>
+      <string>MQTT</string>
      </property>
     </widget>
    </item>
@@ -185,7 +185,7 @@
       </font>
      </property>
      <property name="text">
-      <string>日志记录</string>
+      <string>REST</string>
      </property>
     </widget>
    </item>

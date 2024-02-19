@@ -33,8 +33,6 @@ QString CfgObj::pathOfCfg(const QString& name)
     QDir dataDir("/usr/data/clever/"); QString dirName = "cfg";
     if(!dataDir.exists(dirName)) {dataDir.mkdir(dirName);} dataDir.cd(dirName);
 #endif
-    cout << dataDir.absoluteFilePath(name);
-
     return dataDir.absoluteFilePath(name);
 }
 
