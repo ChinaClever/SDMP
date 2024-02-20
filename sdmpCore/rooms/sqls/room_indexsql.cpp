@@ -33,3 +33,24 @@ QList<uint> Room_IndexSql::getAisleIds(uint id)
 {
     return Aisle_IndexSql::build()->getIdsByRoom(id);
 }
+
+QStringList Room_IndexSql::getNames()
+{
+    QStringList res; QList<uint> lst = getIds();
+    foreach (const auto &id, lst) res << mListModel.getByKey(id).name;
+    return res;
+}
+
+QString Room_IndexSql::getNameById(uint id)
+{
+    return mListModel.getByKey(id).name;
+}
+
+uint Room_IndexSql::getIdByName(const QString &name)
+{
+    uint ret = 0;
+    foreach (const auto &it, mListModel) {
+        if(name == it.second.name) ret = it.first;
+    }
+    return ret;
+}

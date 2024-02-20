@@ -17,13 +17,15 @@ include(commons/commons.pri)
 include(cabinets/cabinets.pri)
 
 SOURCES += \
-    dbcorethread.cpp \
+    dbthreadcore.cpp \
+    httpservercore.cpp \
     main.cpp \
     mainwindow.cpp \
     navbarwid.cpp
 
 HEADERS += \
-    dbcorethread.h \
+    dbthreadcore.h \
+    httpservercore.h \
     mainwindow.h \
     navbarwid.h
 

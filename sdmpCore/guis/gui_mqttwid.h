@@ -1,7 +1,7 @@
 #ifndef GUI_MQTTWID_H
 #define GUI_MQTTWID_H
 
-#include "dbcorethread.h"
+#include "dbthreadcore.h"
 #include "backcolourcom.h"
 #include "comtablewid.h"
 #include "msgbox.h"

@@ -12,6 +12,7 @@ namespace qx
     {
         t.setName(RoomIndexModel::tableName());
         t.id(&RoomIndexModel::id, "id");
+        t.data(&RoomIndexModel::name, "name");
         t.data(&RoomIndexModel::is_delete, "is_delete");
         t.data(&RoomIndexModel::power_capacity, "power_capacity");
         t.data(&RoomIndexModel::createtime, "create_time");

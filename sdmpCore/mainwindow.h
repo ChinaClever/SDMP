@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "dbcorethread.h"
+#include "dbthreadcore.h"
 #include "navbarwid.h"
 #include "gui_mainwid.h"
 
@@ -28,7 +28,7 @@ protected slots:
 
 private:
     Ui::MainWindow *ui;
-    DbCoreThread *mDbCore;    
+    DbThreadCore *mDbCore;    
     NavBarWid *mNavBarWid;
     Gui_MainWid *mMainWid;
     Gui_RestWid *mRestWid;

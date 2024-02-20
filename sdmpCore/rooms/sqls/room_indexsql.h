@@ -11,6 +11,10 @@ public:
 
     QList<uint> getIds();
     QList<uint> getAisleIds(uint id);
+    uint getIdByName(const QString &name);
+    QString getNameById(uint id);
+    QStringList getNames();
+
 
 };
 

@@ -3,59 +3,43 @@
  *  Created on: 2025年1月1日
  *      Author: Lzy
  */
-#include "dbcorethread.h"
+#include "dbthreadcore.h"
 
-DbCoreThread::DbCoreThread(QObject *parent)
-    : Cab_HttpServer{parent}
+DbThreadCore::DbThreadCore(QObject *parent)
+    : HttpServerCore{parent}
 {
     mTimer = new QTimer(this); //mTimer->start(1000);
-    connect(mTimer, &QTimer::timeout, this, &DbCoreThread::onTimeout);
+    connect(mTimer, &QTimer::timeout, this, &DbThreadCore::onTimeout);
     QTimer::singleShot(243,this,SLOT(initFunSlot()));
 }
 
-DbCoreThread *DbCoreThread::build(QObject *parent)
+DbThreadCore *DbThreadCore::build(QObject *parent)
 {
-    static DbCoreThread* sington = nullptr;
-    if(!sington) sington = new DbCoreThread(parent);
+    static DbThreadCore* sington = nullptr;
+    if(!sington) sington = new DbThreadCore(parent);
     return sington;
 }
 
-DbCoreThread::~DbCoreThread()
+DbThreadCore::~DbThreadCore()
 {
     isRun = false;
     wait();
 }
 
-QStringList DbCoreThread::writeMsg()
+QStringList DbThreadCore::writeMsg()
 {
     QStringList res = mWriteLst;
     mWriteLst.clear();
     return res;
 }
 
-void DbCoreThread::initFunSlot()
+void DbThreadCore::initFunSlot()
 {
-    sCfgRestItem *it = &CfgCom::build(this)->mCfgRest;
-    if(it->http.en) {
-        QHostAddress address(it->http.url);
-        switch(it->http.acl) {
-        case 1: address = QHostAddress::Any; break;
-        case 0: address = QHostAddress::LocalHost; break;
-        } this->http_listen(it->http.port, address);
-    }
-
-    if(it->https.en) {
-        QHostAddress address(it->https.url);
-        switch(it->https.acl) {
-        case 1: address = QHostAddress::Any; break;
-        case 0: address = QHostAddress::LocalHost; break;
-        } this->https_listen(it->https.port, address);
-    }
 
     mTimer->start(1000);
 }
 
-void DbCoreThread::initFun()
+void DbThreadCore::initFun()
 {
     static bool initialized=false;
     if(initialized) return; else initialized=true;
@@ -67,7 +51,7 @@ void DbCoreThread::initFun()
 
 }
 
-void DbCoreThread::syncWork()
+void DbThreadCore::syncWork()
 {
     if(!isRun||!CfgCom::mCfgDb.en)return;
     Pdu_IndexSql::build()->syncNetPack();
@@ -80,7 +64,7 @@ void DbCoreThread::syncWork()
     Cab_PduSql::build()->initFun();
 }
 
-void DbCoreThread::computetime(const QTime &start, int cnt, const QString &msg)
+void DbThreadCore::computetime(const QTime &start, int cnt, const QString &msg)
 {
     QString time_str;
     QTime end = QTime::currentTime();
@@ -96,7 +80,7 @@ void DbCoreThread::computetime(const QTime &start, int cnt, const QString &msg)
     if(cnt) mWriteLst << fmd.arg(msg).arg(cnt).arg(time_str);
 }
 
-bool DbCoreThread::compareTime(sCfgSqlUnit &unit, int sec)
+bool DbThreadCore::compareTime(sCfgSqlUnit &unit, int sec)
 {
     bool ret = false; if(unit.en && unit.interval) {
         QDateTime t = unit.last_time.addSecs(unit.interval *sec);
@@ -106,13 +90,13 @@ bool DbCoreThread::compareTime(sCfgSqlUnit &unit, int sec)
     return ret;
 }
 
-void DbCoreThread::last_time(sCfgSqlUnit &unit)
+void DbThreadCore::last_time(sCfgSqlUnit &unit)
 {
     QDateTime c = QDateTime::currentDateTime(); unit.last_time = c;
     CfgCom::build()->writeCfg(unit.prefix+"last_time", c, "sql");
 }
 
-void DbCoreThread::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
+void DbThreadCore::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 {
     if(!isRun) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60)) isWrite = true; else return;
@@ -120,7 +104,7 @@ void DbCoreThread::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
     last_time(unit);
 }
 
-void DbCoreThread::hdaWork()
+void DbThreadCore::hdaWork()
 {
     if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
@@ -132,7 +116,7 @@ void DbCoreThread::hdaWork()
 }
 
 
-void DbCoreThread::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
+void DbThreadCore::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 {    
     if(!isRun) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60*60)) isWrite = true; else return;
@@ -141,7 +125,7 @@ void DbCoreThread::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 }
 
 
-void DbCoreThread::eleWork()
+void DbThreadCore::eleWork()
 {
     if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
@@ -152,7 +136,7 @@ void DbCoreThread::eleWork()
     eleObj(Rack_EleSql::build(), it->rack_ele, tr("机架"));
 }
 
-void DbCoreThread::alarmWork()
+void DbThreadCore::alarmWork()
 {
     if(!isRun) return;
     Pdu_LogSql::build()->workDown();
@@ -160,7 +144,7 @@ void DbCoreThread::alarmWork()
 }
 
 
-void DbCoreThread::workDown()
+void DbThreadCore::workDown()
 {
     initFun();
     syncWork();
@@ -172,7 +156,7 @@ void DbCoreThread::workDown()
 
 }
 
-void DbCoreThread::run()
+void DbThreadCore::run()
 {
     if(isRun) return; else isRun=true;
     mCnt++; workDown();

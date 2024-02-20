@@ -1,17 +1,17 @@
-#ifndef DBCORETHREAD_H
-#define DBCORETHREAD_H
-#include "cabinets/network/cab_httpserver.h"
+#ifndef DBTHREADCORE_H
+#define DBTHREADCORE_H
+#include "httpservercore.h"
 #include "racks/sqls/rack_hdasql.h"
 
-class DbCoreThread : public Cab_HttpServer
+class DbThreadCore : public HttpServerCore
 {
     Q_OBJECT
-    explicit DbCoreThread(QObject *parent = nullptr);
+    explicit DbThreadCore(QObject *parent = nullptr);
 public:
-    static DbCoreThread *build(QObject *parent = nullptr);
+    static DbThreadCore *build(QObject *parent = nullptr);
     bool writing(){return isWrite;}
     QStringList writeMsg();
-    ~DbCoreThread();
+    ~DbThreadCore();
     void initFun();
 
 protected:
@@ -40,4 +40,4 @@ private:
     QTimer *mTimer = nullptr;
 };
 
-#endif // DBCORETHREAD_H
+#endif // DBTHREADCORE_H

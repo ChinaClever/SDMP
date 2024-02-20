@@ -13,7 +13,7 @@ Gui_RestWid::Gui_RestWid(QWidget *parent)
 {
     ui->setupUi(this);
     groupBox_background_icon(this);
-    QTimer::singleShot(146,this,SLOT(initFunSlot()));
+    QTimer::singleShot(1346,this,SLOT(initFunSlot()));
 }
 
 Gui_RestWid::~Gui_RestWid()
@@ -27,10 +27,10 @@ void Gui_RestWid::initColumnWidth(ComTableWid *tab)
     tab->setColumnWidth(1, 300);
     tab->setColumnWidth(2, 280);
     tab->setColumnWidth(3, 40);
-    //connect(tab, SIGNAL(itemDoubleSig(int)), this, SLOT(itemDoubleSlot(int)));
 }
 
-void Gui_RestWid::setTableRow(ComTableWid *tab, int row, const QString &name, const QString &api, const QString &param)
+void Gui_RestWid::setTableRow(ComTableWid *tab, int row, const QString &name, const QString &api,
+                              const QString &param)
 {
     QStringList listStr;
     listStr << name << api << param;
@@ -40,15 +40,55 @@ void Gui_RestWid::setTableRow(ComTableWid *tab, int row, const QString &name, co
 void Gui_RestWid::initPduTab()
 {
     ComTableWid *tab = mPduTab = new ComTableWid(ui->tabWidget->widget(4));
-    QStringList header; header << tr("名称")<< tr("API") << tr("参数")<< tr("请求次数");
-    tab->initTableWid(header, 0, ""); initColumnWidth(tab); int row = 0;
+    QStringList header; header << tr("名称")<< tr("API") << tr("参数"); //<< tr("返回");
+    tab->initTableWid(header, 0, ""); int row = 0; //initColumnWidth(tab);
 
     QString name = tr("PDU设备列表");
-    QString api = "/pdu/keys";
+    QString api = "/pdu/key/list";
     QString param ="";
     setTableRow(tab, row++, name, api, param);
 
+    name = tr("PDU报警列表"); api = "/pdu/alarm/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
 
+    name = tr("PDU在线列表"); api = "/pdu/online/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU离线列表"); api = "/pdu/offline/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU数量统计"); api = "/pdu/number"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU所有数据"); api = "/pdu/meta"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU数据包"); api = "/pdu/data"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU的统计数据"); api = "/pdu/tg"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU的相数据"); api = "/pdu/line"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU的回路数据"); api = "/pdu/loop"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU的输出位数据"); api = "/pdu/outlet"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("PDU的环境数据"); api = "/pdu/env"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("key与IP对应表"); api = "/pdu/key/to/ip/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("根据key获取IP地址"); api = "/pdu/key/by/ip"; param ="key=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("根据IP获取数据"); api = "/pdu/data/by/ip"; param ="ip=?,addr=?";
+    setTableRow(tab, row++, name, api, param);
 }
 
 void Gui_RestWid::initWidget()
@@ -65,11 +105,60 @@ void Gui_RestWid::initWidget()
     ui->httpsUrlEdit->setText(it->https.url);
 }
 
+void Gui_RestWid::initRoomTab()
+{
+    ComTableWid *tab = mPduTab = new ComTableWid(ui->tabWidget->widget(0));
+    QStringList header; header << tr("名称")<< tr("API") << tr("参数");
+    tab->initTableWid(header, 0, ""); int row = 0;
+
+    QString name = tr("机房名称列表");
+    QString api = "/room/name/list";
+    QString param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机房数量统计"); api = "/room/number"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机房功率列表"); api = "/room/power/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机房电能列表"); api = "/room/ele/list"; param ="";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机房当前功率"); api = "/room/power"; param ="name=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机房当前电能"); api = "/room/ele"; param ="name=?";
+    setTableRow(tab, row++, name, api, param);
+}
+
+void Gui_RestWid::initAisleTab()
+{
+    ComTableWid *tab = mPduTab = new ComTableWid(ui->tabWidget->widget(1));
+    QStringList header; header << tr("名称")<< tr("API") << tr("参数");
+    tab->initTableWid(header, 0, ""); int row = 0;
+
+    QString name = tr("柜列名称列表");
+    QString api = "/aisle/name/list";
+    QString param ="room=?";
+    setTableRow(tab, row++, name, api, param);
+
+
+
+
+}
+
+
 
 void Gui_RestWid::initFunSlot()
 {
     initWidget();
     initPduTab();
+    initRoomTab();
+    initAisleTab();
+
+    initHttpStatus();
+
 }
 
 void Gui_RestWid::saveCfg(sCfgRestUnit *it)
@@ -108,6 +197,32 @@ void Gui_RestWid::on_httpEditBtn_clicked()
         }
     }
 }
+
+void Gui_RestWid::initHttpStatus()
+{
+    DbThreadCore *core = DbThreadCore::build();
+    int status = core->http_listen_status();
+    if(status) updateStatus(status, ui->httpStatusLab);
+
+    status = core->https_listen_status();
+    if(status) updateStatus(status, ui->httpsStatusLab);
+}
+
+
+void Gui_RestWid::updateStatus(int status, QLabel *lab)
+{
+    QString style, str = tr("---"); switch (status) {
+    case 1: str = tr("正常"); style = "background-color:green; color:rgb(255, 255, 255);"; break;
+    case 2: str = tr("错误"); style = "background-color:red; color:rgb(255, 255, 255);"; break;
+    case 0: str = tr("禁用"); style = "background-color:yellow; color:rgb(0, 0, 0);"; break;
+    default:  break;
+    }
+
+    style += "font:100 34pt \"微软雅黑\";";
+    lab->setStyleSheet(style);
+    lab->setText(str);
+}
+
 
 
 void Gui_RestWid::on_httpAclBox_currentIndexChanged(int index)

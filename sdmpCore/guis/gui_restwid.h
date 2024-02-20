@@ -16,17 +16,24 @@ public:
     ~Gui_RestWid();
 
 protected:
-    void initColumnWidth(ComTableWid *tab);
-    void setTableRow(ComTableWid *tab, int row, const QString &name, const QString &api, const QString &param);
     void initPduTab();
     void initWidget();
+    void initRoomTab();
+    void initAisleTab();
+
+
+
     void saveHttpsCfg();
     void saveHttpCfg();
+    void initHttpStatus();
     void saveCfg(sCfgRestUnit *it);
+    void updateStatus(int status, QLabel *lab);
+    void initColumnWidth(ComTableWid *tab);
+    void setTableRow(ComTableWid *tab, int row, const QString &name,
+                     const QString &api, const QString &param);
 
 protected slots:
     void initFunSlot();
-    //void itemDoubleSlot(int);
 
 private slots:
     void on_httpEditBtn_clicked();

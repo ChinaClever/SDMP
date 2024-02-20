@@ -204,7 +204,7 @@ void Gui_DbWid::timeoutDone()
 {
     if(!CfgCom::mCfgDb.en){updateStatus(3); return;}
     else if(OrmDb::isOpen() && CfgCom::mCfgDb.en) {
-        bool isWrite = DbCoreThread::build()->writing();
+        bool isWrite = DbThreadCore::build()->writing();
         int status = 0; if(isWrite) status = 1;
         updateStatus(status);
         updateDbCnt();
@@ -215,7 +215,7 @@ void Gui_DbWid::timeoutDone()
         insertTextSlot(msg, false);
     }
 
-    lst = DbCoreThread::build()->writeMsg();
+    lst = DbThreadCore::build()->writeMsg();
     foreach (const auto &msg, lst) {
         insertTextSlot(msg, true);
     }

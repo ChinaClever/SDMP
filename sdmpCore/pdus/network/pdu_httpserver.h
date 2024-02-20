@@ -10,7 +10,7 @@ public:
     explicit Pdu_HttpServer(QObject *parent = nullptr);
 
 private:
-    void pdu_keys();
+    void pdu_keyList();
     void pdu_meta();
     void pdu_data();
     void pdu_line();
@@ -19,14 +19,19 @@ private:
     void pdu_group();
     void pdu_env();
     void pdu_tg();
+    void pdu_number();
+    void pdu_keyByIp();
+    void pdu_dataByIp();
+    void pdu_keyToIpList();
     void pdu_httpInit();
     void pdu_offline();
     void pdu_online();
     void pdu_alarm();
     void pdu_delete();
+    void pdu_initObj();
 
 private:
-    Pdu_NetJsonPack *mNetJson;
+    Pdu_NetJsonPack *mNetJson=nullptr;
 };
 
 #endif // PDU_HTTPSERVER_H

@@ -30,7 +30,7 @@
        <rect>
         <x>230</x>
         <y>160</y>
-        <width>161</width>
+        <width>131</width>
         <height>23</height>
        </rect>
       </property>
@@ -38,11 +38,11 @@
        <string>HTTP编辑</string>
       </property>
      </widget>
-     <widget class="QLabel" name="statusLab">
+     <widget class="QLabel" name="httpStatusLab">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>10</y>
+        <x>160</x>
+        <y>30</y>
         <width>200</width>
         <height>131</height>
        </rect>
@@ -243,7 +243,7 @@
        <rect>
         <x>230</x>
         <y>160</y>
-        <width>161</width>
+        <width>121</width>
         <height>23</height>
        </rect>
       </property>
@@ -251,11 +251,11 @@
        <string>HTTPS编辑</string>
       </property>
      </widget>
-     <widget class="QLabel" name="statusLab_2">
+     <widget class="QLabel" name="httpsStatusLab">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>10</y>
+        <x>150</x>
+        <y>30</y>
         <width>200</width>
         <height>131</height>
        </rect>
@@ -449,7 +449,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">

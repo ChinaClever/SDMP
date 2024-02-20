@@ -32,7 +32,7 @@ void Pdu_NetJsonPack::online_offline_update()
     foreach (const auto &it, mHash.values()) {
         if(it->contains(str)) {
             QString key = it->value("dev_key").toString();
-            QDateTime overtime = QDateTime::currentDateTime().addSecs(-12);
+            QDateTime overtime = QDateTime::currentDateTime().addSecs(-20);
             QDateTime uptime = QDateTime::fromString(it->value(str).toString(), "yyyy-MM-dd hh:mm:ss");
             if(uptime >= overtime) {
                 if(mOnlineHash.contains(key) && (mOnlineHash[key] != true)) {
@@ -138,9 +138,14 @@ QJsonObject Pdu_NetJsonPack::alarm()
     foreach (const auto &it, mHash.values()) {
         int status = it->value("status").toInt();
         if(0 != status) {
+            QString fmd = "ip=%1 addr=%2 alarm:%3";
             QString key = it->value("dev_key").toString();
             QString alarm = it->value("pdu_alarm").toString();
-            obj.insert(key, alarm);
+            QString ip = it->value("ip").toString();
+            int addr = it->value("addr").toInt();
+            QString str = fmd.arg(ip).arg(addr).arg(alarm);
+            if(5==status) str += "offline";
+            obj.insert(key, str);
         }
     }
     return obj;

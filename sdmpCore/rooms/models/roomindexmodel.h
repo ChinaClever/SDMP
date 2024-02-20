@@ -6,6 +6,7 @@ class APP_DLL_EXPORT RoomIndexModel
 {
 public:
     uint id = 0;
+    QString name;
     uchar is_delete = 0;
     double power_capacity=0;
     QDateTime createtime = QDateTime::currentDateTime();
