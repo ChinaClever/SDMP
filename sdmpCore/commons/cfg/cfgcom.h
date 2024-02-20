@@ -54,6 +54,7 @@ struct sCfgRestUnit
     int port = 43796;
     int acl = 1;
     QString url = "0.0.0.0";
+    QString prefix;
 };
 
 struct sCfgRestItem

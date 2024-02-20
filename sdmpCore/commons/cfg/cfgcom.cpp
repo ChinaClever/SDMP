@@ -112,9 +112,11 @@ void CfgCom::initCfgRest()
     it->http.acl = readCfg("http_acl", 1, g).toInt();
     it->http.port = readCfg("http_port", 43796, g).toInt();
     it->http.url = readCfg("http_url", "0.0.0.0", g).toString();
+    it->http.prefix = "http_";
 
     it->https.en = readCfg("https_en", true, g).toBool();
     it->https.acl = readCfg("https_acl", 1, g).toInt();
     it->https.port = readCfg("https_port", 43795, g).toInt();
     it->https.url = readCfg("https_url", "0.0.0.0", g).toString();
+    it->https.prefix = "https_";
 }

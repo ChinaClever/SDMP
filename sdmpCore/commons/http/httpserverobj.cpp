@@ -131,10 +131,10 @@ bool HttpServerObj::http_listen(quint16 port, const QHostAddress &address)
 {
     const auto ret = mHttpServer.listen(address, port);
     if (ret) {
-        qWarning() << QCoreApplication::translate("QHttpServer", "Server failed to listen on a port.");
-    } else {
         qInfo().noquote() << QCoreApplication::translate("QHttpServer", "Running on http://%1:%2/ ")
                                  .arg(address.toString()).arg(port);
+    } else {
+        qWarning() << QCoreApplication::translate("QHttpServer", "Server failed to listen on a port.");
     }
 
     return ret;
@@ -168,7 +168,8 @@ bool HttpServerObj::https_listen(quint16 port, const QHostAddress &address)
     }
 
     //! [HTTPS Configuration ]
-    qInfo().noquote() << QCoreApplication::translate("QHttpServer", "https://127.0.0.1:%1/") .arg(sslPort);
+    qInfo().noquote() << QCoreApplication::translate("QHttpServer", "https://%1:%2/")
+                             .arg(address.toString()).arg(sslPort);
 #else
     qInfo().noquote()
         << QCoreApplication::translate("QHttpServer",

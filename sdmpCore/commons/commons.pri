@@ -10,6 +10,8 @@ include(msgcom/msgcom.pri)
 include(tabcom/tabcom.pri)
 include(backcolour/backcolour.pri)
 
-HEADERS +=
+HEADERS += \
+    $$PWD/print.h
 
-SOURCES +=
+SOURCES += \
+    $$PWD/print.cpp
