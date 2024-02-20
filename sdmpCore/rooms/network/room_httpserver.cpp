@@ -6,7 +6,7 @@
 #include "room_httpserver.h"
 
 Room_HttpServer::Room_HttpServer(QObject *parent)
-    : Cab_HttpServer{parent}
+    : Aisle_HttpServer{parent}
 {
     room_httpInit();
 }
@@ -59,10 +59,10 @@ void Room_HttpServer::room_powerList()
 void Room_HttpServer::room_power()
 {
     mHttpServer.route("/room/power", [&] (const QHttpServerRequest &request){
-        QString name = queryItem(request, "name");
-        if(name.size()) {
+        QString room = queryItem(request, "room");
+        if(room.size()) {
             Room_IndexSql *index = Room_IndexSql::build();
-            uint id = index->getIdByName(name);
+            uint id = index->getIdByName(room);
             return Room_HdaSql::build()->roomHdaJson(id);
         } else {
             return QJsonObject{ {"msg", "parameter error"} };
@@ -70,14 +70,13 @@ void Room_HttpServer::room_power()
     });
 }
 
-
 void Room_HttpServer::room_ele()
 {
     mHttpServer.route("/room/ele", [&] (const QHttpServerRequest &request){
-        QString name = queryItem(request, "name");
-        if(name.size()) {
+        QString room = queryItem(request, "room");
+        if(room.size()) {
             Room_IndexSql *index = Room_IndexSql::build();
-            uint id = index->getIdByName(name);
+            uint id = index->getIdByName(room);
             return Room_EleSql::build()->roomEleJson(id);
         } else {
             return QJsonObject{ {"msg", "parameter error"} };

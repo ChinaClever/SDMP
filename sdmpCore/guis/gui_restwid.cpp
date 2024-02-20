@@ -125,10 +125,10 @@ void Gui_RestWid::initRoomTab()
     name = tr("机房电能列表"); api = "/room/ele/list"; param ="";
     setTableRow(tab, row++, name, api, param);
 
-    name = tr("机房当前功率"); api = "/room/power"; param ="name=?";
+    name = tr("机房当前功率"); api = "/room/power"; param ="room=?";
     setTableRow(tab, row++, name, api, param);
 
-    name = tr("机房当前电能"); api = "/room/ele"; param ="name=?";
+    name = tr("机房当前电能"); api = "/room/ele"; param ="room=?";
     setTableRow(tab, row++, name, api, param);
 }
 

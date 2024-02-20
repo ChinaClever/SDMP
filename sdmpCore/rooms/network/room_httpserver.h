@@ -1,9 +1,9 @@
 #ifndef ROOM_HTTPSERVER_H
 #define ROOM_HTTPSERVER_H
 #include "../sqls/room_hdasql.h"
-#include "cabinets/network/cab_httpserver.h"
+#include "aisles/network/aisle_httpserver.h"
 
-class Room_HttpServer: public Cab_HttpServer
+class Room_HttpServer: public Aisle_HttpServer
 {
 public:
     Room_HttpServer(QObject *parent);
