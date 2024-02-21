@@ -6,6 +6,7 @@ class APP_DLL_EXPORT AisleIndexModel
 {
 public:
     uint id = 0;
+    QString name;
     uint room_id=0;
     uchar pdu_bar = 0;
     uchar is_delete = 0;

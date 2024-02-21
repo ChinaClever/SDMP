@@ -143,9 +143,20 @@ void Gui_RestWid::initAisleTab()
     QString param ="room=?";
     setTableRow(tab, row++, name, api, param);
 
+    name = tr("柜列数量统计"); api = "/aisle/number"; param ="room=?";
+    setTableRow(tab, row++, name, api, param);
 
+    name = tr("柜列功率列表"); api = "/aisle/power/list"; param ="room=?";
+    setTableRow(tab, row++, name, api, param);
 
+    name = tr("柜列电能列表"); api = "/aisle/ele/list"; param ="room=?";
+    setTableRow(tab, row++, name, api, param);
 
+    name = tr("柜列当前功率"); api = "/aisle/power"; param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("柜列当前电能"); api = "/aisle/ele"; param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
 }
 
 

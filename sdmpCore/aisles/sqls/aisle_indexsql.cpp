@@ -47,3 +47,17 @@ int Aisle_IndexSql::pdu_bar(uint id)
 {
     return mListModel.getByKey(id).pdu_bar;
 }
+
+QString Aisle_IndexSql::getNameById(uint id)
+{
+    return mListModel.getByKey(id).name;
+}
+
+uint Aisle_IndexSql::getIdByRoomAisle(uint room_id, const QString &name)
+{
+    QList<uint> lst = getIdsByRoom(room_id);
+    foreach (const auto &it, lst) {
+        if(name == getNameById(it)) return it;
+    }
+    return 0;
+}

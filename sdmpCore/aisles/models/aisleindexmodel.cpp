@@ -12,6 +12,7 @@ namespace qx
     {
         t.setName(AisleIndexModel::tableName());
         t.id(&AisleIndexModel::id, "id");
+        t.data(&AisleIndexModel::name, "name");
         t.data(&AisleIndexModel::room_id, "room_id");
         t.data(&AisleIndexModel::pdu_bar, "pdu_bar");
         t.data(&AisleIndexModel::is_delete, "is_delete");
