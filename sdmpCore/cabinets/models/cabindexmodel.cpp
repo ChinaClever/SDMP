@@ -12,6 +12,7 @@ namespace qx
     {
         t.setName(CabIndexModel::tableName());
         t.id(&CabIndexModel::id, "id");
+        t.data(&CabIndexModel::name, "name");
         t.data(&CabIndexModel::room_id, "room_id");
         t.data(&CabIndexModel::aisle_id, "aisle_id");
         t.data(&CabIndexModel::pdu_box, "pdu_box");

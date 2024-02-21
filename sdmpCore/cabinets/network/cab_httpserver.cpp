@@ -4,6 +4,8 @@
  *      Author: Lzy
  */
 #include "cab_httpserver.h"
+#include "rooms/sqls/room_indexsql.h"
+#include "aisles/sqls/aisle_indexsql.h"
 
 Cab_HttpServer::Cab_HttpServer(QObject *parent) : Pdu_HttpServer{parent}
 {
@@ -12,67 +14,94 @@ Cab_HttpServer::Cab_HttpServer(QObject *parent) : Pdu_HttpServer{parent}
 
 void Cab_HttpServer::cab_init()
 {
-    cab_list();
-    cab_data();
-    cab_datas();
-    cab_modified();
+    cab_ele();
+    cab_power();
+    cab_number();
+    cab_nameList();
+    cab_powerList();
+    cab_eleList();
 }
 
-
-void Cab_HttpServer::cab_datas()
+QList<uint> Cab_HttpServer::cab_getIdByQuery(const QHttpServerRequest &request)
 {
-    mHttpServer.route("/cabinet/datas", [&] {
-        QJsonArray ids = cab_getIds();
-        QJsonObject jsonObj; foreach (const auto &it, ids) {
-            uint id = (uint)it.toInt(); jsonObj.insert(QString::number(id), cab_getData(id));
-        } return jsonObj;
+    uint room_id=0, aisle_id=0;
+    QString room = queryItem(request, "room");
+    if(room.size()) room_id = Room_IndexSql::build()->getIdByName(room);
+
+    QString aisle = queryItem(request, "aisle");
+    if(aisle.size()) aisle_id = Aisle_IndexSql::build()->getIdByRoomAisle(room_id, aisle);
+    QList<uint> lst = Cab_IndexSql::build()->getIdsByRoomAisle(room_id, aisle_id);
+    QString cab = queryItem(request, "cabinet");
+    if(cab.size()) lst = Cab_IndexSql::build()->getIdsByName(lst, cab);
+    return lst;
+}
+
+void Cab_HttpServer::cab_number()
+{
+    mHttpServer.route("/cabinet/number", [&] (const QHttpServerRequest &request){
+        int number = cab_getIdByQuery(request).size();
+        QJsonObject obj; obj.insert("number", number);
+        return obj;
     });
 }
 
-void Cab_HttpServer::cab_modified()
+void Cab_HttpServer::cab_nameList()
 {
-    mHttpServer.route("/cabinet/modified", [&] {
-        //Cab_IndexSql::build()->set();
-        return QJsonObject{ {"msg", "ok"} };
+    mHttpServer.route("/cabinet/name/list", [&] (const QHttpServerRequest &request){
+        Cab_IndexSql *index = Cab_IndexSql::build();
+        QJsonArray jsonArray; QList<uint> lst = cab_getIdByQuery(request);
+        foreach (const auto& id, lst) jsonArray.append(index->getNameById(id));
+        return jsonArray;
+    });
+}
+
+void Cab_HttpServer::cab_powerList()
+{
+    mHttpServer.route("/cabinet/power/list", [&] (const QHttpServerRequest &request){
+        QList<uint> lst = cab_getIdByQuery(request);
+        QJsonObject obj; foreach (const auto& it, lst) {
+            QString name = Cab_IndexSql::build()->getNameById(it);
+            QJsonObject json = Cab_HdaSql::build()->cabHdaJson(it);
+            obj.insert(name, json);
+        } return obj;
+    });
+}
+
+void Cab_HttpServer::cab_eleList()
+{
+    mHttpServer.route("/cabinet/ele/list", [&] (const QHttpServerRequest &request){
+        QList<uint> lst = cab_getIdByQuery(request);
+        QJsonObject obj; foreach (const auto& it, lst) {
+            QString name = Cab_IndexSql::build()->getNameById(it);
+            QJsonObject json = Cab_EleSql::build()->cabEleJson(it);
+            obj.insert(name, json);
+        } return obj;
     });
 }
 
 
-void Cab_HttpServer::cab_data()
+void Cab_HttpServer::cab_power()
 {
-    mHttpServer.route("/cabinet/data", [&](const QHttpServerRequest &request) {
-        uint id = queryItem(request, "id").toUInt();
-        if(id > 0) {
-            return cab_getData(id);
-        } else {
-            return QJsonObject{ {"msg", "parameter error"} };
-        }
+    mHttpServer.route("/cabinet/power", [&] (const QHttpServerRequest &request){
+        QList<uint> lst = cab_getIdByQuery(request);
+        QJsonObject obj; foreach (const auto& it, lst) {
+            QString name = Cab_IndexSql::build()->getNameById(it);
+            QJsonObject json = Cab_HdaSql::build()->cabHdaJson(it);
+            obj.insert(name, json);
+        } return obj;
     });
 }
 
-QJsonObject Cab_HttpServer::cab_getData(uint id)
-{
-    QJsonObject hda = Cab_HdaSql::build()->cabHdaJson(id);
-    QJsonObject ele = Cab_EleSql::build()->cabEleJson(id);
-    QJsonObject mergedObject(hda);
-    for (const QString& key : ele.keys()) {
-        mergedObject.insert(key, ele.value(key));
-    }
-    return mergedObject;
-}
 
-QJsonArray Cab_HttpServer::cab_getIds()
+void Cab_HttpServer::cab_ele()
 {
-    QJsonArray jsonArray;
-    QList<uint> lst = Cab_IndexSql::build()->getIds();
-    foreach (const auto& it, lst) {
-        jsonArray.append((int)it);
-    } return jsonArray;
-}
-
-void Cab_HttpServer::cab_list()
-{
-    mHttpServer.route("/cabinet/list", [&] {
-        return cab_getIds();
+    mHttpServer.route("/cabinet/ele", [&] (const QHttpServerRequest &request){
+        QList<uint> lst = cab_getIdByQuery(request);
+        QJsonObject obj; foreach (const auto& it, lst) {
+            QString name = Cab_IndexSql::build()->getNameById(it);
+            QJsonObject json = Cab_EleSql::build()->cabEleJson(it);
+            obj.insert(name, json);
+        } return obj;
     });
 }
+

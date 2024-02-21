@@ -6,6 +6,7 @@ class APP_DLL_EXPORT CabIndexModel
 {
 public:
     uint id = 0;
+    QString name;
     uint room_id=0;
     uint aisle_id = 0;
     uchar pdu_box = 0;

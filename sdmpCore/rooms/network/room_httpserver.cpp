@@ -60,13 +60,13 @@ void Room_HttpServer::room_power()
 {
     mHttpServer.route("/room/power", [&] (const QHttpServerRequest &request){
         QString room = queryItem(request, "room");
-        if(room.size()) {
-            Room_IndexSql *index = Room_IndexSql::build();
-            uint id = index->getIdByName(room);
-            return Room_HdaSql::build()->roomHdaJson(id);
+        QJsonObject obj; if(room.size()) {
+            uint id = Room_IndexSql::build()->getIdByName(room);
+            QJsonObject json = Room_HdaSql::build()->roomHdaJson(id);
+            obj.insert(room, json);
         } else {
-            return QJsonObject{ {"msg", "parameter error"} };
-        }
+            obj.insert("msg", "parameter error");
+        } return obj;
     });
 }
 
@@ -74,13 +74,13 @@ void Room_HttpServer::room_ele()
 {
     mHttpServer.route("/room/ele", [&] (const QHttpServerRequest &request){
         QString room = queryItem(request, "room");
-        if(room.size()) {
-            Room_IndexSql *index = Room_IndexSql::build();
-            uint id = index->getIdByName(room);
-            return Room_EleSql::build()->roomEleJson(id);
+        QJsonObject obj; if(room.size()) {
+            uint id = Room_IndexSql::build()->getIdByName(room);
+            QJsonObject json = Room_EleSql::build()->roomEleJson(id);
+            obj.insert(room, json);
         } else {
-            return QJsonObject{ {"msg", "parameter error"} };
-        }
+            obj.insert("msg", "parameter error");
+        } return obj;
     });
 }
 

@@ -20,6 +20,11 @@ Rack_IndexSql *Rack_IndexSql::build()
 }
 
 
+QString Rack_IndexSql::getNameById(uint id)
+{
+    return mListModel.getByKey(id).name;
+}
+
 QList<uint> Rack_IndexSql::getIds()
 {
     QList<uint> lst;
@@ -67,3 +72,20 @@ QJsonObject Rack_IndexSql::outletByRack(uint id)
     return root;
 }
 
+QList<uint> Rack_IndexSql::getIdsByCab(uint cab_id)
+{
+    QList<uint> lst; foreach (const auto &it, mListModel) {
+        if(!it.second.is_delete && it.second.cabinet_id == cab_id) lst << it.first;
+    }
+
+    return lst;
+}
+
+QList<uint> Rack_IndexSql::getIdsByName(uint cab_id, const QString &name)
+{
+    QList<uint> res, lst = getIdsByCab(cab_id);
+     foreach (const auto &it, lst) {
+        if(name == getNameById(it)) res << it;
+     }
+     return res;
+}

@@ -12,6 +12,7 @@ namespace qx
     {
         t.setName(RackIndexModel::tableName());
         t.id(&RackIndexModel::id, "id");
+        t.data(&RackIndexModel::name, "name");
         t.data(&RackIndexModel::a_port, "a_port");
         t.data(&RackIndexModel::b_port, "b_port");
         t.data(&RackIndexModel::is_delete, "is_delete");

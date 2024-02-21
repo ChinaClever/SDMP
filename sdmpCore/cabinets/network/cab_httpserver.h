@@ -8,14 +8,14 @@ public:
     explicit Cab_HttpServer(QObject *parent = nullptr);
 
 private:
+    void cab_number();
+    void cab_nameList();
+    void cab_powerList();
+    void cab_eleList();
+    void cab_power();
+    void cab_ele();
     void cab_init();
-    void cab_list();
-    void cab_data();
-    void cab_datas();
-    void cab_modified();
-
-    QJsonObject cab_getData(uint id);
-    QJsonArray cab_getIds();
+    QList<uint> cab_getIdByQuery(const QHttpServerRequest &request);
 };
 
 #endif // CAB_HTTPSERVER_H

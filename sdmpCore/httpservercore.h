@@ -1,9 +1,9 @@
 #ifndef HTTPSERVERCORE_H
 #define HTTPSERVERCORE_H
 
-#include "rooms/network/room_httpserver.h"
+#include "racks/network/rack_httpserver.h"
 
-class HttpServerCore : public Room_HttpServer
+class HttpServerCore : public Rack_HttpServer
 {
 public:
     HttpServerCore(QObject *parent);

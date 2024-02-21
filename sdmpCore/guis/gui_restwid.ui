@@ -449,7 +449,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -468,7 +468,7 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>机架</string>
+       <string>U位</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab_5">

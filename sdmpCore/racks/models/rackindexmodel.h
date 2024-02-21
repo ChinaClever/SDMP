@@ -6,6 +6,7 @@ class APP_DLL_EXPORT RackIndexModel
 {
 public:
     uint id = 0;
+    QString name;
     uint cabinet_id=0;
     uchar is_delete = 0;
     uchar a_port = 0;

@@ -20,6 +20,8 @@ protected:
     void initWidget();
     void initRoomTab();
     void initAisleTab();
+    void initCabinetTab();
+    void initRackTab();
 
 
 

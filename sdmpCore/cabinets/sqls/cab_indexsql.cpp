@@ -17,13 +17,25 @@ Cab_IndexSql *Cab_IndexSql::build()
     return sington;
 }
 
-
+QString Cab_IndexSql::getNameById(uint id)
+{
+    return mListModel.getByKey(id).name;
+}
 
 QList<uint> Cab_IndexSql::getIds()
 {
     QList<uint> lst;
     foreach (const auto &it, mListModel) {
         if(!it.second.is_delete) lst << it.first;
+    }
+
+    return lst;
+}
+
+QList<uint> Cab_IndexSql::getIdsByRoom(uint room_id)
+{
+    QList<uint> lst; foreach (const auto &it, mListModel) {
+        auto model = it.second; if(!model.is_delete && (model.room_id==room_id)) lst << it.first;
     }
 
     return lst;
@@ -36,6 +48,36 @@ QList<uint> Cab_IndexSql::getIdsByAisle(uint aisle_id)
     }
 
     return lst;
+}
+
+QList<uint> Cab_IndexSql::getIdsByRoomAisle(uint room_id, uint aisle_id)
+{
+    QList<uint> lst; if(room_id && aisle_id) {
+         foreach (const auto &it, mListModel) {
+            auto model = it.second; if(!model.is_delete && (model.aisle_id==aisle_id) && (model.room_id==room_id)) lst << it.first;
+        }
+    } else if(room_id) lst = getIdsByRoom(room_id);
+    else if(aisle_id) lst = getIdsByAisle(aisle_id);
+    else lst = getIds();
+
+    return lst;
+}
+
+QList<uint> Cab_IndexSql::getIdsByName(QList<uint> &id, const QString &name)
+{
+    QList<uint> lst;
+    foreach (const auto &it, id) {
+        if(getNameById(it) == name) lst << it;
+    }
+    return lst;
+}
+
+uint Cab_IndexSql::getIdsByName(uint room_id, const QString &cab)
+{    
+    QList<uint> lst = getIdsByRoom(room_id);
+    uint ret = 0; lst = getIdsByName(lst, cab);
+    if(lst.size()) ret = lst.first();
+    return ret;
 }
 
 int Cab_IndexSql::getIds(QList<uint> &pdu, QList<uint> &box)

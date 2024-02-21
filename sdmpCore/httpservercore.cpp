@@ -6,7 +6,7 @@
 #include "httpservercore.h"
 
 HttpServerCore::HttpServerCore(QObject *parent)
-    : Room_HttpServer{parent}
+    : Rack_HttpServer{parent}
 {
     initHttp();
 }

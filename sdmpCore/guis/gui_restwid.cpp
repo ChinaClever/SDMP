@@ -160,6 +160,59 @@ void Gui_RestWid::initAisleTab()
 }
 
 
+void Gui_RestWid::initCabinetTab()
+{
+    ComTableWid *tab = mPduTab = new ComTableWid(ui->tabWidget->widget(2));
+    QStringList header; header << tr("名称")<< tr("API") << tr("参数");
+    tab->initTableWid(header, 0, ""); int row = 0;
+
+    QString name = tr("机柜名称列表");
+    QString api = "/cabinet/name/list";
+    QString param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机柜数量统计"); api = "/cabinet/number"; param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机柜功率列表"); api = "/cabinet/power/list"; param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机柜电能列表"); api = "/cabinet/ele/list"; param ="room=?,aisle=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机柜当前功率"); api = "/cabinet/power"; param ="room=?,aisle=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("机柜当前电能"); api = "/cabinet/ele"; param ="room=?,aisle=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+}
+
+void Gui_RestWid::initRackTab()
+{
+    ComTableWid *tab = mPduTab = new ComTableWid(ui->tabWidget->widget(3));
+    QStringList header; header << tr("名称")<< tr("API") << tr("参数");
+    tab->initTableWid(header, 0, ""); int row = 0;
+
+    QString name = tr("U位名称列表");
+    QString api = "/rack/name/list";
+    QString param ="room=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("U位数量统计"); api = "/rack/number"; param ="room=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("U位功率列表"); api = "/rack/power/list"; param ="room=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("U位电能列表"); api = "/rack/ele/list"; param ="room=?,cabinet=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("U位当前功率"); api = "/rack/power"; param ="room=?,cabinet=?,rack=?";
+    setTableRow(tab, row++, name, api, param);
+
+    name = tr("U位当前电能"); api = "/rack/ele"; param ="room=?,cabinet=?,rack=?";
+    setTableRow(tab, row++, name, api, param);
+}
 
 void Gui_RestWid::initFunSlot()
 {
@@ -167,9 +220,9 @@ void Gui_RestWid::initFunSlot()
     initPduTab();
     initRoomTab();
     initAisleTab();
-
+    initCabinetTab();
     initHttpStatus();
-
+    initRackTab();
 }
 
 void Gui_RestWid::saveCfg(sCfgRestUnit *it)

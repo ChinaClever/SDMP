@@ -14,8 +14,12 @@ public:
     double pow_capacity(uint id);
     int is_disabled(uint id);
 
+    QString getNameById(uint id);
+    QList<uint> getIdsByRoom(uint room_id);
     QList<uint> getIdsByAisle(uint aisle_id);
-
+    QList<uint> getIdsByRoomAisle(uint room_id, uint aisle_id);    
+    QList<uint> getIdsByName(QList<uint> &id, const QString &name);
+    uint getIdsByName(uint room_id, const QString &cab);
 };
 
 #endif // CAB_INDEXSQL_H
