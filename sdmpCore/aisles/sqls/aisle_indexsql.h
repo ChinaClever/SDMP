@@ -12,8 +12,9 @@ public:
     QList<uint> getIds();
     QList<uint> getIdsByRoom(uint id);
     QList<uint> getCabinetIds(uint id);
-    QString getNameById(uint id);
     uint getIdByRoomAisle(uint room_id, const QString &name);
+    QString getNameById(uint id);
+    uint roomId(uint id);
     int pdu_bar(uint id);
 
 };

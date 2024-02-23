@@ -233,7 +233,7 @@ void OrmDb::initDebugInfo()
     qx::QxSqlDatabase::getSingleton()->setTraceSqlBoundValues(false);
     qx::QxSqlDatabase::getSingleton()->setTraceSqlBoundValuesOnError(false);
     int cnt = QThreadPool::globalInstance()->maxThreadCount();
-    QThreadPool::globalInstance()->setMaxThreadCount(15*cnt);
+    QThreadPool::globalInstance()->setMaxThreadCount(20*cnt);
 }
 
 

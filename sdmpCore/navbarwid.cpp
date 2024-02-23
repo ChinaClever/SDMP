@@ -44,17 +44,7 @@ void NavBarWid::on_logBtn_clicked()
 
 void NavBarWid::on_loginBtn_clicked()
 {
-    // bool lang = LandingUser::get()->land;
-    // if(lang) {
-    //     int ret = mUserLand->selectWork();
-    //     if(ret == 1) { // 用户切换
-    //         mUserLand->exec();
-    //     }  else if(ret == 2) { // 用户退出
-    //         mUserLand->quitWidget();
-    //     }
-    // } else {
-    //     mUserLand->exec();
-    // }
+    emit navBarSig(3);
 }
 
 

@@ -1,7 +1,6 @@
 #ifndef HTTPSERVERCORE_H
 #define HTTPSERVERCORE_H
-
-#include "racks/network/rack_httpserver.h"
+#include "mqttpublishcore.h"
 
 class HttpServerCore : public Rack_HttpServer
 {

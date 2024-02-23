@@ -13,6 +13,7 @@ public:
     int getIds(QList<uint> &pdu, QList<uint> &box);
     double pow_capacity(uint id);
     int is_disabled(uint id);
+    uint roomId(uint id);
 
     QString getNameById(uint id);
     QList<uint> getIdsByRoom(uint room_id);

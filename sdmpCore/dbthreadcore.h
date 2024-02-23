@@ -1,7 +1,7 @@
 #ifndef DBTHREADCORE_H
 #define DBTHREADCORE_H
 #include "httpservercore.h"
-#include "racks/sqls/rack_hdasql.h"
+// #include "racks/sqls/rack_hdasql.h"
 
 class DbThreadCore : public HttpServerCore
 {
@@ -38,6 +38,7 @@ private:
     bool isWrite = false;
     QStringList mWriteLst;
     QTimer *mTimer = nullptr;
+    MqttPublishCore *m_mqtt;
 };
 
 #endif // DBTHREADCORE_H

@@ -1,6 +1,6 @@
 #ifndef RACK_HTTPSERVER_H
 #define RACK_HTTPSERVER_H
-#include "rooms/network/room_httpserver.h"
+#include "rack_mqttpublish.h"
 
 class Rack_HttpServer : public Room_HttpServer
 {

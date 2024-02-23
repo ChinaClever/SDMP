@@ -22,7 +22,16 @@ Rack_IndexSql *Rack_IndexSql::build()
 
 QString Rack_IndexSql::getNameById(uint id)
 {
-    return mListModel.getByKey(id).name;
+    QString res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).name;
+    return res;
+}
+
+uint Rack_IndexSql::cabId(uint id)
+{
+    uint res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).cabinet_id;
+    return res;
 }
 
 QList<uint> Rack_IndexSql::getIds()

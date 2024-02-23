@@ -36,7 +36,7 @@ bool Pdu_UdpReceiver::initSocket(int port)
     bool ret = true; if(!mSocket) {
         mSocket = new QUdpSocket(this);
         ret = mSocket->bind(QHostAddress::Any, port);
-        if(!ret) qDebug() << "Faeild to bind UDP socket";
+        if(!ret) cout << "Faeild to bind UDP socket";
     }
     return ret;
 }
@@ -46,16 +46,14 @@ void Pdu_UdpReceiver::workDown()
     QSharedPointer<sUdpRcvItem> it(new sUdpRcvItem);
     it->datagram.resize(mSocket->pendingDatagramSize());
     int len = mSocket->readDatagram(it->datagram.data(), it->datagram.size(), &it->address, &it->senderPort);
-    if(len > 0)  mQueue.enqueue(it);
-    //qDebug() << "Received datagram from" << it->address.toString() << ":" << it->senderPort;
-    //qDebug() << "Data:" << it->datagram;
+    if(len > 0) mQueue.enqueue(it); //cout << "Data:" << it->datagram;
+    // cout << "Received datagram from" << it->address.toString() << ":" << it->senderPort;
 }
 
 void Pdu_UdpReceiver::run()
 {    
     while(isRun) {
-        if(mSocket->hasPendingDatagrams()) {
-            workDown();
-        } else QThread::msleep(1);
+        if(mSocket->hasPendingDatagrams()) workDown();
+        else QThread::msleep(1);
     }
 }

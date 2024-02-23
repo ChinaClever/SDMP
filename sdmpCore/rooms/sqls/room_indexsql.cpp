@@ -43,7 +43,9 @@ QStringList Room_IndexSql::getNames()
 
 QString Room_IndexSql::getNameById(uint id)
 {
-    return mListModel.getByKey(id).name;
+    QString res; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).name;
+    return res;
 }
 
 uint Room_IndexSql::getIdByName(const QString &name)

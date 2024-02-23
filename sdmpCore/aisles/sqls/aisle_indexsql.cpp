@@ -45,12 +45,23 @@ QList<uint> Aisle_IndexSql::getIdsByRoom(uint id)
 
 int Aisle_IndexSql::pdu_bar(uint id)
 {
-    return mListModel.getByKey(id).pdu_bar;
+    int res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).pdu_bar;
+    return res;
+}
+
+uint Aisle_IndexSql::roomId(uint id)
+{
+    uint res=0; if(mListModel.contains(id))
+    res = mListModel.getByKey(id).room_id;
+    return res;
 }
 
 QString Aisle_IndexSql::getNameById(uint id)
 {
-    return mListModel.getByKey(id).name;
+    QString res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).name;
+    return res;
 }
 
 uint Aisle_IndexSql::getIdByRoomAisle(uint room_id, const QString &name)

@@ -1,8 +1,6 @@
 #ifndef PDU_HTTPSERVER_H
 #define PDU_HTTPSERVER_H
-
-#include "httpserverobj.h"
-#include "pdu_netjsonpack.h"
+#include "pdu_mqttpublish.h"
 
 class Pdu_HttpServer : public HttpServerObj
 {

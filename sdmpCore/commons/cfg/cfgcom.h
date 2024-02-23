@@ -63,6 +63,43 @@ struct sCfgRestItem
     sCfgRestUnit https;
 };
 
+
+struct sCfgMqttItem {
+    sCfgMqttItem():type(2), url("192.168.1.2"), port(8883), path("/mqtt"),
+        clientId("clientId"), isConnected(false), keepAlive(60), qos(0), sec(5){}
+
+    int type; // 1 mqtt 2 mqtts 3 ws 4 wss
+    QString url;
+    quint16 port;
+    QString path;
+    QString clientId;
+    QByteArray usr, pwd;
+    bool isConnected;
+    int keepAlive;
+    int qos;
+    int sec;
+};
+
+struct sCfgMqttUnit
+{
+    bool en = true;
+    QString topic;
+    QString prefix;
+    int interval = 10;
+    QDateTime last_time;
+};
+
+struct sCfgPublishItem
+{
+    sCfgMqttUnit pdu;
+    sCfgMqttUnit room;
+    sCfgMqttUnit aisle;
+    sCfgMqttUnit cab;
+    sCfgMqttUnit rack;
+    sCfgMqttUnit busbar;
+};
+
+
 struct sCfgLogItem
 {
     bool en = true;
@@ -80,8 +117,11 @@ public:
     static sCfgSqlItem mCfgSql;
     static sCfgRestItem mCfgRest;
     static sCfgLogItem mCfgLog;
+    static sCfgMqttItem mCfgMqtt;
+    static sCfgPublishItem mCfgPublish;
 
     void writeCfgDb();
+    void writeCfgMqtt();
 
 private:
     static void initCfg();    
@@ -89,6 +129,8 @@ private:
     void initCfgSql();
     void initCfgLog();
     void initCfgRest();
+    void initCfgMqtt();
+    void initCfgPublish();
 };
 
 #endif // CFGCOM_H

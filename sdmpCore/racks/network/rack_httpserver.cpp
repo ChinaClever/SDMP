@@ -4,7 +4,7 @@
  *      Author: Lzy
  */
 #include "rack_httpserver.h"
-#include "../sqls/rack_hdasql.h"
+
 
 Rack_HttpServer::Rack_HttpServer(QObject *parent)
     : Room_HttpServer{parent}

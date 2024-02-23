@@ -92,14 +92,14 @@ void Gui_DbWid::updateSetTable()
         if(ele->en) { alarm=0; str = tr("记录");
         } else { str = tr("不记录"); alarm=1;}
         mSetTableWid->setTableItem(i, 1, str);
-        mSetTableWid->setItemColor(i, 1, alarm);
+        //mSetTableWid->setItemColor(i, 1, alarm);
         str = tr("%1小时").arg(ele->interval);
         mSetTableWid->setTableItem(i, 2, str);
 
         if(hda->en) { alarm=0; str = tr("记录");
         } else { str = tr("不记录"); alarm=1;}
         mSetTableWid->setTableItem(i, 3, str);
-        mSetTableWid->setItemColor(i, 3, alarm);
+        //mSetTableWid->setItemColor(i, 3, alarm);
         str = tr("%1分钟").arg(hda->interval);
         mSetTableWid->setTableItem(i, 4, str);
     }

@@ -21,12 +21,14 @@ SOURCES += \
     httpservercore.cpp \
     main.cpp \
     mainwindow.cpp \
+    mqttpublishcore.cpp \
     navbarwid.cpp
 
 HEADERS += \
     dbthreadcore.h \
     httpservercore.h \
     mainwindow.h \
+    mqttpublishcore.h \
     navbarwid.h
 
 FORMS += \

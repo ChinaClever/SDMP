@@ -1,12 +1,6 @@
 #ifndef GUI_MQTTWID_H
 #define GUI_MQTTWID_H
-
-#include "dbthreadcore.h"
-#include "backcolourcom.h"
-#include "comtablewid.h"
-#include "msgbox.h"
-#include "cfgcom.h"
-#include <QDialog>
+#include "gui_publishdlg.h"
 
 namespace Ui {
 class Gui_MqttWid;
@@ -21,7 +15,24 @@ public:
     ~Gui_MqttWid();
 
 private:
+    void initCfg();
+    void saveCfg();
+    void initSetTable();
+    void updateSetTable();
+    void updateStatus();
+
+private slots:
+    void timeoutDone();
+    void initFunSlot();
+    void itemDoubleSlot(int row);
+    void on_mqttEditBtn_clicked();
+    void on_dbEnBox_currentIndexChanged(int index);
+
+private:
     Ui::Gui_MqttWid *ui;
+    QTimer *timer=nullptr;
+    ComTableWid *mSetTableWid;
+    bool m_dbEditStatus=false;
 };
 
 #endif // GUI_MQTTWID_H

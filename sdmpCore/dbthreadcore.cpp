@@ -8,7 +8,7 @@
 DbThreadCore::DbThreadCore(QObject *parent)
     : HttpServerCore{parent}
 {
-    mTimer = new QTimer(this); //mTimer->start(1000);
+    mTimer = new QTimer(this); mTimer->start(1500);
     connect(mTimer, &QTimer::timeout, this, &DbThreadCore::onTimeout);
     QTimer::singleShot(243,this,SLOT(initFunSlot()));
 }
@@ -35,8 +35,7 @@ QStringList DbThreadCore::writeMsg()
 
 void DbThreadCore::initFunSlot()
 {
-
-    mTimer->start(1000);
+    m_mqtt = new MqttPublishCore();
 }
 
 void DbThreadCore::initFun()
@@ -93,7 +92,7 @@ bool DbThreadCore::compareTime(sCfgSqlUnit &unit, int sec)
 void DbThreadCore::last_time(sCfgSqlUnit &unit)
 {
     QDateTime c = QDateTime::currentDateTime(); unit.last_time = c;
-    CfgCom::build()->writeCfg(unit.prefix+"last_time", c, "sql");
+    //CfgCom::build()->writeCfg(unit.prefix+"last_time", c, "sql");
 }
 
 void DbThreadCore::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
@@ -152,12 +151,13 @@ void DbThreadCore::workDown()
     hdaWork();
     eleWork();
 
-    cout << "AAAAAAAAAA";
+    // cout << "AAAAAAAAAA";
 
 }
 
 void DbThreadCore::run()
 {
+    m_mqtt->start_work();
     if(isRun) return; else isRun=true;
     mCnt++; workDown();
     isWrite = false;

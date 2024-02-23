@@ -1,6 +1,7 @@
 #ifndef CFGOBJ_H
 #define CFGOBJ_H
 #include <QtCore>
+#include "commons/print.h"
 
 class CfgObj
 {
@@ -22,8 +23,5 @@ private:
 private:
     QSettings *mCfgIni=nullptr;
 };
-
-
-#define cout qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") << "[" << __FILE__ << ":" << Q_FUNC_INFO << ":" << __LINE__ << "]"
 
 #endif // CFGOBJ_H

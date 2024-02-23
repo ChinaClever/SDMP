@@ -23,7 +23,8 @@ public:
     QJsonValue outlet(const QString &key);
     QJsonValue env(const QString &key);
     QJsonValue tg(const QString &key);
-    QJsonObject alarm();
+    QString alarm(const QString &key);
+    QJsonObject alarms();
 
     bool remove(const QString &key);
     void append(const QString &key, const QString &ip, uchar addr);
@@ -31,9 +32,10 @@ public:
     QString getKey(const QString &ip, uchar addr);
     QString toKey(const QString &ip, uchar addr);
     QStringList keys() {return mHash.keys();}
+    bool is_online(const QString &key);
     QStringList online_list();
     QStringList offline_list();
-    bool is_online(const QString &key);
+    QStringList alarm_list();
 
 signals:
     void online_offline_sig(const QString &key, bool statue);
@@ -45,11 +47,12 @@ private:
     void toJson(QByteArray &datagram, const QString &ip);
 
 private slots:
-    void onTimeout() {QtConcurrent::run([&](){online_offline_update();});}
+    void timeoutDone();
+    // void onTimeout() {QtConcurrent::run([&]{online_offline_update();});}
 
 private:
     bool isRun = true;
-    QTimer *mTimer = nullptr;
+    //QTimer *mTimer = nullptr;
     Pdu_UdpReceiver *mUdp=nullptr;
     QHash<QString, bool> mOnlineHash;
     QHash<QString, QSharedPointer<QJsonObject>> mHash;

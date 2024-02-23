@@ -19,7 +19,16 @@ Cab_IndexSql *Cab_IndexSql::build()
 
 QString Cab_IndexSql::getNameById(uint id)
 {
-    return mListModel.getByKey(id).name;
+    QString res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).name;
+    return res;
+}
+
+uint Cab_IndexSql::roomId(uint id)
+{
+    uint res=0; if(mListModel.contains(id))
+        res = mListModel.getByKey(id).room_id;
+    return res;
 }
 
 QList<uint> Cab_IndexSql::getIds()

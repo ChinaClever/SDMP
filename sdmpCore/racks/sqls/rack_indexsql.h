@@ -14,6 +14,7 @@ public:
     uint a_port(uint id);
     uint b_port(uint id);
 
+    uint cabId(uint id);
     QString getNameById(uint id);
     QList<uint> getIdsByCab(uint cab_id);
     QList<uint> getIdsByName(uint cab_id, const QString &name);
