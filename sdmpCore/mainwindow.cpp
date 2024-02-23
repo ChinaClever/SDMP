@@ -47,3 +47,13 @@ void MainWindow::navBarSlot(int id)
 {
     ui->stackedWid->setCurrentIndex(id);
 }
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    if(MsgBox::information(this, tr("关闭软件，需要再次确认"))) {
+        QMainWindow::closeEvent(event);
+        QCoreApplication::quit();
+        QCoreApplication::exit(0);
+        QApplication::quit();
+    }
+}

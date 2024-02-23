@@ -25,6 +25,7 @@ protected:
 protected slots:
     void initFunSlot();
     void navBarSlot(int);
+    void closeEvent(QCloseEvent* event) override;
 
 private:
     Ui::MainWindow *ui;

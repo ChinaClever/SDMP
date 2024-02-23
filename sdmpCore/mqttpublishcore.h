@@ -5,12 +5,10 @@
 class MqttPublishCore : public Rack_MqttPublish
 {
 public:
-    MqttPublishCore();
+     MqttPublishCore();
+    ~MqttPublishCore();
     void start_work();
     void workDown();
-
-private:
-    bool isRun=false;
 };
 
 #endif // MQTTPUBLISHCORE_H

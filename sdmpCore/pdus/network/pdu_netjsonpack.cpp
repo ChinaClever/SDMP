@@ -7,10 +7,11 @@
 
 Pdu_NetJsonPack::Pdu_NetJsonPack(QObject *parent) : QThread(parent)
 {
-    mUdp = new Pdu_UdpReceiver(parent); this->start();
-    // mTimer = new QTimer(this); mTimer->start(2500);
-    // connect(mTimer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
-    QtConcurrent::run([&]{timeoutDone();});
+    mUdp = new Pdu_UdpReceiver(parent); start();
+    // QTimer::singleShot(2450,this,SLOT(onTimeout()));
+    // timer = new QTimer(this); timer->start(2500);
+    // connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    // QtConcurrent::run([&]{timeoutDone();});
 }
 
 Pdu_NetJsonPack::~Pdu_NetJsonPack()
@@ -51,10 +52,17 @@ void Pdu_NetJsonPack::online_offline_update()
 
 void Pdu_NetJsonPack::timeoutDone()
 {
-    while(isRun) {
-        for (int i = 0; i < 3; ++i) {
-            if(isRun) sleep(1);
-        } online_offline_update();
+
+}
+
+void Pdu_NetJsonPack::onTimeout()
+{
+    static QTime t = QTime::currentTime();
+    QTime c = QTime::currentTime();
+    QTime s = t.addSecs(3);
+    if(c > s) {
+        online_offline_update();
+        t = c; //cout << isRun;
     }
 }
 
@@ -112,6 +120,7 @@ void Pdu_NetJsonPack::run()
     while(isRun) {
         ret = workDown();
         if(!ret) msleep(1);
+        onTimeout();
     }
 }
 

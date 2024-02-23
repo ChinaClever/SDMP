@@ -8,7 +8,7 @@
 DbThreadCore::DbThreadCore(QObject *parent)
     : HttpServerCore{parent}
 {
-    mTimer = new QTimer(this); mTimer->start(1500);
+    mTimer = new QTimer(this); mTimer->start(2500);
     connect(mTimer, &QTimer::timeout, this, &DbThreadCore::onTimeout);
     QTimer::singleShot(243,this,SLOT(initFunSlot()));
 }
@@ -22,6 +22,7 @@ DbThreadCore *DbThreadCore::build(QObject *parent)
 
 DbThreadCore::~DbThreadCore()
 {
+    delete m_mqtt;
     isRun = false;
     wait();
 }
@@ -157,8 +158,8 @@ void DbThreadCore::workDown()
 
 void DbThreadCore::run()
 {
-    m_mqtt->start_work();
     if(isRun) return; else isRun=true;
+    m_mqtt->start_work();
     mCnt++; workDown();
     isWrite = false;
     isRun = false;

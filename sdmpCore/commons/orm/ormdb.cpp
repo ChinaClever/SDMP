@@ -15,6 +15,11 @@ OrmDb::OrmDb()
     initDb();
 }
 
+OrmDb::~OrmDb()
+{
+    sDb.close();
+}
+
 //非阻塞方式延时,现在很多人推荐的方法
 void OrmDb::mdelay(int msec)
 {

@@ -7,7 +7,7 @@
 class OrmDb
 {
 public:
-    explicit OrmDb();
+    explicit OrmDb(); ~OrmDb();
     virtual QString tableName() = 0;
 
     bool sql_remove(int id);

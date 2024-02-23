@@ -1,7 +1,6 @@
 #ifndef DBTHREADCORE_H
 #define DBTHREADCORE_H
 #include "httpservercore.h"
-// #include "racks/sqls/rack_hdasql.h"
 
 class DbThreadCore : public HttpServerCore
 {

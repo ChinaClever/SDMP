@@ -48,11 +48,11 @@ private:
 
 private slots:
     void timeoutDone();
-    // void onTimeout() {QtConcurrent::run([&]{online_offline_update();});}
+    void onTimeout();// {QtConcurrent::run([&]{online_offline_update();});}
 
 private:
     bool isRun = true;
-    //QTimer *mTimer = nullptr;
+    QTimer *timer = nullptr;
     Pdu_UdpReceiver *mUdp=nullptr;
     QHash<QString, bool> mOnlineHash;
     QHash<QString, QSharedPointer<QJsonObject>> mHash;

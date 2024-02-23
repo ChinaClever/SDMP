@@ -10,6 +10,10 @@ MqttPublishCore::MqttPublishCore()
 
 }
 
+MqttPublishCore::~MqttPublishCore()
+{
+
+}
 
 void MqttPublishCore::workDown()
 {
@@ -18,11 +22,16 @@ void MqttPublishCore::workDown()
     cab_work();
     pdu_work();
     rack_work();
-    isRun = false;
 }
 
+
 void MqttPublishCore::start_work()
-{
-    if(isRun) return ; else isRun = true;
-    QtConcurrent::run([&]{workDown();});
+{    
+    static QTime t = QTime::currentTime();
+    QTime c = QTime::currentTime();
+    QTime s = t.addSecs(1);
+    if(c > s) {
+        workDown();
+        t = c; //cout << isRun;
+    }
 }

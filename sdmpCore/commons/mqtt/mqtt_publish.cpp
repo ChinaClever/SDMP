@@ -15,6 +15,7 @@ Mqtt_Publish::Mqtt_Publish(QObject *parent)
 
 Mqtt_Publish::~Mqtt_Publish()
 {
+    isRun = false;
     wait();
 }
 
