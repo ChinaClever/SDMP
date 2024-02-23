@@ -30,7 +30,7 @@ void Pdu_MqttPublish::pdu_work()
         pdu_online(lst, prefix);
     } else {
         lst = obj->alarm_list();
-        prefix = "pduAlarmTopic";
+        //prefix = "pduAlarmTopic";
         pdu_alarm(lst, prefix);
     }
 }
@@ -51,7 +51,7 @@ void Pdu_MqttPublish::pdu_alarm(const QStringList &lst, const QString &prefix)
 {
     Pdu_NetJsonPack *obj = Pdu_NetJsonPack::build();
     QString ip; uchar addr; foreach (const auto &it, lst) {
-        QString fmd = "%1/%2/%3"; if(m_mqtt->isBusy()) cm_mdelay(1);
+        QString fmd = "%1/alarm/%2/%3"; if(m_mqtt->isBusy()) cm_mdelay(1);
         QString alarm = Pdu_NetJsonPack::build()->alarm(it);
         obj->getByKey(it, ip, addr); //cout << alarm;
         QString topic = fmd.arg(prefix, ip).arg(addr);
