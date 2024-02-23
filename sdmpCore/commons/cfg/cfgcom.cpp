@@ -91,12 +91,12 @@ void CfgCom::initCfgSql()
         str += "_";
         hda->prefix = str +"hda_";
         QDateTime t = QDateTime::currentDateTime();
-        hda->en = readCfg(str+"hda_en", true, g).toBool();
+        hda->en = readCfg(str+"hda_en", true, g).toBool();  //////////=======
         hda->interval = readCfg(str+"hda_interval", 120, g).toInt();
         hda->last_time = readCfg(str+"hda_last_time", t, g).toDateTime();
 
         ele->prefix = str +"ele_";
-        ele->en = readCfg(str+"ele_en", true, g).toBool();
+        ele->en = readCfg(str+"ele_en", true, g).toBool(); /////////========
         ele->interval = readCfg(str+"ele_interval", 12, g).toInt();
         ele->last_time = readCfg(str+"ele_last_time", t, g).toDateTime();
     }
@@ -186,8 +186,8 @@ void CfgCom::initCfgPublish()
         unit->topic = readCfg(str+"_topic", str+"MetaTopic", g).toString();
         str += "_"; unit->prefix = str;
         QDateTime t = QDateTime::currentDateTime();
-        unit->en = readCfg(str+"en", true, g).toBool();
-        unit->interval = readCfg(str+"interval", 12, g).toInt();
+        unit->en = readCfg(str+"en", true, g).toBool();///////=======
+        unit->interval = readCfg(str+"interval", 15, g).toInt();
         unit->last_time = readCfg(str+"last_time", t, g).toDateTime();
     }
 }
