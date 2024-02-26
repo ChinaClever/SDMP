@@ -26,6 +26,7 @@ public:
     QString alarm(const QString &key);
     QJsonObject alarms();
 
+    quint64 getCnt() {return mCnt;}
     bool remove(const QString &key);
     void append(const QString &key, const QString &ip, uchar addr);
     bool getByKey(const QString &key, QString &ip, uchar &addr);
@@ -51,6 +52,7 @@ private slots:
     void onTimeout();// {QtConcurrent::run([&]{online_offline_update();});}
 
 private:
+    quint64 mCnt = 0;
     bool isRun = true;
     QTimer *timer = nullptr;
     Pdu_UdpReceiver *mUdp=nullptr;

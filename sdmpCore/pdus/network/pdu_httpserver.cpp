@@ -45,7 +45,7 @@ void Pdu_HttpServer::pdu_number()
         int number = mNetJson->keys().size();
         int offline = mNetJson->offline_list().size();
         int online = mNetJson->online_list().size();
-        int alarm = mNetJson->alarms().size();
+        int alarm = mNetJson->alarm_list().size();
         obj.insert("number", number);
         obj.insert("offline", offline);
         obj.insert("online", online);

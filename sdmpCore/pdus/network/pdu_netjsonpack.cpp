@@ -109,7 +109,7 @@ void Pdu_NetJsonPack::toJson(QByteArray &datagram, const QString &ip)
 
 bool Pdu_NetJsonPack::workDown()
 {
-    QSharedPointer<sUdpRcvItem> it; bool ret = mUdp->get(it);
+    QSharedPointer<sUdpRcvItem> it; bool ret = mUdp->get(it); if(ret) mCnt++;
     if(ret) toJson(it->datagram, it->address.toString().remove("::ffff:"));
     return ret;
 }

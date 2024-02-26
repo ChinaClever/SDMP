@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PowerMaster数据采集软件</string>
+   <string>PowerMaster采集软件</string>
   </property>
   <property name="windowIcon">
    <iconset resource="commons/images/image.qrc">

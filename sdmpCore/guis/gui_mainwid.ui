@@ -6,13 +6,307 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>744</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>网络数据包</string>
+     </property>
+     <widget class="QLabel" name="netLab">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>110</y>
+        <width>251</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>--- ---</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>运行时长</string>
+     </property>
+     <widget class="QLabel" name="timeLab">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>110</y>
+        <width>281</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>--- ---</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>数量统计</string>
+     </property>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>60</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>机房数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>60</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>机柜数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>190</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>柜列数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>190</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>U位数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="roomLab">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>80</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="cabLab">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>80</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="aisleLab">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>210</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="rackLab">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>210</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>PDU数量</string>
+     </property>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>60</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>设备数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>60</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>在线数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>200</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>报警数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>210</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>离线数量</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="numLab">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>80</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="onlineLab">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>80</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="alarmLab">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>220</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="offlineLab">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>230</y>
+        <width>53</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>------</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

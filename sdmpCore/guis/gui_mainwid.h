@@ -17,7 +17,19 @@ public:
     ~Gui_MainWid();
 
 private:
+    void pduNum();
+    void idcCnt();
+    void netCnt();
+    void secsUpdate();
+    void convertSeconds(uint seconds, int& days, int& hours, int& minutes);
+
+
+private slots:
+    void timeoutDone();
+
+private:
     Ui::Gui_MainWid *ui;
+    QTimer *timer=nullptr;
 };
 
 #endif // GUI_MAINWID_H
