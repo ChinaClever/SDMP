@@ -1,6 +1,6 @@
 #ifndef CAB_MQTTPUBLISH_H
 #define CAB_MQTTPUBLISH_H
-#include "../sqls/cab_hdasql.h"
+#include "cab_redisclient.h"
 
 class Cab_MqttPublish : public Pdu_MqttPublish
 {

@@ -6,16 +6,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    Pdu_UdpReceiver::build(this);
+    Pdu_NetJsonPack::build(this);
     mDbCore = DbThreadCore::build(this);
     mNavBarWid = new NavBarWid(ui->barWid);
     QTimer::singleShot(50,this,SLOT(initFunSlot())); //延时初始化
     connect(mNavBarWid, SIGNAL(navBarSig(int)), this, SLOT(navBarSlot(int)));
-
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +44,9 @@ void MainWindow::initWid()
 
     mMqttWid = new Gui_MqttWid(this);
     ui->stackedWid->addWidget(mMqttWid);
+
+    mRedisWid = new Gui_RedisWid(this);
+    ui->stackedWid->addWidget(mRedisWid);
 }
 
 void MainWindow::navBarSlot(int id)

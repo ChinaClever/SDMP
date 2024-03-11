@@ -8,6 +8,7 @@ include(qxlsx/qxlsx.pri)
 include(single/single.pri)
 include(msgcom/msgcom.pri)
 include(tabcom/tabcom.pri)
+include(QtRedis/QtRedis.pri)
 include(backcolour/backcolour.pri)
 
 HEADERS += \

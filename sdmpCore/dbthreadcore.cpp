@@ -10,7 +10,7 @@ DbThreadCore::DbThreadCore(QObject *parent)
 {
     mTimer = new QTimer(this); mTimer->start(2500);
     connect(mTimer, &QTimer::timeout, this, &DbThreadCore::onTimeout);
-    QTimer::singleShot(243,this,SLOT(initFunSlot()));
+    QTimer::singleShot(1243,this,SLOT(initFunSlot()));
 }
 
 DbThreadCore *DbThreadCore::build(QObject *parent)
@@ -22,8 +22,9 @@ DbThreadCore *DbThreadCore::build(QObject *parent)
 
 DbThreadCore::~DbThreadCore()
 {
-    delete m_mqtt;
-    isRun = false;
+    isContinue = false;
+    // delete m_mqtt;
+    //delete m_redis;
     wait();
 }
 
@@ -36,32 +37,37 @@ QStringList DbThreadCore::writeMsg()
 
 void DbThreadCore::initFunSlot()
 {
-    m_mqtt = new MqttPublishCore();
+    m_mqtt = new MqttPublishCore(this);
+    m_redis = RedisClientCore::build(this);
+    m_mqtt->start(); m_redis->start();
 }
 
 void DbThreadCore::initFun()
 {
     static bool initialized=false;
     if(initialized) return; else initialized=true;
-    Pdu_LogSql::build(); Pdu_IndexSql::build()->initFun();
+    if(isRun()) Pdu_IndexSql::build()->initFun();
+    if(isRun()) Pdu_LogSql::build();
 
+}
 
-
-
-
+bool DbThreadCore::isRun()
+{
+    bool ret = isContinue;
+    if(ret) ret = OrmDb::isOpen();
+    return ret;
 }
 
 void DbThreadCore::syncWork()
 {
-    if(!isRun||!CfgCom::mCfgDb.en)return;
-    Pdu_IndexSql::build()->syncNetPack();
-    Cab_IndexSql::build()->syncFun();
-    Aisle_IndexSql::build()->syncFun();
-    Room_IndexSql::build()->syncFun();
-    Rack_IndexSql::build()->syncFun();
-    Aisle_IndexSql::build()->syncFun();
-    Aisle_BarSql::build()->initFun();
-    Cab_PduSql::build()->initFun();
+    if(isRun()) Pdu_IndexSql::build()->syncNetPack();
+    if(isRun()) Cab_IndexSql::build()->syncFun();
+    if(isRun()) Aisle_IndexSql::build()->syncFun();
+    if(isRun()) Room_IndexSql::build()->syncFun();
+    if(isRun()) Rack_IndexSql::build()->syncFun();
+    if(isRun()) Aisle_IndexSql::build()->syncFun();
+    if(isRun()) Aisle_BarSql::build()->initFun();
+    if(isRun()) Cab_PduSql::build()->initFun();
 }
 
 void DbThreadCore::computetime(const QTime &start, int cnt, const QString &msg)
@@ -98,7 +104,7 @@ void DbThreadCore::last_time(sCfgSqlUnit &unit)
 
 void DbThreadCore::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 {
-    if(!isRun) return; QTime start = QTime::currentTime();
+    if(!isRun()) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60)) isWrite = true; else return;
     computetime(start, db->workDown(), msg+tr("数据"));
     last_time(unit);
@@ -106,7 +112,6 @@ void DbThreadCore::hdaObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 
 void DbThreadCore::hdaWork()
 {
-    if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     hdaObj(Pdu_HdaSql::build(), it->pdu_hda, tr("PDU"));
     hdaObj(Cab_HdaSql::build(), it->cab_hda, tr("机柜"));
@@ -118,7 +123,7 @@ void DbThreadCore::hdaWork()
 
 void DbThreadCore::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 {    
-    if(!isRun) return; QTime start = QTime::currentTime();
+    if(!isRun()) return; QTime start = QTime::currentTime();
     if(compareTime(unit, 60*60)) isWrite = true; else return;
     computetime(start, db->workDown(), msg+tr("电能"));
     last_time(unit);
@@ -127,7 +132,6 @@ void DbThreadCore::eleObj(OrmDb *db, sCfgSqlUnit &unit, const QString &msg)
 
 void DbThreadCore::eleWork()
 {
-    if(!isRun || !CfgCom::mCfgDb.en) return ;
     sCfgSqlItem *it = &CfgCom::build()->mCfgSql;
     eleObj(Pdu_EleSql::build(), it->pdu_ele, tr("PDU"));
     eleObj(Cab_EleSql::build(), it->cab_ele, tr("机柜"));
@@ -138,19 +142,18 @@ void DbThreadCore::eleWork()
 
 void DbThreadCore::alarmWork()
 {
-    if(!isRun) return;
-    Pdu_LogSql::build()->workDown();
-    Cab_Alarm::build()->alarmWork();
+    if(isRun()) Pdu_LogSql::build()->workDown();
+    if(isRun()) Cab_Alarm::build()->alarmWork();
 }
 
 
 void DbThreadCore::workDown()
 {
-    initFun();
-    syncWork();
-    alarmWork();
-    hdaWork();
-    eleWork();
+    if(isRun()) initFun();
+    if(isRun()) syncWork();
+    if(isRun()) alarmWork();
+    if(isRun()) hdaWork();
+    if(isRun()) eleWork();
 
     // cout << "AAAAAAAAAA";
 
@@ -158,9 +161,8 @@ void DbThreadCore::workDown()
 
 void DbThreadCore::run()
 {
-    if(isRun) return; else isRun=true;
-    m_mqtt->start_work();
-    mCnt++; workDown();
+    if(isContinue) return; else isContinue=true;
+    if(OrmDb::isOpen()) workDown();
+    isContinue = false;
     isWrite = false;
-    isRun = false;
 }

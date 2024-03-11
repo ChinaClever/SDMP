@@ -16,8 +16,9 @@ struct sUdpRcvItem
 
 class Pdu_UdpReceiver : public QThread
 {
-public:
     explicit Pdu_UdpReceiver(QObject* parent = nullptr);
+public:
+    static Pdu_UdpReceiver *build(QObject* parent = nullptr);
     bool get(QSharedPointer<sUdpRcvItem> &it);
     ~Pdu_UdpReceiver();
 

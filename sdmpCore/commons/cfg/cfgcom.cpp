@@ -10,6 +10,7 @@ sCfgSqlItem CfgCom::mCfgSql;
 sCfgLogItem CfgCom::mCfgLog;
 sCfgRestItem CfgCom::mCfgRest;
 sCfgMqttItem CfgCom::mCfgMqtt;
+sCfgRedisItem CfgCom::mCfgRedis;
 sCfgPublishItem CfgCom::mCfgPublish;
 
 CfgCom::CfgCom(const QString &fn, QObject *parent)
@@ -21,6 +22,7 @@ CfgCom::CfgCom(const QString &fn, QObject *parent)
     initCfgLog();
     initCfgRest();
     initCfgMqtt();
+    initCfgRedis();
     initCfgPublish();
 }
 
@@ -190,4 +192,51 @@ void CfgCom::initCfgPublish()
         unit->interval = readCfg(str+"interval", 15, g).toInt();
         unit->last_time = readCfg(str+"last_time", t, g).toDateTime();
     }
+}
+
+
+void CfgCom::initCfgRedis()
+{
+    QString str;
+    QString g = "redis";
+    sCfgRedisUnit *unit = nullptr;
+    sCfgRedisItem *it = &mCfgRedis;
+    it->db = readCfg("db", 0, g).toInt();
+    it->en = readCfg("en", true, g).toBool();
+    it->pwd = readCfg("pwd", "", g).toString();
+    it->port = readCfg("port", 6379, g).toInt();
+    it->host = readCfg("host", "localhost", g).toString();
+
+    for(int i=0; i<10; ++i) {
+        switch (i) {
+        case 0: str = "pdu"; unit = &it->pdu; break;
+        case 1: str = "room"; unit = &it->room; break;
+        case 2: str = "aisle"; unit = &it->aisle; break;
+        case 3: str = "cabinet"; unit = &it->cab; break;
+        case 4: str = "rack"; unit = &it->rack; break;
+        case 5: str = "busbar"; unit = &it->busbar; break;
+        default: return;
+        }
+
+        unit->key = readCfg(str+"_key", str+"MetaKey", g).toString();
+        str += "_"; unit->prefix = str;
+        QDateTime t = QDateTime::currentDateTime();
+        unit->en = readCfg(str+"en", true, g).toBool();///////=======
+        unit->interval = readCfg(str+"interval", 15, g).toInt();
+        unit->last_time = readCfg(str+"last_time", t, g).toDateTime();
+    }
+}
+
+void CfgCom::writeCfgRedis()
+{
+    QString g = "redis";
+    sCfgRedisItem *it = &mCfgRedis;
+    QMap<QString,QVariant> map;
+    map.insert("db", it->db);
+    map.insert("en", it->en);
+    map.insert("pwd", it->pwd);
+    map.insert("port", it->port);
+    map.insert("host", it->host);
+    map.insert("pwd", it->pwd);
+    writeCfg(map, g);
 }

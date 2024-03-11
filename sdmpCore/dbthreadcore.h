@@ -15,6 +15,7 @@ public:
 
 protected:
     void run();
+    bool isRun();
     void syncWork();
     void hdaWork();
     void eleWork();
@@ -32,12 +33,12 @@ private slots:
     void initFunSlot();
 
 private:
-    uint mCnt = 1;
-    bool isRun = false;
+    bool isContinue = false;
     bool isWrite = false;
     QStringList mWriteLst;
     QTimer *mTimer = nullptr;
     MqttPublishCore *m_mqtt;
+    RedisClientCore *m_redis;
 };
 
 #endif // DBTHREADCORE_H

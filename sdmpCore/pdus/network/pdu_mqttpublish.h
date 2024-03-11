@@ -1,9 +1,6 @@
 #ifndef PDU_MQTTPUBLISH_H
 #define PDU_MQTTPUBLISH_H
-#include "httpserverobj.h"
-#include "pdu_netjsonpack.h"
-#include "commons/mqtt/mqtt_publish.h"
-#include "commons/print.h"
+#include "pdu_redisclient.h"
 
 class Pdu_MqttPublish
 {

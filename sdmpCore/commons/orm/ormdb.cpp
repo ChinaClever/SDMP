@@ -242,10 +242,9 @@ void OrmDb::initDebugInfo()
 }
 
 
-
-void OrmDb::initDb()
+bool OrmDb::initDb()
 {
-    if(!CfgCom::mCfgDb.en) return ;
+    if(!CfgCom::mCfgDb.en) return false;
     if(!sDb.isOpen()) { CfgCom::build();
         sCfgDbItem *it = &CfgCom::mCfgDb;
         sDb = QSqlDatabase::addDatabase(it->driver);
@@ -255,9 +254,11 @@ void OrmDb::initDb()
         sDb.setPassword(it->pwd);
         sDb.setPort(it->port);
         if(sDb.open()) initDebugInfo();
-        else qCritical() << "DB open error";
-        availableDrivers();
+        else {qCritical() << "DB open error";
+            availableDrivers();
+        }
     }
+    return sDb.isOpen();
 }
 
 bool OrmDb::throwError(const QSqlError &err)

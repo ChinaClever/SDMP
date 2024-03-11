@@ -5,33 +5,38 @@
  */
 #include "mqttpublishcore.h"
 
-MqttPublishCore::MqttPublishCore()
+MqttPublishCore::MqttPublishCore(QObject *parent)
+    : QThread{parent}
 {
 
 }
 
 MqttPublishCore::~MqttPublishCore()
 {
-
+    isRun = false;
+    wait();
 }
 
 void MqttPublishCore::workDown()
 {
-    room_work();
-    aisle_work();
-    cab_work();
-    pdu_work();
-    rack_work();
+    if(isRun) room_work();
+    if(isRun) aisle_work();
+    if(isRun) cab_work();
+    if(isRun) pdu_work();
+    if(isRun) rack_work();
 }
 
 
 void MqttPublishCore::start_work()
-{    
-    static QTime t = QTime::currentTime();
-    QTime c = QTime::currentTime();
-    QTime s = t.addSecs(1);
-    if(c > s) {
-        workDown();
-        t = c; //cout << isRun;
+{
+    sCfgMqttItem *unit = &CfgCom::mCfgMqtt;
+    if(unit->type && isRun && unit->isConnected) workDown();
+}
+
+void MqttPublishCore::run()
+{
+    while(isRun) {
+        sleep(1);
+        start_work();
     }
 }

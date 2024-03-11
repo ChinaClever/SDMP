@@ -1,7 +1,6 @@
 #ifndef AISLE_MQTTPUBLISH_H
 #define AISLE_MQTTPUBLISH_H
-#include "../sqls/aisle_hdasql.h"
-#include "cabinets/network/cab_httpserver.h"
+#include "aisle_redisclient.h"
 
 class Aisle_MqttPublish : public Cab_MqttPublish
 {

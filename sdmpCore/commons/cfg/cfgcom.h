@@ -100,6 +100,31 @@ struct sCfgPublishItem
 };
 
 
+struct sCfgRedisUnit
+{
+    bool en = true;
+    QString key;
+    QString prefix;
+    int interval = 10;
+    QDateTime last_time;
+};
+
+struct sCfgRedisItem
+{
+    bool en = true;
+    int db = 0;
+    int port = 6379;
+    QString pwd, host = "localhost";
+
+    sCfgRedisUnit pdu;
+    sCfgRedisUnit room;
+    sCfgRedisUnit aisle;
+    sCfgRedisUnit cab;
+    sCfgRedisUnit rack;
+    sCfgRedisUnit busbar;
+};
+
+
 struct sCfgLogItem
 {
     bool en = true;
@@ -118,10 +143,12 @@ public:
     static sCfgRestItem mCfgRest;
     static sCfgLogItem mCfgLog;
     static sCfgMqttItem mCfgMqtt;
+    static sCfgRedisItem mCfgRedis;
     static sCfgPublishItem mCfgPublish;
 
     void writeCfgDb();
     void writeCfgMqtt();
+    void writeCfgRedis();
 
 private:
     static void initCfg();    
@@ -131,6 +158,7 @@ private:
     void initCfgRest();
     void initCfgMqtt();
     void initCfgPublish();
+    void initCfgRedis();
 };
 
 #endif // CFGCOM_H

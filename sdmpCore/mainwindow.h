@@ -5,6 +5,7 @@
 #include "dbthreadcore.h"
 #include "navbarwid.h"
 #include "gui_mainwid.h"
+#include "commons/QtRedis/redisobj.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,6 +35,7 @@ private:
     Gui_MainWid *mMainWid;
     Gui_RestWid *mRestWid;
     Gui_MqttWid *mMqttWid;
+    Gui_RedisWid *mRedisWid;
     Gui_DbWid *mDbWid;
 };
 #endif // MAINWINDOW_H

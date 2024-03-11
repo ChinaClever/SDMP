@@ -5,7 +5,7 @@
  */
 #include "pdu_udpreceiver.h"
 
-Pdu_UdpReceiver::Pdu_UdpReceiver(QObject *parent) : QThread(parent)
+Pdu_UdpReceiver::Pdu_UdpReceiver(QObject *parent) : QThread{parent}
 {
     isRun = initSocket(6002);
     if(isRun) this->start();
@@ -16,6 +16,13 @@ Pdu_UdpReceiver::~Pdu_UdpReceiver()
 {
     isRun = false; wait();
     mSocket->close();
+}
+
+Pdu_UdpReceiver *Pdu_UdpReceiver::build(QObject *parent)
+{
+    static Pdu_UdpReceiver* sington = nullptr;
+    if(!sington) sington = new Pdu_UdpReceiver(parent);
+    return sington;
 }
 
 bool Pdu_UdpReceiver::get(QSharedPointer<sUdpRcvItem> &it)
@@ -36,7 +43,7 @@ bool Pdu_UdpReceiver::initSocket(int port)
     bool ret = true; if(!mSocket) {
         mSocket = new QUdpSocket(this);
         ret = mSocket->bind(QHostAddress::Any, port);
-        if(!ret) cout << "Faeild to bind UDP socket";
+        if(!ret) cout << "Faeild to bind UDP socket" << port;
     }
     return ret;
 }

@@ -1,7 +1,6 @@
 #ifndef RACK_MQTTPUBLISH_H
 #define RACK_MQTTPUBLISH_H
-#include "rooms/network/room_httpserver.h"
-#include "../sqls/rack_hdasql.h"
+#include "rack_redisclient.h"
 
 class Rack_MqttPublish : public Room_MqttPublish
 {

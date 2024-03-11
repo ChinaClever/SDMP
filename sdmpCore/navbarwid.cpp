@@ -47,9 +47,8 @@ void NavBarWid::on_loginBtn_clicked()
     emit navBarSig(3);
 }
 
-
-void NavBarWid::recvUserNameSlot(QString str)
+void NavBarWid::on_redisBtn_clicked()
 {
-    ui->userLab->setText(str);
+    emit navBarSig(4);
 }
 

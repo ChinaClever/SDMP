@@ -1,14 +1,20 @@
 #ifndef MQTTPUBLISHCORE_H
 #define MQTTPUBLISHCORE_H
-#include "racks/network/rack_httpserver.h"
+#include "redisclientcore.h"
 
-class MqttPublishCore : public Rack_MqttPublish
+class MqttPublishCore : public QThread, public Rack_MqttPublish
 {
 public:
-     MqttPublishCore();
+     explicit MqttPublishCore(QObject *parent = nullptr);
     ~MqttPublishCore();
-    void start_work();
+
+protected:
+    void run();
     void workDown();
+    void start_work();
+
+private:
+    bool isRun=true;
 };
 
 #endif // MQTTPUBLISHCORE_H

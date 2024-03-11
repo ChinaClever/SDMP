@@ -5,9 +5,9 @@
  */
 #include "pdu_netjsonpack.h"
 
-Pdu_NetJsonPack::Pdu_NetJsonPack(QObject *parent) : QThread(parent)
+Pdu_NetJsonPack::Pdu_NetJsonPack(QObject *parent) : QThread{parent}
 {
-    mUdp = new Pdu_UdpReceiver(parent); start();
+    mUdp = Pdu_UdpReceiver::build(this); start();
     // QTimer::singleShot(2450,this,SLOT(onTimeout()));
     // timer = new QTimer(this); timer->start(2500);
     // connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
@@ -117,7 +117,7 @@ bool Pdu_NetJsonPack::workDown()
 void Pdu_NetJsonPack::run()
 {
     bool ret = false;
-    while(isRun) {
+    sleep(1); while(isRun) {
         ret = workDown();
         if(!ret) msleep(1);
         onTimeout();

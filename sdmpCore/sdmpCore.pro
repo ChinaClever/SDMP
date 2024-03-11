@@ -22,14 +22,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     mqttpublishcore.cpp \
-    navbarwid.cpp
+    navbarwid.cpp \
+    redisclientcore.cpp
 
 HEADERS += \
     dbthreadcore.h \
     httpservercore.h \
     mainwindow.h \
     mqttpublishcore.h \
-    navbarwid.h
+    navbarwid.h \
+    redisclientcore.h
 
 FORMS += \
     mainwindow.ui \

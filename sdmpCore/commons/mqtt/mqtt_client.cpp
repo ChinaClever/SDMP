@@ -77,7 +77,7 @@ bool Mqtt_Client::createMqtt()
     }
 
     if(ret) {
-        connect(m_client, &QMQTT::Client::error, this, &Mqtt_Client::onError);
+        // connect(m_client, &QMQTT::Client::error, this, &Mqtt_Client::onError);
         //connect(m_client, &QMQTT::Client::received, this, &Mqtt_Client::onReceived);
         connect(m_client, &QMQTT::Client::connected, this, &Mqtt_Client::onConnected);
         connect(m_client, &QMQTT::Client::disconnected, this, &Mqtt_Client::onDisconnected);

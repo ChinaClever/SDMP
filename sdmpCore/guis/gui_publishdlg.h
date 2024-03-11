@@ -1,12 +1,6 @@
 #ifndef GUI_PUBLISHDLG_H
 #define GUI_PUBLISHDLG_H
-
-#include "dbthreadcore.h"
-#include "backcolourcom.h"
-#include "comtablewid.h"
-#include "msgbox.h"
-#include "cfgcom.h"
-#include <QDialog>
+#include "gui_rediswid.h"
 
 namespace Ui {
 class Gui_PublishDlg;

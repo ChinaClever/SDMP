@@ -122,9 +122,6 @@ void Gui_MqttWid::updateStatus()
 void Gui_MqttWid::timeoutDone()
 {
     updateStatus();
-
-
-    // Mqtt_Publish::bulid()->append("testtopic", QJsonObject{ {"msg", "parameter error 式子cc"} } );
 }
 
 

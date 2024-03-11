@@ -32,7 +32,7 @@ public:
     bool sql_countsRemove(int count);
     QDateTime sql_updateTime();
 
-    static bool isOpen() {return sDb.isOpen();}
+    static bool isOpen() {return initDb();}
     bool sql_updateColumn(const QString& column_name, QString value, const QString &condition);
     bool sql_updateColumn(const QString& column_name, double value, const QString &condition);
     QVariantList sql_listColumn(const QString &column_name, const QString &condition);
@@ -51,9 +51,9 @@ public:
     void mdelay(int msec);
 
 protected:
-    void initDb();
-    void initDebugInfo();
-    bool availableDrivers();
+    static bool initDb();
+    static void initDebugInfo();
+    static bool availableDrivers();
     bool sqlQuery(QSqlQuery &query);
     bool sqlQuery(const QString &sql);
     bool sqlQuery(QSqlQuery &query, const QString &sql);

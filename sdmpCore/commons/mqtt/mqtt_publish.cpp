@@ -15,6 +15,8 @@ Mqtt_Publish::Mqtt_Publish(QObject *parent)
 
 Mqtt_Publish::~Mqtt_Publish()
 {
+    mPayloads.clear();
+    mTopics.clear();
     isRun = false;
     wait();
 }
